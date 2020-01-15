@@ -1,0 +1,128 @@
+>>Questions
+
+multi date needed?
+half hour slot ok?
+
+
+
+
+>>Build problem
+
+
+Workspace setting set to use legacy build system
+
+node not found
+Build Phases => Bundle React Native code and images
+export NODE_BINARY=< node path >
+
+GoogleService-Info.plist not found
+Need to add it manually in xcode
+
+firebase not init
+https://stackoverflow.com/questions/50815094/react-native-the-default-firebaseapp-is-not-initialized-react-native-firebas
+https://firebase.google.com/docs/ios/setup#prerequisites
+
+
+image picker undefined:
+https://github.com/react-native-community/react-native-image-picker/issues/714
+
+rnfirebase core module was not found natively on ios:
+react-native link react-native-firebase
+
+yarn add react-native-vector-icons
+
+ios: Use legacy build system
+
+
+https://stackoverflow.com/questions/50929930/understanding-when-to-use-dispatch-get-main-queue-and-requiresmainqueuesetup-by
+RETCameraRoll.xcodeproj --->  RCTImagePickerManager.m
+
++ (BOOL)requiresMainQueueSetup {
+  return true;
+}
+
+
+Init Old version React Native:
+https://stackoverflow.com/questions/34211131/new-react-native-project-with-old-version-of-react-native
+
+
+error: package android.support.v4.content does not exist
+https://github.com/react-native-community/react-native-geolocation/issues/39
+android.useAndroidX=true
+android.enableJetifier=true
+
+>>KB
+
+Yoga layout
+https://yogalayout.com
+
+use uploaded picture
+getDownloadUrl
+http://www.awesome-react-native.com
+
+
+Multiple picture selection:
+https://stackoverflow.com/questions/45543706/how-to-add-multiple-image-using-react-native-image-picker
+
+
+Cache images:
+https://medium.com/@piyushgupta_81472/caching-images-react-native-96266cdc4c2f
+
+
+>>Features should have:
+Force upgrade app
+Block new account
+Block new booking
+
+
+
+Icon font missing:
+https://cloud.githubusercontent.com/assets/378279/12421498/2db1f93a-be88-11e5-89c8-2e563ba6251a.png
+https://github.com/oblador/react-native-vector-icons
+Edit Info.plist to include those .ttf files
+
+
+'stripe' is not a supported gateway
+Manual link project libReactNativePayments.a
+
+promini:react-native-payments-addon-stripe uso$ carthage update --platform ios
+https://github.com/naoufal/react-native-payments/issues/124
+
+
+package android.support.annotation does not exist
+https://stackoverflow.com/questions/40380519/error-package-com-android-annotations-does-not-exist
+"postinstall" : "npx jetify"
+
+
+How to setup Stripe for firebase
+https://stripe.com/docs/connect/capabilities-overview
+https://firebase.google.com/docs/use-cases/payments?hl=ja
+https://github.com/firebase/functions-samples/tree/master/stripe
+
+
+
+ld: framework not found FIRAnalyticsConnector
+ld: framework not found FirebaseABTesting
+ld: framework not found FirebaseRemoteConfig
+ld: framework not found FirebasePerformance
+ld: framework not found GoogleAppMeasurement
+...
+https://github.com/evollu/react-native-fcm/issues/1071
+
+Notes:
+
+Build release:
+https://facebook.github.io/react-native/docs/running-on-device
+
+No redux+navigation
+https://reactnavigation.org/docs/en/redux-integration.html
+Redux integration
+Warning: in the next major version of React Navigation, to be released in Fall 2018, we will no longer provide any information about how to integrate with Redux and it may cease to work.
+
+
+
+
+
+deep learning porn filter
+https://github.com/yahoo/open_nsfw
+https://github.com/firebase/functions-samples/tree/master/moderate-images
