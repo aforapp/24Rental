@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-
+import {StyleSheet} from 'react-native';
 
 // 預設顏色：R=37  G=96  B=164
 // 背景：R=255  G=255  B=255
@@ -36,50 +35,49 @@ export const Colors = {
   menuText: colorMenuText,
   menuSelected: colorMenuSelected,
   menuSelectedText: colorMenuSelectedText,
-  navButton: colorNavButton
+  navButton: colorNavButton,
 };
-
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     // padding: 8,
     backgroundColor: 'white',
-    height: '100%'
+    height: '100%',
   },
   title: {
     padding: 8,
-    lineHeight: 26
+    lineHeight: 26,
   },
   headerBar: {
     height: 18,
     marginBottom: 10,
-    backgroundColor: '#3568A6'
+    backgroundColor: '#3568A6',
   },
   blackTitle: {
-    color: 'white'
+    color: 'white',
   },
   blackText: {
-    color: 'white'
+    color: 'white',
   },
   blackContainer: {
     flex: 1,
     // padding: 8,
     backgroundColor: 'black',
     color: 'white',
-    height: '100%'
+    height: '100%',
   },
   container2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
     // margin: 10
   },
   padding: {
@@ -89,21 +87,21 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    margin: 10
+    margin: 10,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5
+    marginBottom: 5,
   },
   safeArea: {
     flex: 1,
-    backgroundColor: colorNavButton
+    backgroundColor: colorNavButton,
   },
   fixBackground: {
     backgroundColor: colorNavButton,
@@ -112,20 +110,20 @@ export default StyleSheet.create({
     right: 0,
     left: 0,
     height: 100,
-    zIndex: -1000
+    zIndex: -1000,
   },
   centerScreen: {
     alignItems: 'center',
-    justifyContent: 'center', 
-    height: 200
+    justifyContent: 'center',
+    height: 200,
   },
   welcome: {
-    fontSize: 20
+    fontSize: 20,
   },
   bigName: {
     fontSize: 30,
     textAlign: 'center',
-    color: colorNavButton
+    color: colorNavButton,
   },
   scrollView: {
     // height: "100%"
@@ -135,5 +133,5 @@ export default StyleSheet.create({
     // height: "100%"
     // borderWidth: 1,
     // borderColor: "red"
-  }
+  },
 });
