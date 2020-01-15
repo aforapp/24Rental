@@ -1,9 +1,9 @@
 import NavigationService from '../NavigationService';
 
-import _ from 'lodash'
-import React, { useState, useEffect } from 'react';
-import { useStateValue } from '../state';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import _ from 'lodash';
+import React, {useState, useEffect} from 'react';
+import {useStateValue} from '../state';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 // import Tags from "react-native-tags";
 import {
   Platform,
@@ -12,17 +12,17 @@ import {
   Animated,
   StyleSheet,
   Modal,
-  FlatList
+  FlatList,
 } from 'react-native';
-import { Image, HeaderButton, ImageBackground } from '../components/UI';
-import { SafeAreaView } from 'react-navigation';
+import {Image, HeaderButton, ImageBackground} from '../components/UI';
+import {SafeAreaView} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
 // import { TimeSlotSelector } from '../components/TimeSlotSelector';
-import { SlotButton, Button as UIButton } from '../components/UI';
-import { slotToText, slotsToText } from '../utils.js';
-import { Dimensions } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import {SlotButton, Button as UIButton} from '../components/UI';
+import {slotToText, slotsToText} from '../utils.js';
+import {Dimensions} from 'react-native';
+import {SearchBar} from 'react-native-elements';
 
 import {
   Button,
@@ -34,22 +34,21 @@ import {
   Snackbar,
   Text,
   TextInput,
-  Title
+  Title,
 } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion';
 
 import firebase from 'react-native-firebase';
 import styles from './Styles';
-import { Colors } from './Styles';
+import {Colors} from './Styles';
 
 const ANY = '任何';
 
 const Screen = props => {
   let [search, setSearch] = useState('');
-  const [{ auth }, dispatch] = useStateValue();
+  const [{auth}, dispatch] = useStateValue();
   // const [tags, setTags] = useState(['a', 'b', 'c']);
   const [state, setState] = useState({
-
     activeSections: [],
     activeSections2: [],
     type: null,
@@ -138,49 +137,49 @@ const Screen = props => {
         0,
         0,
         0,
-        0
-      ]
-    }
+        0,
+      ],
+    },
   });
 
-
   chooseType = () => {
-    const returnData = (data) => {
-      setState({ ...state, type: data.data[0] == ANY ? null : data.data[0] })
-    }
+    const returnData = data => {
+      setState({...state, type: data.data[0] == ANY ? null : data.data[0]});
+    };
     showOptions(
       {
         title: '服務',
         multiSelect: false,
         selected: state.type || ANY,
-        items: [
-          ANY,
-          '跳舞室',
-          '派對室',
-          'Band房'
-        ]
+        items: [ANY, '跳舞室', '派對室', 'Band房'],
       },
-      returnData
-    )
+      returnData,
+    );
   };
 
   chooseDistrict = () => {
-    const returnData = (data) => {
-      setState({ ...state, district: data.data[0] == ANY ? null : data.data[0] })
-    }
+    const returnData = data => {
+      setState({...state, district: data.data[0] == ANY ? null : data.data[0]});
+    };
     showOptions(
       {
         title: '地點',
         multiSelect: false,
         selected: state.district || ANY,
         items: [
-          { title: ANY },
+          {title: ANY},
           ANY,
-          { title: '香港島' },
-          '中西區', '灣仔區', '東區', '南區',
-          { title: '九龍' },
-          '油尖旺區', '深水埗區', '九龍城區', '觀塘區',
-          { title: '新界' },
+          {title: '香港島'},
+          '中西區',
+          '灣仔區',
+          '東區',
+          '南區',
+          {title: '九龍'},
+          '油尖旺區',
+          '深水埗區',
+          '九龍城區',
+          '觀塘區',
+          {title: '新界'},
           '葵青區',
           '荃灣區',
           '屯門區',
@@ -189,18 +188,17 @@ const Screen = props => {
           '大埔區',
           '沙田區',
           '西貢區',
-          '離島區'
-        ]
+          '離島區',
+        ],
       },
-      returnData
-    )
+      returnData,
+    );
   };
 
-
   choosePrice = () => {
-    const returnData = (data) => {
-      setState({ ...state, price: data.data[0] == ANY ? null : data.data[0] })
-    }
+    const returnData = data => {
+      setState({...state, price: data.data[0] == ANY ? null : data.data[0]});
+    };
     showOptions(
       {
         title: '時租',
@@ -213,18 +211,16 @@ const Screen = props => {
           '$301至$400',
           '$401至$500',
           '$500以上',
-        ]
+        ],
       },
-      returnData
-    )
+      returnData,
+    );
   };
 
-
-
   chooseArea = () => {
-    const returnData = (data) => {
-      setState({ ...state, area: data.data[0] == ANY ? null : data.data[0] })
-    }
+    const returnData = data => {
+      setState({...state, area: data.data[0] == ANY ? null : data.data[0]});
+    };
     showOptions(
       {
         title: '時租',
@@ -237,21 +233,20 @@ const Screen = props => {
           '301呎至400呎',
           '401呎至500呎',
           '500呎以上',
-        ]
+        ],
       },
-      returnData
-    )
+      returnData,
+    );
   };
 
-
   chooseFacilities = () => {
-    const returnData = (data) => {
+    const returnData = data => {
       let crit = data.data;
       if (crit.length == 0 || crit[0] == ANY) {
         crit = null;
       }
-      setState({ ...state, facilities: crit })
-    }
+      setState({...state, facilities: crit});
+    };
     showOptions(
       {
         title: '時租',
@@ -280,12 +275,11 @@ const Screen = props => {
           '拳擊用品',
           '健康舞踏板',
           '鋼管',
-        ]
+        ],
       },
-      returnData
-    )
+      returnData,
+    );
   };
-
 
   // chooseType = () => {
   //   let pickerData = [ANY, '跳舞室', '派對室', 'Band房'];
@@ -309,7 +303,6 @@ const Screen = props => {
   //   Picker.show();
   //   setState({...state, blocker: true});
   // }
-
 
   // chooseDistrict = () => {
   //   let districtData = [
@@ -349,39 +342,34 @@ const Screen = props => {
   //   setState({...state, blocker: true});
   // }
 
-
-
   search = () => {
     let roomsRef = firebase.firestore().collection('rooms');
 
     if (state.type != null && state.type != ANY) {
       // console.warn(state.type)
       roomsRef = roomsRef.where('type', '==', state.type);
-    }
-    else if (state.district != null && state.district != ANY) {
+    } else if (state.district != null && state.district != ANY) {
       // console.warn(state.district)
       roomsRef = roomsRef.where('district', '==', state.district);
-    }
-    else if (state.price != null) {
+    } else if (state.price != null) {
       // console.log(state.price)
 
       let map = {
-      '$100或以下': 100,
-      '$101至$200': 200,
-      '$201至$300': 300,
-      '$301至$400': 400,
-      '$401至$500': 500,
-      '$500以上': 100000000
+        $100或以下: 100,
+        $101至$200: 200,
+        $201至$300: 300,
+        $301至$400: 400,
+        $401至$500: 500,
+        $500以上: 100000000,
       };
       let maxPrice = map[state.price] || 100000000;
 
-      console.log('maxPrice', maxPrice)
+      console.log('maxPrice', maxPrice);
 
       //NOT WORKING, DON'T KNOW WHY
       // roomsRef = roomsRef.where('pricePerHour', '<=', maxPrice);
-    }
-    else if (state.area != null) {
-      console.log(state.area)
+    } else if (state.area != null) {
+      console.log(state.area);
 
       let map = {
         '100呎以下': 100,
@@ -392,16 +380,16 @@ const Screen = props => {
         '500呎以上': 100000000,
       };
       let maxArea = map[state.area] || 100000000;
-      console.log('maxArea', maxArea)
+      console.log('maxArea', maxArea);
       roomsRef = roomsRef.where('area', '<=', maxArea);
+    } else if (state.facilities != null && state.facilities.length > 0) {
+      console.log(state.facilities);
+      roomsRef = roomsRef.where(
+        'facilities',
+        'array-contains',
+        state.facilities[0],
+      );
     }
-    else if (state.facilities != null && state.facilities.length > 0) {
-      console.log(state.facilities)
-      roomsRef = roomsRef.where('facilities', 'array-contains', state.facilities[0]);
-    }
-
-    
-
 
     let wip = 0;
     let slotAry = state.markedDatesAry || [];
@@ -423,7 +411,7 @@ const Screen = props => {
           rooms = roomData;
         }
         // console.warn(rooms)
-        setState({ ...state, rooms, activeSections2: [] });
+        setState({...state, rooms, activeSections2: []});
       }
     };
 
@@ -439,7 +427,7 @@ const Screen = props => {
      * TODO: add reference in "roomslots" collection to improve performance
      */
 
-    setState({ ...state, activeSections2: [] });
+    setState({...state, activeSections2: []});
 
     slotAry.map(d => {
       //selected dates
@@ -460,7 +448,6 @@ const Screen = props => {
       }
 
       roomSlotsRef.get().then(s => {
-
         s.forEach(d => {
           //get available slots
           let av = d.data().slots;
@@ -486,7 +473,7 @@ const Screen = props => {
       .get()
       .then(sp => {
         roomData = sp.docs.map(doc => doc.data());
-        console.log('roomData', roomData.length)
+        console.log('roomData', roomData.length);
         roomData = roomData.filter(x => {
           // console.log(x)
           let ret = true;
@@ -504,32 +491,35 @@ const Screen = props => {
           if (ret && state.facilities != null && state.facilities.length > 0) {
             if (x.facilities == null) {
               ret = false;
-            }
-            else for (let i=0; i<state.facilities.length; i++) {
-              if (x.facilities.indexOf(state.facilities[i]) == -1) {
-                ret = false;
-                break;
+            } else
+              for (let i = 0; i < state.facilities.length; i++) {
+                if (x.facilities.indexOf(state.facilities[i]) == -1) {
+                  ret = false;
+                  break;
+                }
               }
-            }
           }
           if (ret && state.price != null) {
             let minMap = {
-              '$100或以下': -1,
-              '$101至$200': 100,
-              '$201至$300': 200,
-              '$301至$400': 300,
-              '$401至$500': 400,
-              '$500以上': 500
+              $100或以下: -1,
+              $101至$200: 100,
+              $201至$300: 200,
+              $301至$400: 300,
+              $401至$500: 400,
+              $500以上: 500,
             };
             let maxMap = {
-              '$100或以下': 100,
-              '$101至$200': 200,
-              '$201至$300': 300,
-              '$301至$400': 400,
-              '$401至$500': 500,
-              '$500以上': 100000000
+              $100或以下: 100,
+              $101至$200: 200,
+              $201至$300: 300,
+              $301至$400: 400,
+              $401至$500: 500,
+              $500以上: 100000000,
             };
-            if (x.pricePerHour <= minMap[state.price] || x.pricePerHour > maxMap[state.price]) {
+            if (
+              x.pricePerHour <= minMap[state.price] ||
+              x.pricePerHour > maxMap[state.price]
+            ) {
               ret = false;
             }
           }
@@ -550,23 +540,22 @@ const Screen = props => {
               '401呎至500呎': 500,
               '500呎以上': 100000000,
             };
-      
+
             if (x.area <= minMap[state.area] || x.area > maxMap[state.area]) {
               ret = false;
             }
           }
           return ret;
         });
-        console.log(roomData.length)
+        console.log(roomData.length);
         wip--;
         showResult(); //this will check if all data downloaded itself
       })
       .catch(e => {
-        console.log(e)
+        console.log(e);
         console.warn(e);
       });
   };
-
 
   useEffect(() => {
     // this.items = {
@@ -593,9 +582,9 @@ const Screen = props => {
   // _handlePress = () =>
   //   setState({ ...state, expanded: !state.expanded });
 
-  selectSorting = (sortCrit) => {
-    setState({ ...state, sortCrit });
-  }
+  selectSorting = sortCrit => {
+    setState({...state, sortCrit});
+  };
 
   // returnData = (data) => {
   //   setState({...state, ...data});
@@ -604,20 +593,19 @@ const Screen = props => {
   showOptions = (options, returnData) => {
     NavigationService.navigate('OptionScreen', {
       options,
-      returnData: returnData.bind(this)
+      returnData: returnData.bind(this),
     });
-  }
+  };
 
+  chooseRoom = room => {
+    NavigationService.navigate('RoomDetails', {room});
+  };
 
-  chooseRoom = (room) => {
-    NavigationService.navigate('RoomDetails', { room });
-  }
+  setPeriod = period => {
+    setState({...state, modalVisible: false});
+  };
 
-  setPeriod = (period) => {
-    setState({ ...state, modalVisible: false });
-  }
-
-  onSelectDate = (date) => {
+  onSelectDate = date => {
     markedDates = {};
     markedDatesAry = state.markedDatesAry || [];
 
@@ -629,24 +617,21 @@ const Screen = props => {
     }
 
     markedDatesAry.map(x => {
-      markedDates[x] = { marked: true };
+      markedDates[x] = {marked: true};
     });
 
-    setState({ ...state, markedDates, markedDatesAry });
-  }
+    setState({...state, markedDates, markedDatesAry});
+  };
 
-  updateSlot = (ind) => {
-    let v = state.searchPeriod.slots[ind]
+  updateSlot = ind => {
+    let v = state.searchPeriod.slots[ind];
     let searchPeriod = state.searchPeriod;
     searchPeriod.slots[ind] = v == 0 ? 1 : 0;
-    setState({ ...state, searchPeriod });
-  }
+    setState({...state, searchPeriod});
+  };
 
   _renderSectionTitle = section => {
-    return (
-      <View style={{ height: 0 }}>
-      </View>
-    );
+    return <View style={{height: 0}}></View>;
   };
 
   hasTimeSearch = () => {
@@ -655,52 +640,174 @@ const Screen = props => {
         if (x == 1) {
           return true;
         }
-      })
+      });
       return true;
     }
 
     return false;
-  }
+  };
 
   _renderContent = section => {
     return (
       <View style={style.menu}>
         <Text style={style.optionText}>選項：</Text>
-        <View style={{ ...styles.row, flexWrap: 'wrap' }}>
-          <TouchableHighlight style={state.type == null ? style.optionContent : style.optionContentSelected} onPress={() => chooseType()}>
+        <View style={{...styles.row, flexWrap: 'wrap'}}>
+          <TouchableHighlight
+            style={
+              state.type == null
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => chooseType()}>
             <View style={styles.row}>
-              <Icon style={state.type == null ? style.optionIcon : style.optionIconSelected} size={18} name="group" />
-              <Text style={state.type == null ? style.optionText : style.optionTextSelected}>服務</Text>
+              <Icon
+                style={
+                  state.type == null
+                    ? style.optionIcon
+                    : style.optionIconSelected
+                }
+                size={18}
+                name="group"
+              />
+              <Text
+                style={
+                  state.type == null
+                    ? style.optionText
+                    : style.optionTextSelected
+                }>
+                服務
+              </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={state.district == null ? style.optionContent : style.optionContentSelected} onPress={() => chooseDistrict()}>
+          <TouchableHighlight
+            style={
+              state.district == null
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => chooseDistrict()}>
             <View style={styles.row}>
-              <Icon style={state.district == null ? style.optionIcon : style.optionIconSelected} size={18} name="map-marker" />
-              <Text style={state.district == null ? style.optionText : style.optionTextSelected}>地點</Text>
+              <Icon
+                style={
+                  state.district == null
+                    ? style.optionIcon
+                    : style.optionIconSelected
+                }
+                size={18}
+                name="map-marker"
+              />
+              <Text
+                style={
+                  state.district == null
+                    ? style.optionText
+                    : style.optionTextSelected
+                }>
+                地點
+              </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={ !hasTimeSearch() ? style.optionContent : style.optionContentSelected} onPress={() => setState({ ...state, modalVisible: true })}>
+          <TouchableHighlight
+            style={
+              !hasTimeSearch()
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => setState({...state, modalVisible: true})}>
             <View style={styles.row}>
-              <Icon style={!hasTimeSearch() ? style.optionIcon : style.optionIconSelected} size={18} name="calendar" />
-              <Text style={!hasTimeSearch() ? style.optionText : style.optionTextSelected}>時間</Text>
+              <Icon
+                style={
+                  !hasTimeSearch() ? style.optionIcon : style.optionIconSelected
+                }
+                size={18}
+                name="calendar"
+              />
+              <Text
+                style={
+                  !hasTimeSearch() ? style.optionText : style.optionTextSelected
+                }>
+                時間
+              </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={state.price == null ? style.optionContent : style.optionContentSelected} onPress={() => choosePrice()}>
+          <TouchableHighlight
+            style={
+              state.price == null
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => choosePrice()}>
             <View style={styles.row}>
-              <Icon style={state.price == null ? style.optionIcon : style.optionIconSelected} size={18} name="money" />
-              <Text style={state.price == null ? style.optionText : style.optionTextSelected}>時租</Text>
+              <Icon
+                style={
+                  state.price == null
+                    ? style.optionIcon
+                    : style.optionIconSelected
+                }
+                size={18}
+                name="money"
+              />
+              <Text
+                style={
+                  state.price == null
+                    ? style.optionText
+                    : style.optionTextSelected
+                }>
+                時租
+              </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={state.area == null ? style.optionContent : style.optionContentSelected} onPress={() => chooseArea()}>
+          <TouchableHighlight
+            style={
+              state.area == null
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => chooseArea()}>
             <View style={styles.row}>
-              <Icon style={state.area == null ? style.optionIcon : style.optionIconSelected} size={18} name="arrows-alt" />
-              <Text style={state.area == null ? style.optionText : style.optionTextSelected}>呎寸</Text>
+              <Icon
+                style={
+                  state.area == null
+                    ? style.optionIcon
+                    : style.optionIconSelected
+                }
+                size={18}
+                name="arrows-alt"
+              />
+              <Text
+                style={
+                  state.area == null
+                    ? style.optionText
+                    : style.optionTextSelected
+                }>
+                呎寸
+              </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={state.facilities == null ? style.optionContent : style.optionContentSelected} onPress={() => chooseFacilities()}>
+          <TouchableHighlight
+            style={
+              state.facilities == null
+                ? style.optionContent
+                : style.optionContentSelected
+            }
+            onPress={() => chooseFacilities()}>
             <View style={styles.row}>
-              <Icon style={state.facilities == null ? style.optionIcon : style.optionIconSelected} size={18} name="briefcase" />
-              <Text style={state.facilities == null ? style.optionText : style.optionTextSelected}>設施</Text>
+              <Icon
+                style={
+                  state.facilities == null
+                    ? style.optionIcon
+                    : style.optionIconSelected
+                }
+                size={18}
+                name="briefcase"
+              />
+              <Text
+                style={
+                  state.facilities == null
+                    ? style.optionText
+                    : style.optionTextSelected
+                }>
+                設施
+              </Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -719,12 +826,25 @@ const Screen = props => {
           leftIconContainerStyle={{shadowColor: 'white', backgroundColor: Colors.navButton, borderColor: Colors.navButton, borderWidth: 0}}
           rightIconContainerStyle={{shadowColor: 'white', backgroundColor: Colors.navButton, borderColor: Colors.navButton, borderWidth: 0}}
         /> */}
-        <View style={{ ...styles.row, justifyContent: 'center', marginTop: 10, width: '100%' }}>
-          <TouchableHighlight style={{ ...style.optionContent, backgroundColor: Colors.navButton, color: Colors.main, borderColor: Colors.navButton, width: '50%' }}
+        <View
+          style={{
+            ...styles.row,
+            justifyContent: 'center',
+            marginTop: 10,
+            width: '100%',
+          }}>
+          <TouchableHighlight
+            style={{
+              ...style.optionContent,
+              backgroundColor: Colors.navButton,
+              color: Colors.main,
+              borderColor: Colors.navButton,
+              width: '50%',
+            }}
             onPress={() => search()}>
-            <View style={{ ...styles.row, justifyContent: 'center' }}>
+            <View style={{...styles.row, justifyContent: 'center'}}>
               {/* <Icon style={style.optionIcon} size={20} name="search" /> */}
-              <Text style={{ ...style.optionText }}>搜尋</Text>
+              <Text style={{...style.optionText}}>搜尋</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -746,21 +866,19 @@ const Screen = props => {
     );
   };
   _updateSections = activeSections => {
-    setState({ ...state, activeSections });
+    setState({...state, activeSections});
   };
   _updateSections2 = activeSections2 => {
-    setState({ ...state, activeSections2 });
+    setState({...state, activeSections2});
   };
 
-
   return (
-    <View style={{ ...styles.container }}>
+    <View style={{...styles.container}}>
       <Modal
         comment="dialog for date search"
         animationType="fade"
         transparent={false}
-        visible={state.modalVisible}
-      >
+        visible={state.modalVisible}>
         <SafeAreaView>
           <View
             style={{
@@ -773,17 +891,14 @@ const Screen = props => {
               marginRight: 8,
 
               height: '90%',
-              backgroundColor: '#BFDFEE'
-            }}
-          >
-
+              backgroundColor: '#BFDFEE',
+            }}>
             <View
               style={{
                 padding: 10,
                 width: '100%',
-                margin: 'auto'
-              }}
-            >
+                margin: 'auto',
+              }}>
               <Calendar
                 onDayPress={day => {
                   this.onSelectDate(day.dateString);
@@ -792,37 +907,33 @@ const Screen = props => {
                 minDate={state.today}
                 maxDate={state.maxDate}
                 theme={{
-                  todayTextColor: '#2d4150'
+                  todayTextColor: '#2d4150',
                 }}
               />
             </View>
             <ScrollView>
               <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                paddingBottom: 40
-              }}
-            >
-              {state.searchPeriod.slots.map((x, ind) => (
-                <View key={'slot' + ind} style={{ width: '25%', height: 40 }}>
-                  <SlotButton
-                    title={slotToText(ind)}
-                    on={
-                      state.searchPeriod.slots[ind] == 1 ? true : false
-                    }
-                    index={ind}
-                    onValueUpdate={this.updateSlot.bind(this, ind)}
-                  />
-                </View>
-              ))}
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  paddingBottom: 40,
+                }}>
+                {state.searchPeriod.slots.map((x, ind) => (
+                  <View key={'slot' + ind} style={{width: '25%', height: 40}}>
+                    <SlotButton
+                      title={slotToText(ind)}
+                      on={state.searchPeriod.slots[ind] == 1 ? true : false}
+                      index={ind}
+                      onValueUpdate={this.updateSlot.bind(this, ind)}
+                    />
+                  </View>
+                ))}
               </View>
             </ScrollView>
             <Button
               mode="contained"
-              onPress={() => setState({ ...state, modalVisible: false })}
-            >
+              onPress={() => setState({...state, modalVisible: false})}>
               確定
             </Button>
           </View>
@@ -832,46 +943,67 @@ const Screen = props => {
       <View
         style={{
           zIndex: 100,
-          // borderRadius: 30, 
-          backgroundColor: Colors.main
-        }}
-      >
+          // borderRadius: 30,
+          backgroundColor: Colors.main,
+        }}>
         <Accordion
           // collapsed={false}
           underlayColor={Colors.main}
-          sections={[{ title: 'haha' }]}
+          sections={[{title: 'haha'}]}
           activeSections={state.activeSections2}
           renderSectionTitle={section => {
-            return (
-              <View style={{ height: 0 }}>
-              </View>
-            )
+            return <View style={{height: 0}}></View>;
           }}
           renderHeader={section => {
-            return (
-              <View style={{ height: 0 }}>
-              </View>
-            )
+            return <View style={{height: 0}}></View>;
           }}
           renderContent={this._renderContent}
           onChange={activeSections2 => {
-            setState({ ...state, activeSections2: [0] });
+            setState({...state, activeSections2: [0]});
           }}
         />
-        <View style={{ ...styles.row, width: '100%' }}>
-          <View style={{ ...styles.row, width: '50%' }}>
-            <Icon style={style.navIcon} size={24} name="navicon" onPress={() => setState({ ...state, activeSections2: state.activeSections2.length > 0 ? [] : [0] })} />
-            <HeaderButton title="人氣" onPress={() => selectSorting('人氣')} active={state.sortCrit == '人氣'} />
-            <HeaderButton title="價錢" onPress={() => selectSorting('價錢')} active={state.sortCrit == '價錢'} />
-            <HeaderButton title="評分" onPress={() => selectSorting('評分')} active={state.sortCrit == '評分'} />
+        <View style={{...styles.row, width: '100%'}}>
+          <View style={{...styles.row, width: '50%'}}>
+            <Icon
+              style={style.navIcon}
+              size={24}
+              name="navicon"
+              onPress={() =>
+                setState({
+                  ...state,
+                  activeSections2: state.activeSections2.length > 0 ? [] : [0],
+                })
+              }
+            />
+            <HeaderButton
+              title="人氣"
+              onPress={() => selectSorting('人氣')}
+              active={state.sortCrit == '人氣'}
+            />
+            <HeaderButton
+              title="價錢"
+              onPress={() => selectSorting('價錢')}
+              active={state.sortCrit == '價錢'}
+            />
+            <HeaderButton
+              title="評分"
+              onPress={() => selectSorting('評分')}
+              active={state.sortCrit == '評分'}
+            />
           </View>
-          <View style={{ ...styles.row, width: '50%' }}>
-            <HeaderButton title={"你好," + (auth.id == null ? '訪客' : auth.name)} onPress={() => { }} active={false} buttonStyle={{ width: '100%', marginRight: 10 }} textStyle={{ alignSelf: 'flex-end', textAlign: 'right' }} />
+          <View style={{...styles.row, width: '50%'}}>
+            <HeaderButton
+              title={'你好,' + (auth.id == null ? '訪客' : auth.name)}
+              onPress={() => {}}
+              active={false}
+              buttonStyle={{width: '100%', marginRight: 10}}
+              textStyle={{alignSelf: 'flex-end', textAlign: 'right'}}
+            />
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 0, marginBottom: 30 }}>
-        <View styles={{ height: '100%' }}>
+      <View style={{marginTop: 0, marginBottom: 30}}>
+        <View styles={{height: '100%'}}>
           {(state.rooms || []).length == 0 ? (
             <View style={styles.centerScreen}>
               <Text>沒有搜尋條件內的房間</Text>
@@ -882,18 +1014,30 @@ const Screen = props => {
             initialNumToRender={0}
             data={state.rooms}
             keyExtractor={(item, index) => item.id}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <View>
-                <ImageBackground source={{ url: item.photos[0] }} style={{ width: '100%', height: 244 }}
+                <ImageBackground
+                  source={{url: item.photos[0]}}
+                  style={{width: '100%', height: 244}}
                   onPress={chooseRoom.bind(this, item)}>
                   <View style={style.roomText}>
-                    <Text style={{ fontSize: 18, paddingBottom: 4 }}>{item.name}</Text>
-                    <Text style={{ fontSize: 10, paddingBottom: 2 }}>{'時租$' + item.pricePerHour}</Text>
-                    <Text style={{ fontSize: 12, paddingBottom: 2, color: '#707070' }}>{item.address}</Text>
+                    <Text style={{fontSize: 18, paddingBottom: 4}}>
+                      {item.name}
+                    </Text>
+                    <Text style={{fontSize: 10, paddingBottom: 2}}>
+                      {'時租$' + item.pricePerHour}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        paddingBottom: 2,
+                        color: '#707070',
+                      }}>
+                      {item.address}
+                    </Text>
                   </View>
                 </ImageBackground>
               </View>
-
 
               // <Card onPress={this.chooseRoom.bind(this, item)}>
               //   <Card.Content>
@@ -949,20 +1093,20 @@ const Screen = props => {
       </View>
     </View>
   );
-}
+};
 
 const style = StyleSheet.create({
-  container: { flex: 1, flexDirection: 'column' },
+  container: {flex: 1, flexDirection: 'column'},
   menu: {
     paddingTop: 10,
     padding: 10,
     // height: '100%',
-    backgroundColor: Colors.main
+    backgroundColor: Colors.main,
   },
   navIcon: {
     marginLeft: 10,
     lineHeight: 20,
-    color: Colors.bg
+    color: Colors.bg,
   },
   optionIcon: {
     marginLeft: 0,
@@ -970,7 +1114,7 @@ const style = StyleSheet.create({
     lineHeight: 40,
     width: 20,
     textAlign: 'center',
-    color: Colors.bg
+    color: Colors.bg,
   },
   optionIconSelected: {
     marginLeft: 0,
@@ -978,23 +1122,23 @@ const style = StyleSheet.create({
     lineHeight: 40,
     width: 20,
     textAlign: 'center',
-    color: Colors.main
+    color: Colors.main,
   },
   optionText: {
     fontSize: 20,
     lineHeight: 48,
     marginLeft: 10,
     marginRight: 8,
-    color: Colors.bg
+    color: Colors.bg,
   },
   optionTextSelected: {
     fontSize: 20,
     lineHeight: 48,
     marginLeft: 10,
     marginRight: 8,
-    color: Colors.main
+    color: Colors.main,
   },
-  line: { flex: 1, flexShrink: 0, flexGrow: 1 },
+  line: {flex: 1, flexShrink: 0, flexGrow: 1},
   roomText: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     position: 'relative',
@@ -1003,26 +1147,26 @@ const style = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
   accordion: {
     color: 'red',
     marginTop: 0,
-    marginBottom: -20
+    marginBottom: -20,
   },
   name: {
-    fontSize: 20
+    fontSize: 20,
   },
   address: {
-    fontSize: 14
+    fontSize: 14,
   },
   price: {
-    fontSize: 14
+    fontSize: 14,
   },
   optionButton: {
     backgroundColor: Colors.selected,
     fontSize: 12,
-    margin: 1
+    margin: 1,
   },
   optionContent: {
     borderWidth: 2,
@@ -1034,7 +1178,7 @@ const style = StyleSheet.create({
     padding: 8,
     paddingTop: 0,
     width: '30%',
-    height: 44
+    height: 44,
   },
   optionContentSelected: {
     borderWidth: 2,
@@ -1047,19 +1191,19 @@ const style = StyleSheet.create({
     padding: 8,
     paddingTop: 0,
     width: '30%',
-    height: 44
+    height: 44,
   },
   pullDown: {
     backgroundColor: Colors.main,
     width: '100%',
     shadowColor: 'black',
-    shadowOffset: { width: 5, height: 5 },
+    shadowOffset: {width: 5, height: 5},
     shadowOpacity: 0.3,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     // position: 'absolute',
-    zIndex: 1000
-  }
+    zIndex: 1000,
+  },
 });
 
 export default Screen;
