@@ -342,7 +342,7 @@ import LoginRequired from './LoginRequired';
 const GuestFlow = createBottomTabNavigator(
   {
     Search: getConfig(BookingStack, '搜尋', 'search'),
-    ShoppingCart: getConfig(ShoppingCartStack, '購物車', 'cart', true),
+    ShoppingCart: getConfig(LoginRequired, '購物車', 'cart', true),
     Record: getConfig(LoginRequired, '紀錄', 'document'),
     Inbox: getConfig(LoginRequired, '收件匣', 'mail'),
     Login: getConfig(LoginStack, '登入', 'desktop'),

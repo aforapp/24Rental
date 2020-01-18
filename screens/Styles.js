@@ -15,6 +15,7 @@ import {StyleSheet} from 'react-native';
 const colorMain = '#2560A4';
 const colorBg = '#FFFFFF';
 const colorText = '#3E3A39';
+const colorTitle = '#2560A4';
 const colorButton = '#2560A4';
 const colorHeaderButton = '#000000';
 const colorSelected = '#FFFFFF';
@@ -28,6 +29,7 @@ const colorNavButton = '#9BC4D8';
 export const Colors = {
   main: colorMain,
   bg: colorBg,
+  title: colorTitle,
   text: colorText,
   button: colorButton,
   headerButton: colorHeaderButton,
