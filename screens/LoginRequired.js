@@ -1,7 +1,7 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View} from 'react-native';
 import {
   Headline,
   TextInput,
@@ -12,18 +12,16 @@ import {
   Text,
   Paragraph,
   List,
-  Checkbox
+  Checkbox,
 } from 'react-native-paper';
-import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
 
 const Screen = props => {
   return (
     <View style={styles.container}>
       <Title style={styles.padding}>請先登入</Title>
-      <Button onPress={() => NavigationService.navigate('Login')}>
-        登入
-      </Button>
+      <Button onPress={() => NavigationService.navigate('Login')}>登入</Button>
     </View>
   );
 };

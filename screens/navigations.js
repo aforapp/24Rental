@@ -1,10 +1,10 @@
 import NavigationService from '../NavigationService';
 
-import React, { Component } from 'react';
-import { Headline } from 'react-native-paper';
+import React, {Component} from 'react';
+import {Headline} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 
 import IconWithBadge from '../components/IconWithBadge';
 import IconWithBadgeMsg from '../components/IconWithBadgeMsg';
@@ -12,10 +12,8 @@ import IconWithBadgeMsg from '../components/IconWithBadgeMsg';
 import {
   createAppContainer,
   SafeAreaView,
-  
   createSwitchNavigator,
   createDrawerNavigator,
-  
 } from 'react-navigation';
 
 import {createStackNavigator} from 'react-navigation-stack';
@@ -31,12 +29,11 @@ import RegisterHost from './AuthRegisterHost';
 
 import {Colors} from './Styles';
 
-
 const defaultNavigationOptions = {
   headerBackTitle: ' ',
   headerBackImage: (
-    <MIcon size={20} name={'arrow-back'} style={{ color: 'black' }} />
-  )
+    <MIcon size={20} name={'arrow-back'} style={{color: 'black'}} />
+  ),
 };
 
 const LoginStack = createStackNavigator(
@@ -44,35 +41,35 @@ const LoginStack = createStackNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        header: null
-      }
+        header: null,
+      },
     },
     Register: {
       screen: Register,
       navigationOptions: {
         headerForceInset: true,
-        title: ''
-      }
+        title: '',
+      },
     },
     RegisterUser: {
       screen: RegisterUser,
       navigationOptions: {
         headerForceInset: true,
-        title: ''
-      }
+        title: '',
+      },
     },
     RegisterHost: {
       screen: RegisterHost,
       navigationOptions: {
         headerForceInset: true,
-        title: ''
-      }
+        title: '',
+      },
     },
   },
   {
     initialRouteName: 'Login',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
 import HostProfile from './HostProfile';
@@ -82,13 +79,13 @@ const HostProfileStack = createSwitchNavigator(
     HostProfile: {
       screen: HostProfile,
       navigationOptions: {
-        header: null
-      }
-    }
+        header: null,
+      },
+    },
   },
   {
-    initialRouteName: 'HostProfile'
-  }
+    initialRouteName: 'HostProfile',
+  },
 );
 
 import UserProfile from './UserProfile';
@@ -98,13 +95,13 @@ const UserProfileStack = createSwitchNavigator(
     UserProfile: {
       screen: UserProfile,
       navigationOptions: {
-        header: null
-      }
-    }
+        header: null,
+      },
+    },
   },
   {
-    initialRouteName: 'UserProfile'
-  }
+    initialRouteName: 'UserProfile',
+  },
 );
 
 import RoomSearch from './RoomSearch';
@@ -118,14 +115,14 @@ const BookingStack = createStackNavigator(
     RoomSearch: {
       screen: RoomSearch,
       navigationOptions: () => ({
-        header: null
-      })
+        header: null,
+      }),
     },
     OptionScreen: {
       screen: OptionScreen,
       navigationOptions: () => ({
-        header: null
-      })
+        header: null,
+      }),
     },
     // RoomList: {
     //   screen: RoomList,
@@ -139,29 +136,29 @@ const BookingStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         title: '',
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     RoomTimeSlots: {
       screen: RoomTimeSlots,
       navigationOptions: () => ({
         headerTransparent: true,
         title: '',
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     RoomBookingConfirm: {
       screen: RoomBookingConfirm,
       navigationOptions: () => ({
         title: '',
-        headerForceInset: true
-      })
-    }
+        headerForceInset: true,
+      }),
+    },
   },
   {
     initialRouteName: 'RoomSearch',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
 import HostRoomList from './HostRoomList';
@@ -182,14 +179,14 @@ const HostRoomListStack = createStackNavigator(
     OptionScreen: {
       screen: OptionScreen,
       navigationOptions: () => ({
-        header: null
-      })
+        header: null,
+      }),
     },
     HostRoomList: {
       screen: HostRoomList,
       navigationOptions: {
-        header: null
-      }
+        header: null,
+      },
     },
     HostRoomDetails,
     CreateRoomAddRoom: {
@@ -197,32 +194,32 @@ const HostRoomListStack = createStackNavigator(
       navigationOptions: () => ({
         title: '新增房間',
         gesturesEnabled: false, //prevent accidental back action
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     HostRoomEditDetails: {
       screen: CreateRoomAddRoom,
       navigationOptions: () => ({
         title: '編輯房間',
         gesturesEnabled: false, //prevent accidental back action
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     CreateRoomAddPhoto: {
       screen: CreateRoomAddPhoto,
       navigationOptions: () => ({
         title: '選擇相片',
         gesturesEnabled: false, //prevent accidental back action
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     CreateRoomAddFacility,
     CreateRoomSetOpeningHours: {
       screen: CreateRoomSetOpeningHours,
       navigationOptions: () => ({
         title: '開放時間',
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
     CreateRoomAddSellingPoint,
     CreateRoomSetMapMarker,
@@ -231,14 +228,14 @@ const HostRoomListStack = createStackNavigator(
       screen: CreateRoomConfirm,
       navigationOptions: () => ({
         title: '新增房間確認',
-        headerForceInset: true
-      })
-    }
+        headerForceInset: true,
+      }),
+    },
   },
   {
     initialRouteName: 'HostRoomList',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
 import ChatList from './ChatList';
@@ -249,22 +246,24 @@ const ChatStack = createStackNavigator(
     ChatList: {
       screen: ChatList,
       navigationOptions: () => ({
-        header: null
-      })
+        header: null,
+      }),
     },
-    Chat:{
+    Chat: {
       screen: Chat,
       navigationOptions: screenProps => ({
-        title: screenProps.navigation.getParam("title") ? '與' + screenProps.navigation.getParam("title") + '的對話' : '對話',
+        title: screenProps.navigation.getParam('title')
+          ? '與' + screenProps.navigation.getParam('title') + '的對話'
+          : '對話',
         // gesturesEnabled: false, //prevent accidental back action
-        headerForceInset: true
-      })
+        headerForceInset: true,
+      }),
     },
   },
   {
     initialRouteName: 'ChatList',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
 import ShoppingCart from './ShoppingCart';
@@ -275,21 +274,21 @@ const ShoppingCartStack = createStackNavigator(
     ShoppingCart: {
       screen: ShoppingCart,
       navigationOptions: {
-        header: null
-      }
+        header: null,
+      },
     },
-    ShoppingCartPay
+    ShoppingCartPay,
   },
   {
     initialRouteName: 'ShoppingCart',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
 const tabOptions = {
   tabBarOptions: {
     style: {
-      borderTopColor: 'transparent'
+      borderTopColor: 'transparent',
     },
     activeTintColor: Colors.navButton,
     activeBackgroundColor: Colors.bg,
@@ -297,9 +296,9 @@ const tabOptions = {
     inactiveBackgroundColor: Colors.navButton,
     safeAreaInset: {
       // bottom: "never"
-    }
+    },
   },
-  barStyle: { backgroundColor: Colors.navButton }
+  barStyle: {backgroundColor: Colors.navButton},
 };
 
 import Loading from './Loading';
@@ -309,17 +308,16 @@ const LoadingStack = createStackNavigator(
     Loading: {
       screen: Loading,
       navigationOptions: () => ({
-        header: null
-      })
-    }
+        header: null,
+      }),
+    },
   },
   {
     initialRouteName: 'Loading',
-    defaultNavigationOptions
-  }
+    defaultNavigationOptions,
+  },
 );
 
-  
 const LoadingFlow = createBottomTabNavigator(
   {
     Loading: {
@@ -327,19 +325,19 @@ const LoadingFlow = createBottomTabNavigator(
       navigationOptions: {
         headerStyle: {
           headerTransparent: true,
-          backgroundColor: 'red' // this will handle the cutOff at the top the
+          backgroundColor: 'red', // this will handle the cutOff at the top the
         },
-        tabBarLabel: ' '
-      }
-    }
+        tabBarLabel: ' ',
+      },
+    },
   },
   {
     initialRouteName: 'Loading',
-    ...tabOptions
-  }
+    ...tabOptions,
+  },
 );
 
-import LoginRequired from './LoginRequired'
+import LoginRequired from './LoginRequired';
 
 const GuestFlow = createBottomTabNavigator(
   {
@@ -347,16 +345,15 @@ const GuestFlow = createBottomTabNavigator(
     ShoppingCart: getConfig(ShoppingCartStack, '購物車', 'cart', true),
     Record: getConfig(LoginRequired, '紀錄', 'document'),
     Inbox: getConfig(LoginRequired, '收件匣', 'mail'),
-    Login: getConfig(LoginStack, '登入', 'desktop')
+    Login: getConfig(LoginStack, '登入', 'desktop'),
   },
   {
     initialRouteName: 'Search',
-    ...tabOptions
-  }
+    ...tabOptions,
+  },
 );
 
 import UserPaymentRecords from './UserPaymentRecords';
-
 
 const UserFlow = createBottomTabNavigator(
   {
@@ -364,12 +361,12 @@ const UserFlow = createBottomTabNavigator(
     ShoppingCart: getConfig(ShoppingCartStack, '購物車', 'cart', true),
     Record: getConfig(UserPaymentRecords, '紀錄', 'document'),
     Inbox: getConfig(ChatStack, '收件匣', 'mail', false, true),
-    Profile: getConfig(UserProfileStack, '租客資料', 'settings')
+    Profile: getConfig(UserProfileStack, '租客資料', 'settings'),
   },
   {
     initialRouteName: 'Search',
-    ...tabOptions
-  }
+    ...tabOptions,
+  },
 );
 
 import HostPaymentRecords from './HostPaymentRecords';
@@ -381,12 +378,12 @@ const HostFlow = createBottomTabNavigator(
     Calendar: getConfig(HostCalendar, '日曆', 'calendar'),
     Record: getConfig(HostPaymentRecords, '紀錄', 'document'),
     Inbox: getConfig(ChatStack, '收件匣', 'mail', false, true),
-    Profile: getConfig(HostProfileStack, '場主資料', 'settings')
+    Profile: getConfig(HostProfileStack, '場主資料', 'settings'),
   },
   {
     initialRouteName: 'Room',
-    ...tabOptions
-  }
+    ...tabOptions,
+  },
 );
 
 function getConfig(screen, label, icon, isCart, isMsg) {
@@ -395,10 +392,10 @@ function getConfig(screen, label, icon, isCart, isMsg) {
     navigationOptions: {
       headerStyle: {
         headerTransparent: true,
-        backgroundColor: 'red' // this will handle the cutOff at the top the
+        backgroundColor: 'red', // this will handle the cutOff at the top the
       },
       tabBarLabel: label,
-      tabBarIcon: ({ tintColor, focused }) =>
+      tabBarIcon: ({tintColor, focused}) =>
         isCart ? (
           <IconWithBadge
             size={28}
@@ -412,10 +409,9 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 : 'md-' + icon
             }
             color={tintColor}
-            style={{ color: tintColor }}
+            style={{color: tintColor}}
           />
-        ) : 
-        isMsg ? (
+        ) : isMsg ? (
           <IconWithBadgeMsg
             size={28}
             name={
@@ -428,7 +424,7 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 : 'md-' + icon
             }
             color={tintColor}
-            style={{ color: tintColor }}
+            style={{color: tintColor}}
           />
         ) : (
           <Icon
@@ -442,23 +438,23 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 ? 'md-' + icon
                 : 'md-' + icon
             }
-            style={{ color: tintColor }}
+            style={{color: tintColor}}
           />
-        )
-    }
+        ),
+    },
   };
 }
 
 export const AppContainer = createAppContainer(
   createSwitchNavigator(
-    { 
+    {
       LoadingFlow,
       GuestFlow,
       HostFlow,
-      UserFlow
+      UserFlow,
     },
     {
-      initialRouteName: 'LoadingFlow'
-    }
-  )
+      initialRouteName: 'LoadingFlow',
+    },
+  ),
 );
