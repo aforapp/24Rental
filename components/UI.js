@@ -142,19 +142,42 @@ export const HeaderButton = props => {
   return (
     <Button
       {...props}
-      color={Colors.main}
+      color={props.color || Colors.headerButton}
       fontSize={20}
-      buttonStyle={{
-        borderBottomWidth: props.active ? 2 : 0,
-        width: 30,
-        height: 40,
-        paddingBottom: 4,
-        borderColor: 'white',
-        borderRadius: 0,
-        ...(props.buttonStyle || {}),
-      }}
-      textStyle={{width: '100%', ...(props.textStyle || {})}}
+      buttonStyle={props.buttonStyle}
+      textStyle={{...(props.textStyle || {})}}
     />
+  );
+};
+
+export const HeaderSortButton = props => {
+  return (
+    <View
+      style={{
+        height: 'auto',
+        marginTop: -8,
+      }}>
+      <Text
+        style={{
+          alignSelf: 'center',
+          justifyContent: 'flex-end',
+          marginBottom: -10,
+          fontSize: 25,
+          color: Colors.menuSelected,
+          zIndex: 1,
+          opacity: props.active ? 100 : 0,
+        }}>
+        •
+      </Text>
+      <Button
+        {...props}
+        style={{flexGrow: 0.5}}
+        color={props.color || Colors.navButton}
+        fontSize={15}
+        buttonStyle={props.buttonStyle}
+        textStyle={props.textStyle}
+      />
+    </View>
   );
 };
 

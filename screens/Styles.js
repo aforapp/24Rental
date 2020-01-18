@@ -16,6 +16,7 @@ const colorMain = '#2560A4';
 const colorBg = '#FFFFFF';
 const colorText = '#3E3A39';
 const colorButton = '#2560A4';
+const colorHeaderButton = '#000000';
 const colorSelected = '#FFFFFF';
 const colorSelectedText = '#2560A4';
 const colorMenuBg = '#FFFFFF';
@@ -29,6 +30,7 @@ export const Colors = {
   bg: colorBg,
   text: colorText,
   button: colorButton,
+  headerButton: colorHeaderButton,
   selected: colorSelected,
   selectedText: colorSelectedText,
   menuBg: colorMenuBg,

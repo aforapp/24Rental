@@ -14,7 +14,12 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
-import {Image, HeaderButton, ImageBackground} from '../components/UI';
+import {
+  Image,
+  HeaderButton,
+  HeaderSortButton,
+  ImageBackground,
+} from '../components/UI';
 import {SafeAreaView} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -962,44 +967,61 @@ const Screen = props => {
             setState({...state, activeSections2: [0]});
           }}
         />
-        <View style={{...styles.row, width: '100%'}}>
-          <View style={{...styles.row, width: '50%'}}>
-            <Icon
-              style={style.navIcon}
-              size={24}
-              name="navicon"
-              onPress={() =>
-                setState({
-                  ...state,
-                  activeSections2: state.activeSections2.length > 0 ? [] : [0],
-                })
-              }
-            />
-            <HeaderButton
-              title="人氣"
-              onPress={() => selectSorting('人氣')}
-              active={state.sortCrit == '人氣'}
-            />
-            <HeaderButton
-              title="價錢"
-              onPress={() => selectSorting('價錢')}
-              active={state.sortCrit == '價錢'}
-            />
-            <HeaderButton
-              title="評分"
-              onPress={() => selectSorting('評分')}
-              active={state.sortCrit == '評分'}
-            />
+        <View style={{backgroundColor: 'black'}}>
+          <View style={{...styles.row}}>
+            <View style={{...styles.row}}>
+              <Icon
+                style={style.navIcon}
+                size={60}
+                name="navicon"
+                onPress={() =>
+                  setState({
+                    ...state,
+                    activeSections2:
+                      state.activeSections2.length > 0 ? [] : [0],
+                  })
+                }
+              />
+            </View>
+            <View style={style.navBarButtonsCollection}>
+              <HeaderSortButton
+                title="人氣"
+                onPress={() => selectSorting('人氣')}
+                active={state.sortCrit == '人氣'}
+                color={Colors.navButton}
+                buttonStyle={{width: 'auto'}}
+              />
+              <HeaderSortButton
+                title="價錢"
+                onPress={() => selectSorting('價錢')}
+                active={state.sortCrit == '價錢'}
+                color={Colors.navButton}
+                buttonStyle={{width: 'auto'}}
+              />
+              <HeaderSortButton
+                title="評分"
+                onPress={() => selectSorting('評分')}
+                active={state.sortCrit == '評分'}
+                color={Colors.navButton}
+                buttonStyle={{width: 'auto'}}
+              />
+            </View>
           </View>
-          <View style={{...styles.row, width: '50%'}}>
+          <View style={{...styles.row, marginTop: 5}}>
             <HeaderButton
-              title={'你好,' + (auth.id == null ? '訪客' : auth.name)}
+              title={'你好，' + (auth.id == null ? '訪客' : auth.name)}
               onPress={() => {}}
               active={false}
-              buttonStyle={{width: '100%', marginRight: 10}}
-              textStyle={{alignSelf: 'flex-end', textAlign: 'right'}}
+              color={Colors.headerButton}
+              buttonStyle={{
+                width: '100%',
+                marginLeft: 50,
+                justifyContent: 'flex-start',
+              }}
+              textStyle={{alignSelf: 'flex-end'}}
             />
           </View>
+          <Text style={style.navBarTitle}>搜尋最適合你的練習和表演空間</Text>
         </View>
       </View>
       <View style={{marginTop: 0, marginBottom: 30}}>
@@ -1104,9 +1126,25 @@ const style = StyleSheet.create({
     backgroundColor: Colors.main,
   },
   navIcon: {
-    marginLeft: 10,
-    lineHeight: 20,
+    marginTop: 3,
     color: Colors.bg,
+  },
+  navBarButtonsCollection: {
+    ...styles.row,
+    flexGrow: 0.8,
+    alignSelf: 'flex-start',
+    width: 50,
+    paddingRight: 25,
+    paddingBottom: 3,
+    paddingLeft: 10,
+    backgroundColor: Colors.navButton,
+    borderBottomLeftRadius: 20,
+  },
+  navBarTitle: {
+    color: 'silver',
+    fontSize: 11,
+    marginLeft: 30,
+    marginBottom: 9,
   },
   optionIcon: {
     marginLeft: 0,
