@@ -51,7 +51,7 @@ const Screen = props => {
         <Button
           style={{...style.button, backgroundColor: Colors.navButton}}
           mode="contained"
-          onPress={() => NavigationService.navigate('RegisterUser')}>
+          onPress={() => NavigationService.navigate('Register')}>
           註冊
         </Button>
       </View>
@@ -60,15 +60,15 @@ const Screen = props => {
 };
 
 const style = StyleSheet.create({
-  innerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   title: {
     marginTop: 12,
     marginLeft: 25,
     color: Colors.title,
+  },
+  innerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   description: {
     fontSize: 16,

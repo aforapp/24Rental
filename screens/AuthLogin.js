@@ -246,48 +246,40 @@ const Screen = props => {
       <LinearGradient colors={['#ffffff', '#ffffff', '#ffffff']}>
         <View style={{height: '100%', justifyContent: 'space-between'}}>
           <Title style={style.title}>登入</Title>
-          <View style={{...style.itemContainer}}>
-            <Input name="email" binding={binding} />
+          <View>
+            <Input style={style.inputField} name="email" binding={binding} />
           </View>
-          <View style={{...style.itemContainer}}>
-            <Input secureTextEntry name="password" binding={binding} />
+          <View>
+            <Input
+              style={style.inputField}
+              secureTextEntry
+              name="password"
+              binding={binding}
+            />
           </View>
-          <View
-            style={{
-              ...style.itemContainer,
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}>
-            <Button mode="contained" onPress={login} style={{width: '40%'}}>
+          <View style={style.innerContainer}>
+            <Text style={style.description}>
+              請登入或立即註冊{'\n'}來使用各種服務
+            </Text>
+            <Button style={style.button} mode="contained" onPress={login}>
               {state.loggingIn ? '登入中' : '登入'}
             </Button>
-          </View>
-          <View
-            style={{
-              marginTop: 40,
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            }}>
-            <Button mode="" onPress={hostlogin}>
-              {state.loggingIn ? '' : 'host01登入(for testing)'}
+            <Button
+              style={{...style.button, backgroundColor: Colors.navButton}}
+              mode="contained"
+              onPress={toRegisterPage}>
+              註冊
             </Button>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-            <Button mode="" onPress={userlogin}>
-              {state.loggingIn ? '' : 'user01登入(for testing)'}
-            </Button>
-          </View>
-          <View />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              marginTop: 'auto',
-              padding: 16,
-            }}>
-            <Button mode="text" onPress={toRegisterPage}>
-              註冊為房主/租客
-            </Button>
+            <View style={{marginTop: 40}}>
+              <Button mode="" onPress={hostlogin}>
+                {state.loggingIn ? '' : 'host01登入(for testing)'}
+              </Button>
+            </View>
+            <View>
+              <Button mode="" onPress={userlogin}>
+                {state.loggingIn ? '' : 'user01登入(for testing)'}
+              </Button>
+            </View>
           </View>
         </View>
       </LinearGradient>
@@ -311,10 +303,29 @@ const style = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
+  inputField: {
+    backgroundColor: '#9BC4D8',
+  },
   title: {
-    marginTop: 12,
+    marginVertical: 12,
     marginLeft: 25,
     color: Colors.title,
+  },
+  innerContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 22,
+    marginTop: '30%',
+    marginBottom: 15,
+  },
+  button: {
+    marginVertical: 8,
+    width: '35%',
+    borderRadius: 5,
   },
 });
 
