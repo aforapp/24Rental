@@ -25,6 +25,7 @@ const colorMenuText = '#000000';
 const colorMenuSelected = '#FFFFFF';
 const colorMenuSelectedText = '#2560A4';
 const colorNavButton = '#9BC4D8';
+const colorOptionList = '#9BC4D8';
 
 export const Colors = {
   main: colorMain,
@@ -40,6 +41,7 @@ export const Colors = {
   menuSelected: colorMenuSelected,
   menuSelectedText: colorMenuSelectedText,
   navButton: colorNavButton,
+  optionList: colorOptionList,
 };
 
 export default StyleSheet.create({

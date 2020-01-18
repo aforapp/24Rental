@@ -655,8 +655,7 @@ const Screen = props => {
   _renderContent = section => {
     return (
       <View style={style.menu}>
-        <Text style={style.optionText}>選項：</Text>
-        <View style={{...styles.row, flexWrap: 'wrap'}}>
+        <View>
           <TouchableHighlight
             style={
               state.type == null
@@ -664,25 +663,13 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => chooseType()}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  state.type == null
-                    ? style.optionIcon
-                    : style.optionIconSelected
-                }
-                size={18}
-                name="group"
-              />
-              <Text
-                style={
-                  state.type == null
-                    ? style.optionText
-                    : style.optionTextSelected
-                }>
-                服務
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(state.type != null ? style.optionTextSelected : undefined),
+              }}>
+              服務&nbsp;&nbsp;:&nbsp;&nbsp;{state.type || '任何'}
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={
@@ -691,25 +678,15 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => chooseDistrict()}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  state.district == null
-                    ? style.optionIcon
-                    : style.optionIconSelected
-                }
-                size={18}
-                name="map-marker"
-              />
-              <Text
-                style={
-                  state.district == null
-                    ? style.optionText
-                    : style.optionTextSelected
-                }>
-                地點
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(state.district != null
+                  ? style.optionTextSelected
+                  : undefined),
+              }}>
+              地點&nbsp;&nbsp;:&nbsp;&nbsp;{state.district || '任何'}
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={
@@ -718,21 +695,13 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => setState({...state, modalVisible: true})}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  !hasTimeSearch() ? style.optionIcon : style.optionIconSelected
-                }
-                size={18}
-                name="calendar"
-              />
-              <Text
-                style={
-                  !hasTimeSearch() ? style.optionText : style.optionTextSelected
-                }>
-                時間
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(hasTimeSearch() ? style.optionTextSelected : undefined),
+              }}>
+              時間
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={
@@ -741,25 +710,13 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => choosePrice()}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  state.price == null
-                    ? style.optionIcon
-                    : style.optionIconSelected
-                }
-                size={18}
-                name="money"
-              />
-              <Text
-                style={
-                  state.price == null
-                    ? style.optionText
-                    : style.optionTextSelected
-                }>
-                時租
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(state.price != null ? style.optionTextSelected : undefined),
+              }}>
+              時租&nbsp;&nbsp;:&nbsp;&nbsp;{state.price || '任何'}
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={
@@ -768,25 +725,13 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => chooseArea()}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  state.area == null
-                    ? style.optionIcon
-                    : style.optionIconSelected
-                }
-                size={18}
-                name="arrows-alt"
-              />
-              <Text
-                style={
-                  state.area == null
-                    ? style.optionText
-                    : style.optionTextSelected
-                }>
-                呎寸
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(state.area != null ? style.optionTextSelected : undefined),
+              }}>
+              呎寸&nbsp;&nbsp;:&nbsp;&nbsp;{state.area || '任何'}
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={
@@ -795,25 +740,15 @@ const Screen = props => {
                 : style.optionContentSelected
             }
             onPress={() => chooseFacilities()}>
-            <View style={styles.row}>
-              <Icon
-                style={
-                  state.facilities == null
-                    ? style.optionIcon
-                    : style.optionIconSelected
-                }
-                size={18}
-                name="briefcase"
-              />
-              <Text
-                style={
-                  state.facilities == null
-                    ? style.optionText
-                    : style.optionTextSelected
-                }>
-                設施
-              </Text>
-            </View>
+            <Text
+              style={{
+                ...style.optionText,
+                ...(state.facilities != null
+                  ? style.optionTextSelected
+                  : undefined),
+              }}>
+              設施&nbsp;&nbsp;:&nbsp;&nbsp;{state.facilities || '任何'}
+            </Text>
           </TouchableHighlight>
         </View>
         {/* <Tags initialTags={tags} deleteTagOnPress={true} readonly={true} onTagPress={(e) => {let x = _.cloneDeep(tags);x.splice(e, 1);setTags(x);}}/> */}
@@ -835,21 +770,15 @@ const Screen = props => {
           style={{
             ...styles.row,
             justifyContent: 'center',
-            marginTop: 10,
+            marginVertical: 15,
             width: '100%',
           }}>
           <TouchableHighlight
-            style={{
-              ...style.optionContent,
-              backgroundColor: Colors.navButton,
-              color: Colors.main,
-              borderColor: Colors.navButton,
-              width: '50%',
-            }}
+            style={style.optionTouchableSearch}
             onPress={() => search()}>
-            <View style={{...styles.row, justifyContent: 'center'}}>
+            <View style={{alignItems: 'center'}}>
               {/* <Icon style={style.optionIcon} size={20} name="search" /> */}
-              <Text style={{...style.optionText}}>搜尋</Text>
+              <Text style={style.optionTextSearch}>搜&nbsp;&nbsp;&nbsp;尋</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -1123,7 +1052,7 @@ const style = StyleSheet.create({
     paddingTop: 10,
     padding: 10,
     // height: '100%',
-    backgroundColor: Colors.main,
+    backgroundColor: Colors.optionList,
   },
   navIcon: {
     marginTop: 3,
@@ -1163,18 +1092,27 @@ const style = StyleSheet.create({
     color: Colors.main,
   },
   optionText: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 48,
     marginLeft: 10,
     marginRight: 8,
     color: Colors.bg,
   },
   optionTextSelected: {
-    fontSize: 20,
-    lineHeight: 48,
-    marginLeft: 10,
-    marginRight: 8,
     color: Colors.main,
+  },
+  optionTouchableSearch: {
+    color: Colors.main,
+    backgroundColor: Colors.button,
+    borderRadius: 10,
+    borderColor: Colors.navButton,
+    width: '50%',
+    height: 36,
+    justifyContent: 'center',
+  },
+  optionTextSearch: {
+    fontSize: 14,
+    color: Colors.bg,
   },
   line: {flex: 1, flexShrink: 0, flexGrow: 1},
   roomText: {
@@ -1207,28 +1145,15 @@ const style = StyleSheet.create({
     margin: 1,
   },
   optionContent: {
-    borderWidth: 2,
-    borderColor: Colors.menuSelected,
-    borderRadius: 8,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 12,
     padding: 8,
     paddingTop: 0,
-    width: '30%',
     height: 44,
   },
   optionContentSelected: {
-    borderWidth: 2,
     backgroundColor: Colors.menuSelected,
-    borderColor: Colors.menuSelected,
     borderRadius: 8,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 12,
     padding: 8,
     paddingTop: 0,
-    width: '30%',
     height: 44,
   },
   pullDown: {
