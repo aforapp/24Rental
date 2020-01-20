@@ -161,15 +161,24 @@ const Screen = props => {
               </Animated.View>
             )}
           />
-          <Headline style={style.name}>{state.room.name}</Headline>
-          <Text style={style.price}>
-            {'時租$' + state.room.pricePerHour + ' ' + state.room.area + '呎'}
-          </Text>
-          <Text style={style.address}>{state.room.address}</Text>
-          <Text style={style.tel}>{state.room.contactNumber}</Text>
+          <View style={style.header}>
+            <Headline style={style.name}>{state.room.name}</Headline>
+            <Text style={style.address}>{state.room.address}</Text>
+            <Text style={style.price}>
+              {`時租$${state.room.pricePerHour} - ${state.room.area}尺空間`}
+            </Text>
+          </View>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <Button
+              mode="contained"
+              style={style.buttonTimetable}
+              onPress={this.bookRoom}>
+              查看時間表
+            </Button>
+          </View>
           <View style={style.map}>
             <MapView
-              style={{width: '80%', height: 200}}
+              style={{width: '85%', height: 200}}
               initialRegion={state.region}
               region={state.region}>
               <Marker
@@ -182,54 +191,65 @@ const Screen = props => {
           {
             // <Text>{"開放時間：" + state.openDays}</Text>
           }
-          <Text style={style.description}>
-            {(state.room.description || 'N/A').replace(/\\n/g, '\n')}
-          </Text>
-          <Button
-            mode="contained"
-            style={style.bookroom}
-            onPress={this.bookRoom}>
-            查看時間表
-          </Button>
+          <View style={style.descriptionContainer}>
+            <Text style={style.description}>
+              電話{'\n'}
+              {state.room.contactNumber}
+            </Text>
+          </View>
+          <View style={style.descriptionContainer}>
+            <Text style={style.description}>
+              備註{'\n'}
+              {(state.room.description || 'N/A').replace(/\\n/g, '\n')}
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </View>
   );
 };
 
+const containerBackgroundColor = '#9BC4D8';
+
 const style = StyleSheet.create({
+  header: {
+    backgroundColor: containerBackgroundColor,
+    paddingTop: 5,
+    paddingBottom: 10,
+    marginBottom: 15,
+  },
   name: {
     fontSize: 28,
-    fontWeight: '900',
     textAlign: 'center',
   },
   address: {
     fontSize: 14,
-    marginLeft: 16,
-    marginTop: 8,
-  },
-  tel: {
-    fontSize: 14,
-    marginLeft: 16,
+    letterSpacing: 2,
+    textAlign: 'center',
+    marginBottom: 3,
   },
   price: {
-    fontSize: 14,
-    fontWeight: '900',
+    fontSize: 10,
     textAlign: 'center',
+  },
+  buttonTimetable: {
+    width: '85%',
   },
   map: {
     alignItems: 'center',
-    padding: 8,
+    marginVertical: 17,
+  },
+  descriptionContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 4,
   },
   description: {
-    backgroundColor: '#BFDFEE',
-    margin: 30,
-    padding: 10,
-  },
-  bookroom: {
-    marginLeft: '25%',
-    marginBottom: 30,
-    width: '50%',
+    fontSize: 11,
+    lineHeight: 15,
+    width: '85%',
+    padding: 8,
+    backgroundColor: containerBackgroundColor,
   },
 });
 
