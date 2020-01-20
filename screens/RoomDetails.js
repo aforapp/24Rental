@@ -1,9 +1,9 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
-import { useStateValue } from '../state';
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
-import { Image } from '../components/UI';
+import React, {useState, useEffect} from 'react';
+import {useStateValue} from '../state';
+import {View, Text, StyleSheet, Animated, Dimensions} from 'react-native';
+import {Image} from '../components/UI';
 import {
   Headline,
   TextInput,
@@ -11,34 +11,32 @@ import {
   Snackbar,
   Card,
   Title,
-  Paragraph
+  Paragraph,
 } from 'react-native-paper';
 import Carousel from 'react-native-snap-carousel';
 
-import MapView, { Marker } from 'react-native-maps';
-import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
+import MapView, {Marker} from 'react-native-maps';
+import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
 
 const Screen = props => {
-
   const [state, setState] = useState({
     room: {
-      photos: []
+      photos: [],
     },
     opacity: new Animated.Value(0),
     region: {
       latitude: 0,
       longitude: 0,
       latitudeDelta: 0.01,
-      longitudeDelta: 0.01
-    }
+      longitudeDelta: 0.01,
+    },
   });
 
   let obj = props.navigation.state.params.room;
   useEffect(() => {
-
     Object.keys(obj).forEach(
-      k => !obj[k] && obj[k] !== undefined && delete obj[k]
+      k => !obj[k] && obj[k] !== undefined && delete obj[k],
     );
     const room = {
       area: '--',
@@ -46,7 +44,7 @@ const Screen = props => {
       address: '--',
       contactNumber: '--',
       createdBy: '--',
-      ...obj
+      ...obj,
     };
 
     // let openDays = '星期日至六，公眾假期休息';
@@ -61,7 +59,7 @@ const Screen = props => {
       thu: '四',
       fri: '五',
       sat: '六',
-      holiday: '公眾假期'
+      holiday: '公眾假期',
     };
 
     let open = [];
@@ -112,14 +110,14 @@ const Screen = props => {
         longitude: 0,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
-        ...props.navigation.state.params.room.location
-      }
+        ...props.navigation.state.params.room.location,
+      },
     });
   }, []);
 
   bookRoom = () => {
     // console.warn(state.room);
-    NavigationService.navigate('RoomTimeSlots', { room: state.room });
+    NavigationService.navigate('RoomTimeSlots', {room: state.room});
   };
 
   const sliderWidth = Dimensions.get('window').width;
@@ -127,30 +125,27 @@ const Screen = props => {
   return (
     <View styles={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-
-        <View styles={{ height: '100%' }}>
+        <View styles={{height: '100%'}}>
           <Carousel
             autoplay={true}
             loop={true}
             data={props.navigation.state.params.room.photos}
             sliderWidth={sliderWidth}
             itemWidth={sliderWidth}
-            renderItem={({ item, index }) => (
-
+            renderItem={({item, index}) => (
               <Animated.View
                 style={{
                   width: '100%',
                   height: 200,
-                  opacity: state.opacity
-                }}
-              >
+                  opacity: state.opacity,
+                }}>
                 <Image
                   source={{
-                    url: item
+                    url: item,
                   }}
                   style={{
                     width: '100%',
-                    height: 300
+                    height: 300,
                   }}
                   onLoadStart={e => {
                     state.opacity.setValue(0);
@@ -159,30 +154,24 @@ const Screen = props => {
                     Animated.timing(state.opacity, {
                       toValue: 1,
                       duration: 500,
-                      useNativeDriver: true
+                      useNativeDriver: true,
                     }).start();
                   }}
                 />
-              </Animated.View>)
-
-            }
+              </Animated.View>
+            )}
           />
           <Headline style={style.name}>{state.room.name}</Headline>
           <Text style={style.price}>
-            {'時租$' +
-              state.room.pricePerHour +
-              ' ' +
-              state.room.area +
-              '呎'}
+            {'時租$' + state.room.pricePerHour + ' ' + state.room.area + '呎'}
           </Text>
           <Text style={style.address}>{state.room.address}</Text>
           <Text style={style.tel}>{state.room.contactNumber}</Text>
           <View style={style.map}>
             <MapView
-              style={{ width: '80%', height: 200 }}
+              style={{width: '80%', height: 200}}
               initialRegion={state.region}
-              region={state.region}
-            >
+              region={state.region}>
               <Marker
                 title={state.room.name}
                 description=""
@@ -199,51 +188,49 @@ const Screen = props => {
           <Button
             mode="contained"
             style={style.bookroom}
-            onPress={this.bookRoom}
-          >
+            onPress={this.bookRoom}>
             查看時間表
-            </Button>
+          </Button>
         </View>
       </ScrollView>
     </View>
   );
-}
+};
 
 const style = StyleSheet.create({
-
   name: {
     fontSize: 28,
     fontWeight: '900',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   address: {
     fontSize: 14,
     marginLeft: 16,
-    marginTop: 8
+    marginTop: 8,
   },
   tel: {
     fontSize: 14,
-    marginLeft: 16
+    marginLeft: 16,
   },
   price: {
     fontSize: 14,
     fontWeight: '900',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   map: {
     alignItems: 'center',
-    padding: 8
+    padding: 8,
   },
   description: {
     backgroundColor: '#BFDFEE',
     margin: 30,
-    padding: 10
+    padding: 10,
   },
   bookroom: {
     marginLeft: '25%',
     marginBottom: 30,
-    width: '50%'
-  }
+    width: '50%',
+  },
 });
 
 export default Screen;
