@@ -1,9 +1,12 @@
 name: CI
 
-on: [push]
+on:
+  repository_dispatch:
+    types: platform
 
 jobs:
   build-android:
+    if: github.event.client_payload.platform == 'android'
     name: Build and upload Android debug apk file
     runs-on: ubuntu-latest
 
