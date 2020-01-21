@@ -2,7 +2,7 @@ name: CI
 
 on:
   repository_dispatch:
-    types: platform
+    types: deployment
 
 jobs:
   build-android:
