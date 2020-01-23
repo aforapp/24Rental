@@ -1,7 +1,7 @@
 import NavigationService from '../NavigationService';
 
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import {
   Headline,
   TextInput,
@@ -14,8 +14,8 @@ import {
   List,
   Checkbox,
 } from 'react-native-paper';
-import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Colors} from './Styles';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Colors } from './Styles';
 import styles from './Styles';
 
 const Screen = props => {
@@ -49,7 +49,7 @@ const Screen = props => {
           登入
         </Button>
         <Button
-          style={{...style.button, backgroundColor: Colors.navButton}}
+          style={{ ...style.button, backgroundColor: Colors.navButton }}
           mode="contained"
           onPress={() => NavigationService.navigate('Register')}>
           註冊

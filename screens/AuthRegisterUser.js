@@ -1,13 +1,19 @@
 import NavigationService from '../NavigationService';
 
-import React, {useState, useEffect} from 'react';
-import {Alert, Platform, StyleSheet, Text, View, Divider} from 'react-native';
-import {Title, Headline, TextInput, Button, Snackbar} from 'react-native-paper';
-import {validateEmail, message, alert} from '../utils';
+import React, { useState, useEffect } from 'react';
+import { Alert, Platform, StyleSheet, Text, View, Divider } from 'react-native';
+import {
+  Title,
+  Headline,
+  TextInput,
+  Button,
+  Snackbar,
+} from 'react-native-paper';
+import { validateEmail, message, alert } from '../utils';
 import TextInputField from '../components/TextInputField';
-import {Input} from '../components/UI';
-import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {emailErrorType, repeatPasswordErrorType} from '../constants';
+import { Input } from '../components/UI';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { emailErrorType, repeatPasswordErrorType } from '../constants';
 import firebase from 'react-native-firebase';
 import styles from './Styles';
 
@@ -27,7 +33,7 @@ const Screen = props => {
   const onChangeText = (name, value) => {
     let ok = true;
     if (ok) {
-      setState({...state, [name]: value});
+      setState({ ...state, [name]: value });
     }
   };
 
@@ -52,7 +58,7 @@ const Screen = props => {
     setState({
       ...state,
       [n]: v,
-      revealErrors: {...state.revealErrors, [n]: false},
+      revealErrors: { ...state.revealErrors, [n]: false },
     });
   };
   const validate = () => {
@@ -73,7 +79,7 @@ const Screen = props => {
       helperText.repeatPassword = '與密碼不符';
     }
 
-    setState({...state, helperText});
+    setState({ ...state, helperText });
     return Object.getOwnPropertyNames(helperText).length === 0;
   };
 
@@ -128,9 +134,9 @@ const Screen = props => {
   };
 
   return (
-    <ScrollView style={{...styles.scrollViewContent, height: '100%'}}>
+    <ScrollView style={{ ...styles.scrollViewContent, height: '100%' }}>
       <Title style={styles.title}>{TITLE}</Title>
-      <View style={{...style.itemContainer}}>
+      <View style={{ ...style.itemContainer }}>
         <Input name="name" binding={binding} />
         <Input name="tel" binding={binding} />
         <Input name="email" binding={binding} />
@@ -144,7 +150,7 @@ const Screen = props => {
           justifyContent: 'center',
           marginTop: 'auto',
         }}>
-        <Button mode="contained" onPress={register} style={{width: '40%'}}>
+        <Button mode="contained" onPress={register} style={{ width: '40%' }}>
           {state.registering ? '註冊中' : BUTTON_LABEL}
         </Button>
       </View>

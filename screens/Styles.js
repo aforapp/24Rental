@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 // 預設顏色：R=37  G=96  B=164
 // 背景：R=255  G=255  B=255

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components/native';
-import {Colors} from '../screens/Styles';
+import { Colors } from '../screens/Styles';
 
 import {
   StyleSheet,
@@ -13,7 +13,7 @@ import {
   ImageBackground as RNImageBackground,
   useEffect,
 } from 'react-native';
-import {TextInput, HelperText} from 'react-native-paper';
+import { TextInput, HelperText } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -92,7 +92,7 @@ export class MiniButton extends React.Component {
           borderColor: '#1A3F5D',
           borderRadius: 0,
         }}
-        buttonStyle={{width: '100%', height: '100%', borderRadius: 0}}
+        buttonStyle={{ width: '100%', height: '100%', borderRadius: 0 }}
         {...this.props}
       />
     );
@@ -102,7 +102,7 @@ export class MiniButton extends React.Component {
 export class Button extends React.Component {
   render() {
     return (
-      <View style={{...styles.inputsContainer, ...this.props.style}}>
+      <View style={{ ...styles.inputsContainer, ...this.props.style }}>
         <TouchableHighlight
           underlayColor={this.props.color}
           style={{
@@ -145,7 +145,7 @@ export const HeaderButton = props => {
       color={props.color || Colors.headerButton}
       fontSize={20}
       buttonStyle={props.buttonStyle}
-      textStyle={{...(props.textStyle || {})}}
+      textStyle={{ ...(props.textStyle || {}) }}
     />
   );
 };
@@ -171,7 +171,7 @@ export const HeaderSortButton = props => {
       </Text>
       <Button
         {...props}
-        style={{flexGrow: 0.5}}
+        style={{ flexGrow: 0.5 }}
         color={props.color || Colors.navButton}
         fontSize={15}
         buttonStyle={props.buttonStyle}
@@ -182,10 +182,10 @@ export const HeaderSortButton = props => {
 };
 
 export class ToggleButton extends React.Component {
-  state = {on: false};
+  state = { on: false };
 
   UNSAFE_componentWillMount() {
-    this.setState({on: this.props.on});
+    this.setState({ on: this.props.on });
   }
 
   render() {
@@ -196,7 +196,7 @@ export class ToggleButton extends React.Component {
         onPress={() => {
           let on = !this.state.on;
           this.props.onValueUpdate(on, this.props.index);
-          this.setState({on});
+          this.setState({ on });
         }}
         {...this.props}
         buttonStyle={{
@@ -225,8 +225,8 @@ export class SlotButton extends React.Component {
     return (
       <ToggleButton
         {...this.props}
-        style={{borderWidth: 1, borderRadius: 10, margin: 4}}
-        buttonStyle={{borderRadius: 10}}
+        style={{ borderWidth: 1, borderRadius: 10, margin: 4 }}
+        buttonStyle={{ borderRadius: 10 }}
       />
     );
   }
@@ -236,19 +236,19 @@ let RNFS = require('react-native-fs');
 import shorthash from 'shorthash';
 
 export class Image extends React.Component {
-  state = {source: require('../room.png')};
+  state = { source: require('../room.png') };
   loadFile = path => {
-    this.setState({source: {uri: path}});
+    this.setState({ source: { uri: path } });
   };
   downloadFile = (uri, path) => {
     // consol.warn('cached', path)
     if (uri.substr(0, 4) == 'http') {
-      RNFS.downloadFile({fromUrl: uri, toFile: path}).promise.then(res => {
+      RNFS.downloadFile({ fromUrl: uri, toFile: path }).promise.then(res => {
         this.loadFile(path);
         // consol.warn('cached', path)
       });
     } else {
-      this.setState({source: {uri}});
+      this.setState({ source: { uri } });
     }
   };
 
@@ -257,7 +257,7 @@ export class Image extends React.Component {
     // console.warn('mount', this.props)
     if (this.props.direct == true && this.props.source.uri != null) {
       // console.warn(this.props.source)
-      this.setState({source: this.props.source});
+      this.setState({ source: this.props.source });
     } else {
       let uri = this.props.source.url;
       uri = uri || '';
@@ -285,19 +285,19 @@ export class Image extends React.Component {
 }
 
 export class ImageBackground extends React.Component {
-  state = {source: require('../room.png')};
+  state = { source: require('../room.png') };
   loadFile = path => {
-    this.setState({source: {uri: path}});
+    this.setState({ source: { uri: path } });
   };
   downloadFile = (uri, path) => {
     // consol.warn('cached', path)
     if (uri.substr(0, 4) == 'http') {
-      RNFS.downloadFile({fromUrl: uri, toFile: path}).promise.then(res => {
+      RNFS.downloadFile({ fromUrl: uri, toFile: path }).promise.then(res => {
         this.loadFile(path);
         // consol.warn('cached', path)
       });
     } else {
-      this.setState({source: {uri}});
+      this.setState({ source: { uri } });
     }
   };
 
@@ -306,7 +306,7 @@ export class ImageBackground extends React.Component {
     // console.warn('mount', this.props)
     if (this.props.direct == true && this.props.source.uri != null) {
       // console.warn(this.props.source)
-      this.setState({source: this.props.source});
+      this.setState({ source: this.props.source });
     } else {
       let uri = this.props.source.url;
       uri = uri || '';
@@ -348,7 +348,7 @@ export const OptionSelect = props => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{fontSize: 16, color: '#6A6A6A'}}>{props.children}</Text>
+        <Text style={{ fontSize: 16, color: '#6A6A6A' }}>{props.children}</Text>
         <Icon name="angle-right" size={24} color="#C8C7CC" />
       </View>
     </TouchableHighlight>

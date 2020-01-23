@@ -1,9 +1,9 @@
 import NavigationService from '../NavigationService';
 
 import _ from 'lodash';
-import React, {useState, useEffect} from 'react';
-import {useStateValue} from '../state';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import React, { useState, useEffect } from 'react';
+import { useStateValue } from '../state';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 // import Tags from "react-native-tags";
 import {
   Platform,
@@ -20,14 +20,14 @@ import {
   HeaderSortButton,
   ImageBackground,
 } from '../components/UI';
-import {SafeAreaView} from 'react-navigation';
+import { SafeAreaView } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import { TimeSlotSelector } from '../components/TimeSlotSelector';
-import {SlotButton, Button as UIButton} from '../components/UI';
-import {slotToText, slotsToText} from '../utils.js';
-import {Dimensions} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import { SlotButton, Button as UIButton } from '../components/UI';
+import { slotToText, slotsToText } from '../utils.js';
+import { Dimensions } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 import {
   Button,
@@ -45,13 +45,13 @@ import Accordion from 'react-native-collapsible/Accordion';
 
 import firebase from 'react-native-firebase';
 import styles from './Styles';
-import {Colors} from './Styles';
+import { Colors } from './Styles';
 
 const ANY = '任何';
 
 const Screen = props => {
   let [search, setSearch] = useState('');
-  const [{auth}, dispatch] = useStateValue();
+  const [{ auth }, dispatch] = useStateValue();
   // const [tags, setTags] = useState(['a', 'b', 'c']);
   const [state, setState] = useState({
     activeSections: [],
@@ -149,7 +149,7 @@ const Screen = props => {
 
   chooseType = () => {
     const returnData = data => {
-      setState({...state, type: data.data[0] == ANY ? null : data.data[0]});
+      setState({ ...state, type: data.data[0] == ANY ? null : data.data[0] });
     };
     showOptions(
       {
@@ -164,7 +164,10 @@ const Screen = props => {
 
   chooseDistrict = () => {
     const returnData = data => {
-      setState({...state, district: data.data[0] == ANY ? null : data.data[0]});
+      setState({
+        ...state,
+        district: data.data[0] == ANY ? null : data.data[0],
+      });
     };
     showOptions(
       {
@@ -172,19 +175,19 @@ const Screen = props => {
         multiSelect: false,
         selected: state.district || ANY,
         items: [
-          {title: ANY},
+          { title: ANY },
           ANY,
-          {title: '香港島'},
+          { title: '香港島' },
           '中西區',
           '灣仔區',
           '東區',
           '南區',
-          {title: '九龍'},
+          { title: '九龍' },
           '油尖旺區',
           '深水埗區',
           '九龍城區',
           '觀塘區',
-          {title: '新界'},
+          { title: '新界' },
           '葵青區',
           '荃灣區',
           '屯門區',
@@ -202,7 +205,7 @@ const Screen = props => {
 
   choosePrice = () => {
     const returnData = data => {
-      setState({...state, price: data.data[0] == ANY ? null : data.data[0]});
+      setState({ ...state, price: data.data[0] == ANY ? null : data.data[0] });
     };
     showOptions(
       {
@@ -224,7 +227,7 @@ const Screen = props => {
 
   chooseArea = () => {
     const returnData = data => {
-      setState({...state, area: data.data[0] == ANY ? null : data.data[0]});
+      setState({ ...state, area: data.data[0] == ANY ? null : data.data[0] });
     };
     showOptions(
       {
@@ -250,7 +253,7 @@ const Screen = props => {
       if (crit.length == 0 || crit[0] == ANY) {
         crit = null;
       }
-      setState({...state, facilities: crit});
+      setState({ ...state, facilities: crit });
     };
     showOptions(
       {
@@ -416,7 +419,7 @@ const Screen = props => {
           rooms = roomData;
         }
         // console.warn(rooms)
-        setState({...state, rooms, activeSections2: []});
+        setState({ ...state, rooms, activeSections2: [] });
       }
     };
 
@@ -432,7 +435,7 @@ const Screen = props => {
      * TODO: add reference in "roomslots" collection to improve performance
      */
 
-    setState({...state, activeSections2: []});
+    setState({ ...state, activeSections2: [] });
 
     slotAry.map(d => {
       //selected dates
@@ -588,7 +591,7 @@ const Screen = props => {
   //   setState({ ...state, expanded: !state.expanded });
 
   selectSorting = sortCrit => {
-    setState({...state, sortCrit});
+    setState({ ...state, sortCrit });
   };
 
   // returnData = (data) => {
@@ -603,11 +606,11 @@ const Screen = props => {
   };
 
   chooseRoom = room => {
-    NavigationService.navigate('RoomDetails', {room});
+    NavigationService.navigate('RoomDetails', { room });
   };
 
   setPeriod = period => {
-    setState({...state, modalVisible: false});
+    setState({ ...state, modalVisible: false });
   };
 
   onSelectDate = date => {
@@ -622,21 +625,21 @@ const Screen = props => {
     }
 
     markedDatesAry.map(x => {
-      markedDates[x] = {marked: true};
+      markedDates[x] = { marked: true };
     });
 
-    setState({...state, markedDates, markedDatesAry});
+    setState({ ...state, markedDates, markedDatesAry });
   };
 
   updateSlot = ind => {
     let v = state.searchPeriod.slots[ind];
     let searchPeriod = state.searchPeriod;
     searchPeriod.slots[ind] = v == 0 ? 1 : 0;
-    setState({...state, searchPeriod});
+    setState({ ...state, searchPeriod });
   };
 
   _renderSectionTitle = section => {
-    return <View style={{height: 0}}></View>;
+    return <View style={{ height: 0 }}></View>;
   };
 
   hasTimeSearch = () => {
@@ -694,7 +697,7 @@ const Screen = props => {
                 ? style.optionContent
                 : style.optionContentSelected
             }
-            onPress={() => setState({...state, modalVisible: true})}>
+            onPress={() => setState({ ...state, modalVisible: true })}>
             <Text
               style={{
                 ...style.optionText,
@@ -776,7 +779,7 @@ const Screen = props => {
           <TouchableHighlight
             style={style.optionTouchableSearch}
             onPress={() => search()}>
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               {/* <Icon style={style.optionIcon} size={20} name="search" /> */}
               <Text style={style.optionTextSearch}>搜&nbsp;&nbsp;&nbsp;尋</Text>
             </View>
@@ -800,14 +803,14 @@ const Screen = props => {
     );
   };
   _updateSections = activeSections => {
-    setState({...state, activeSections});
+    setState({ ...state, activeSections });
   };
   _updateSections2 = activeSections2 => {
-    setState({...state, activeSections2});
+    setState({ ...state, activeSections2 });
   };
 
   return (
-    <View style={{...styles.container}}>
+    <View style={{ ...styles.container }}>
       <Modal
         comment="dialog for date search"
         animationType="fade"
@@ -854,7 +857,7 @@ const Screen = props => {
                   paddingBottom: 40,
                 }}>
                 {state.searchPeriod.slots.map((x, ind) => (
-                  <View key={'slot' + ind} style={{width: '25%', height: 40}}>
+                  <View key={'slot' + ind} style={{ width: '25%', height: 40 }}>
                     <SlotButton
                       title={slotToText(ind)}
                       on={state.searchPeriod.slots[ind] == 1 ? true : false}
@@ -867,7 +870,7 @@ const Screen = props => {
             </ScrollView>
             <Button
               mode="contained"
-              onPress={() => setState({...state, modalVisible: false})}>
+              onPress={() => setState({ ...state, modalVisible: false })}>
               確定
             </Button>
           </View>
@@ -883,22 +886,22 @@ const Screen = props => {
         <Accordion
           // collapsed={false}
           underlayColor={Colors.main}
-          sections={[{title: 'haha'}]}
+          sections={[{ title: 'haha' }]}
           activeSections={state.activeSections2}
           renderSectionTitle={section => {
-            return <View style={{height: 0}}></View>;
+            return <View style={{ height: 0 }}></View>;
           }}
           renderHeader={section => {
-            return <View style={{height: 0}}></View>;
+            return <View style={{ height: 0 }}></View>;
           }}
           renderContent={this._renderContent}
           onChange={activeSections2 => {
-            setState({...state, activeSections2: [0]});
+            setState({ ...state, activeSections2: [0] });
           }}
         />
-        <View style={{backgroundColor: 'black'}}>
-          <View style={{...styles.row}}>
-            <View style={{...styles.row}}>
+        <View style={{ backgroundColor: 'black' }}>
+          <View style={{ ...styles.row }}>
+            <View style={{ ...styles.row }}>
               <Icon
                 style={style.navIcon}
                 size={60}
@@ -918,25 +921,25 @@ const Screen = props => {
                 onPress={() => selectSorting('人氣')}
                 active={state.sortCrit == '人氣'}
                 color={Colors.navButton}
-                buttonStyle={{width: 'auto'}}
+                buttonStyle={{ width: 'auto' }}
               />
               <HeaderSortButton
                 title="價錢"
                 onPress={() => selectSorting('價錢')}
                 active={state.sortCrit == '價錢'}
                 color={Colors.navButton}
-                buttonStyle={{width: 'auto'}}
+                buttonStyle={{ width: 'auto' }}
               />
               <HeaderSortButton
                 title="評分"
                 onPress={() => selectSorting('評分')}
                 active={state.sortCrit == '評分'}
                 color={Colors.navButton}
-                buttonStyle={{width: 'auto'}}
+                buttonStyle={{ width: 'auto' }}
               />
             </View>
           </View>
-          <View style={{...styles.row, marginTop: 5}}>
+          <View style={{ ...styles.row, marginTop: 5 }}>
             <HeaderButton
               title={'你好，' + (auth.id == null ? '訪客' : auth.name)}
               onPress={() => {}}
@@ -947,14 +950,14 @@ const Screen = props => {
                 marginLeft: 50,
                 justifyContent: 'flex-start',
               }}
-              textStyle={{alignSelf: 'flex-end'}}
+              textStyle={{ alignSelf: 'flex-end' }}
             />
           </View>
           <Text style={style.navBarTitle}>搜尋最適合你的練習和表演空間</Text>
         </View>
       </View>
-      <View style={{marginTop: 0, marginBottom: 30}}>
-        <View styles={{height: '100%'}}>
+      <View style={{ marginTop: 0, marginBottom: 30 }}>
+        <View styles={{ height: '100%' }}>
           {(state.rooms || []).length == 0 ? (
             <View style={styles.centerScreen}>
               <Text>沒有搜尋條件內的房間</Text>
@@ -965,17 +968,17 @@ const Screen = props => {
             initialNumToRender={0}
             data={state.rooms}
             keyExtractor={(item, index) => item.id}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <View>
                 <ImageBackground
-                  source={{url: item.photos[0]}}
-                  style={{width: '100%', height: 244}}
+                  source={{ url: item.photos[0] }}
+                  style={{ width: '100%', height: 244 }}
                   onPress={chooseRoom.bind(this, item)}>
                   <View style={style.roomText}>
-                    <Text style={{fontSize: 18, paddingBottom: 4}}>
+                    <Text style={{ fontSize: 18, paddingBottom: 4 }}>
                       {item.name}
                     </Text>
-                    <Text style={{fontSize: 10, paddingBottom: 2}}>
+                    <Text style={{ fontSize: 10, paddingBottom: 2 }}>
                       {'時租$' + item.pricePerHour}
                     </Text>
                     <Text
@@ -1047,7 +1050,7 @@ const Screen = props => {
 };
 
 const style = StyleSheet.create({
-  container: {flex: 1, flexDirection: 'column'},
+  container: { flex: 1, flexDirection: 'column' },
   menu: {
     paddingTop: 10,
     padding: 10,
@@ -1114,7 +1117,7 @@ const style = StyleSheet.create({
     fontSize: 14,
     color: Colors.bg,
   },
-  line: {flex: 1, flexShrink: 0, flexGrow: 1},
+  line: { flex: 1, flexShrink: 0, flexGrow: 1 },
   roomText: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     position: 'relative',
@@ -1160,7 +1163,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.main,
     width: '100%',
     shadowColor: 'black',
-    shadowOffset: {width: 5, height: 5},
+    shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.3,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,

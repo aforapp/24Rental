@@ -1,9 +1,9 @@
 import NavigationService from '../NavigationService';
 
-import React, {useState, useEffect} from 'react';
-import {useStateValue} from '../state';
-import {View, Text, StyleSheet, Animated, Dimensions} from 'react-native';
-import {Image} from '../components/UI';
+import React, { useState, useEffect } from 'react';
+import { useStateValue } from '../state';
+import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { Image } from '../components/UI';
 import {
   Headline,
   TextInput,
@@ -15,8 +15,8 @@ import {
 } from 'react-native-paper';
 import Carousel from 'react-native-snap-carousel';
 
-import MapView, {Marker} from 'react-native-maps';
-import {KeyboardAwareScrollView as ScrollView} from 'react-native-keyboard-aware-scroll-view';
+import MapView, { Marker } from 'react-native-maps';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
 
 const Screen = props => {
@@ -117,7 +117,7 @@ const Screen = props => {
 
   bookRoom = () => {
     // console.warn(state.room);
-    NavigationService.navigate('RoomTimeSlots', {room: state.room});
+    NavigationService.navigate('RoomTimeSlots', { room: state.room });
   };
 
   const sliderWidth = Dimensions.get('window').width;
@@ -125,14 +125,14 @@ const Screen = props => {
   return (
     <View styles={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View styles={{height: '100%'}}>
+        <View styles={{ height: '100%' }}>
           <Carousel
             autoplay={true}
             loop={true}
             data={props.navigation.state.params.room.photos}
             sliderWidth={sliderWidth}
             itemWidth={sliderWidth}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <Animated.View
                 style={{
                   width: '100%',
@@ -168,7 +168,7 @@ const Screen = props => {
               {`時租$${state.room.pricePerHour} - ${state.room.area}尺空間`}
             </Text>
           </View>
-          <View style={{flex: 1, alignItems: 'center'}}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
             <Button
               mode="contained"
               style={style.buttonTimetable}
@@ -178,7 +178,7 @@ const Screen = props => {
           </View>
           <View style={style.map}>
             <MapView
-              style={{width: '85%', height: 200}}
+              style={{ width: '85%', height: 200 }}
               initialRegion={state.region}
               region={state.region}>
               <Marker

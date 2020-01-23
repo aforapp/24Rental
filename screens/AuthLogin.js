@@ -1,7 +1,7 @@
 import NavigationService from '../NavigationService';
 
-import React, {useState, useEffect} from 'react';
-import {useStateValue} from '../state';
+import React, { useState, useEffect } from 'react';
+import { useStateValue } from '../state';
 import {
   login as fbLogin,
   validateEmail,
@@ -10,9 +10,9 @@ import {
   message,
   alert,
 } from '../utils';
-import {Input} from '../components/UI';
+import { Input } from '../components/UI';
 
-import {Alert, Platform, StyleSheet, Text, View, Divider} from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View, Divider } from 'react-native';
 import firebase from 'react-native-firebase';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -25,7 +25,7 @@ import {
   Title,
 } from 'react-native-paper';
 
-import {Colors} from './Styles';
+import { Colors } from './Styles';
 import styles from './Styles';
 
 const Screen = props => {
@@ -42,7 +42,7 @@ const Screen = props => {
       .getToken()
       .then(token => {
         if (token) {
-          setState({...state, token});
+          setState({ ...state, token });
         }
       });
   }, []);
@@ -79,9 +79,9 @@ const Screen = props => {
         querySnapshot.docChanges.forEach(change => {
           let x = change.doc.data();
           if (change.type === 'added') {
-            data.push({id: change.doc.id, ...x});
+            data.push({ id: change.doc.id, ...x });
           } else if (change.type === 'modified') {
-            modified.push({id: change.doc.id, ...x});
+            modified.push({ id: change.doc.id, ...x });
           }
         });
         dispatch({
@@ -90,10 +90,10 @@ const Screen = props => {
           modified,
         });
       });
-      dispatch({type: 'chatroomsSubscription', data: {unsubscribe}});
+      dispatch({ type: 'chatroomsSubscription', data: { unsubscribe } });
       let ret = ref
         .get()
-        .then(sp => sp.docs.map(doc => ({id: doc.id, ...doc.data()})))
+        .then(sp => sp.docs.map(doc => ({ id: doc.id, ...doc.data() })))
         .then(data => {});
     });
   }
@@ -106,7 +106,7 @@ const Screen = props => {
       }
     }
     if (ok) {
-      setState({...state, [name]: value});
+      setState({ ...state, [name]: value });
     }
   }
 
@@ -136,14 +136,14 @@ const Screen = props => {
     setState({
       ...state,
       email: v,
-      revealErrors: {...state.revealErrors, email: false},
+      revealErrors: { ...state.revealErrors, email: false },
     });
   };
   const onPasswordChange = (n, v) => {
     setState({
       ...state,
       password: v,
-      revealErrors: {...state.revealErrors, password: false},
+      revealErrors: { ...state.revealErrors, password: false },
     });
   };
 
@@ -182,7 +182,7 @@ const Screen = props => {
     });
     fbLogin(state.email, state.password)
       .then(doc => {
-        setState({...state, loggingIn: false});
+        setState({ ...state, loggingIn: false });
         if (doc != null && doc.exists) {
           const me = doc.data();
           dispatch({
@@ -244,7 +244,7 @@ const Screen = props => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={['#ffffff', '#ffffff', '#ffffff']}>
-        <View style={{height: '100%', justifyContent: 'space-between'}}>
+        <View style={{ height: '100%', justifyContent: 'space-between' }}>
           <Title style={style.title}>登入</Title>
           <View>
             <Input style={style.inputField} name="email" binding={binding} />
@@ -265,12 +265,12 @@ const Screen = props => {
               {state.loggingIn ? '登入中' : '登入'}
             </Button>
             <Button
-              style={{...style.button, backgroundColor: Colors.navButton}}
+              style={{ ...style.button, backgroundColor: Colors.navButton }}
               mode="contained"
               onPress={toRegisterPage}>
               註冊
             </Button>
-            <View style={{marginTop: 40}}>
+            <View style={{ marginTop: 40 }}>
               <Button mode="" onPress={hostlogin}>
                 {state.loggingIn ? '' : 'host01登入(for testing)'}
               </Button>

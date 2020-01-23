@@ -1,10 +1,10 @@
 import NavigationService from '../NavigationService';
 
-import React, {Component} from 'react';
-import {Headline} from 'react-native-paper';
+import React, { Component } from 'react';
+import { Headline } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import IconWithBadge from '../components/IconWithBadge';
 import IconWithBadgeMsg from '../components/IconWithBadgeMsg';
@@ -16,8 +16,8 @@ import {
   createDrawerNavigator,
 } from 'react-navigation';
 
-import {createStackNavigator} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import Dummy from './dummy';
@@ -27,12 +27,12 @@ import Register from './AuthRegister';
 import RegisterUser from './AuthRegisterUser';
 import RegisterHost from './AuthRegisterHost';
 
-import {Colors} from './Styles';
+import { Colors } from './Styles';
 
 const defaultNavigationOptions = {
   headerBackTitle: ' ',
   headerBackImage: (
-    <MIcon size={20} name={'arrow-back'} style={{color: 'black'}} />
+    <MIcon size={20} name={'arrow-back'} style={{ color: 'black' }} />
   ),
 };
 
@@ -298,7 +298,7 @@ const tabOptions = {
       // bottom: "never"
     },
   },
-  barStyle: {backgroundColor: Colors.navButton},
+  barStyle: { backgroundColor: Colors.navButton },
 };
 
 import Loading from './Loading';
@@ -395,7 +395,7 @@ function getConfig(screen, label, icon, isCart, isMsg) {
         backgroundColor: 'red', // this will handle the cutOff at the top the
       },
       tabBarLabel: label,
-      tabBarIcon: ({tintColor, focused}) =>
+      tabBarIcon: ({ tintColor, focused }) =>
         isCart ? (
           <IconWithBadge
             size={28}
@@ -409,7 +409,7 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 : 'md-' + icon
             }
             color={tintColor}
-            style={{color: tintColor}}
+            style={{ color: tintColor }}
           />
         ) : isMsg ? (
           <IconWithBadgeMsg
@@ -424,7 +424,7 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 : 'md-' + icon
             }
             color={tintColor}
-            style={{color: tintColor}}
+            style={{ color: tintColor }}
           />
         ) : (
           <Icon
@@ -438,7 +438,7 @@ function getConfig(screen, label, icon, isCart, isMsg) {
                 ? 'md-' + icon
                 : 'md-' + icon
             }
-            style={{color: tintColor}}
+            style={{ color: tintColor }}
           />
         ),
     },
