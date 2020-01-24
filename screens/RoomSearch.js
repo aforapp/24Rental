@@ -817,62 +817,64 @@ const Screen = props => {
         transparent={false}
         visible={state.modalVisible}>
         <SafeAreaView>
-          <View
-            style={{
-              borderWidth: 1,
-              borderRadius: 10,
-              borderColor: 'black',
-              marginTop: 40,
-              marginBottom: 40,
-              marginLeft: 8,
-              marginRight: 8,
-
-              height: '90%',
-              backgroundColor: '#BFDFEE',
-            }}>
+          <View style={{ backgroundColor: '#9BC4D8', height: '103%' }}>
+            <Title style={style.title}>時間</Title>
             <View
               style={{
-                padding: 10,
-                width: '100%',
-                margin: 'auto',
+                borderWidth: 1,
+                borderColor: '#616A6B',
+                marginBottom: 40,
+                marginHorizontal: 30,
+                height: '78%',
+                backgroundColor: 'white',
               }}>
-              <Calendar
-                onDayPress={day => {
-                  this.onSelectDate(day.dateString);
-                }}
-                markedDates={state.markedDates}
-                minDate={state.today}
-                maxDate={state.maxDate}
-                theme={{
-                  todayTextColor: '#2d4150',
-                }}
-              />
-            </View>
-            <ScrollView>
               <View
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  paddingBottom: 40,
+                  paddingBottom: 10,
+                  width: '100%',
+                  margin: 'auto',
                 }}>
-                {state.searchPeriod.slots.map((x, ind) => (
-                  <View key={'slot' + ind} style={{ width: '25%', height: 40 }}>
-                    <SlotButton
-                      title={slotToText(ind)}
-                      on={state.searchPeriod.slots[ind] == 1 ? true : false}
-                      index={ind}
-                      onValueUpdate={this.updateSlot.bind(this, ind)}
-                    />
-                  </View>
-                ))}
+                <Calendar
+                  onDayPress={day => {
+                    this.onSelectDate(day.dateString);
+                  }}
+                  markedDates={state.markedDates}
+                  minDate={state.today}
+                  maxDate={state.maxDate}
+                  theme={{
+                    todayTextColor: '#2d4150',
+                  }}
+                />
               </View>
-            </ScrollView>
-            <Button
-              mode="contained"
-              onPress={() => setState({ ...state, modalVisible: false })}>
-              確定
-            </Button>
+              <ScrollView>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    paddingHorizontal: 25,
+                    paddingBottom: 20,
+                  }}>
+                  {state.searchPeriod.slots.map((x, ind) => (
+                    <View
+                      key={'slot' + ind}
+                      style={{ width: '25%', height: 33 }}>
+                      <SlotButton
+                        title={slotToText(ind)}
+                        on={state.searchPeriod.slots[ind] == 1 ? true : false}
+                        index={ind}
+                        onValueUpdate={this.updateSlot.bind(this, ind)}
+                      />
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+              <Button
+                mode="contained"
+                onPress={() => setState({ ...state, modalVisible: false })}>
+                確定
+              </Button>
+            </View>
           </View>
         </SafeAreaView>
       </Modal>
@@ -1077,6 +1079,12 @@ const style = StyleSheet.create({
     fontSize: 11,
     marginLeft: 30,
     marginBottom: 9,
+  },
+  title: {
+    color: Colors.title,
+    marginLeft: 30,
+    marginTop: 30,
+    marginBottom: 8,
   },
   optionIcon: {
     marginLeft: 0,

@@ -191,8 +191,8 @@ export class ToggleButton extends React.Component {
   render() {
     return (
       <Button
-        color={this.state.on ? '#225599' : 'white'}
-        fontColor={this.state.on ? 'white' : '#225599'}
+        color={this.state.on ? '#225599' : '#9BC4D8'}
+        fontColor="white"
         onPress={() => {
           let on = !this.state.on;
           this.props.onValueUpdate(on, this.props.index);
@@ -213,6 +213,29 @@ export class ToggleButton extends React.Component {
           ...this.props.style,
         }}
       />
+      // <Button
+      //   color={this.state.on ? '#225599' : 'white'}
+      //   fontColor={this.state.on ? 'white' : '#225599'}
+      //   onPress={() => {
+      //     let on = !this.state.on;
+      //     this.props.onValueUpdate(on, this.props.index);
+      //     this.setState({ on });
+      //   }}
+      //   {...this.props}
+      //   buttonStyle={{
+      //     width: '100%',
+      //     height: '100%',
+      //     borderRadius: 0,
+      //     ...this.props.buttonStyle,
+      //   }}
+      //   style={{
+      //     margin: 0,
+      //     borderWidth: 1,
+      //     borderColor: '#1A3F5D',
+      //     borderRadius: 0,
+      //     ...this.props.style,
+      //   }}
+      // />
     );
   }
   static defaultProps = {
@@ -225,9 +248,18 @@ export class SlotButton extends React.Component {
     return (
       <ToggleButton
         {...this.props}
-        style={{ borderWidth: 1, borderRadius: 10, margin: 4 }}
+        style={{
+          borderWidth: 0,
+          borderRadius: 10,
+          margin: 4,
+        }}
         buttonStyle={{ borderRadius: 10 }}
       />
+      // <ToggleButton
+      //   {...this.props}
+      //   style={{ borderWidth: 1, borderRadius: 10, margin: 4 }}
+      //   buttonStyle={{ borderRadius: 10 }}
+      // />
     );
   }
 }
