@@ -379,7 +379,7 @@ const style = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     fontWeight: '500',
-    lineHeight: 22,
+    lineHeight: 23,
     textAlign: 'center',
     marginRight: 10,
     marginBottom: 10,

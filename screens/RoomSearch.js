@@ -231,7 +231,7 @@ const Screen = props => {
     };
     showOptions(
       {
-        title: '時租',
+        title: '呎寸',
         multiSelect: false,
         items: [
           ANY,
@@ -257,7 +257,7 @@ const Screen = props => {
     };
     showOptions(
       {
-        title: '時租',
+        title: '設施',
         multiSelect: true,
         items: [
           ANY,
