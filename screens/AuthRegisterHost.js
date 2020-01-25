@@ -26,6 +26,7 @@ const Screen = props => {
     password: '密碼',
     repeatPassword: '確定密碼',
   };
+
   const onChangeText = (name, value) => {
     let ok = true;
     if (ok) {
@@ -40,7 +41,6 @@ const Screen = props => {
     email: '',
     password: '',
     repeatPassword: '',
-    registering: false,
     helperText: {},
   });
 
@@ -81,11 +81,12 @@ const Screen = props => {
 
   const toConfirmationPage = () => {
     if (validate()) {
-      NavigationService.navigate('RegisterHostConfirmation', {
+      NavigationService.navigate('RegisterConfirmation', {
         name: state.name,
         tel: state.tel,
         email: state.email,
         password: state.password,
+        isHost: true,
       });
     }
   };
@@ -129,7 +130,7 @@ const Screen = props => {
           <Text style={style.buttonText}>下一頁</Text>
         </Button>
       </View>
-      <Button mode="text" onPress={toLoginPage}>
+      <Button style={{ marginTop: 5 }} mode="text" onPress={toLoginPage}>
         <Text style={style.buttonText}>已有帳號？按此立即登入</Text>
       </Button>
     </ScrollView>
