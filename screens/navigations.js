@@ -26,6 +26,7 @@ import Login from './AuthLogin';
 import Register from './AuthRegister';
 import RegisterUser from './AuthRegisterUser';
 import RegisterHost from './AuthRegisterHost';
+import RegisterConfirmation from './AuthRegisterConfirmation';
 
 import { Colors } from './Styles';
 
@@ -60,6 +61,13 @@ const LoginStack = createStackNavigator(
     },
     RegisterHost: {
       screen: RegisterHost,
+      navigationOptions: {
+        headerForceInset: true,
+        title: '',
+      },
+    },
+    RegisterConfirmation: {
+      screen: RegisterConfirmation,
       navigationOptions: {
         headerForceInset: true,
         title: '',
