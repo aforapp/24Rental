@@ -73,9 +73,9 @@ export const Input = props => {
           props.binding.onChange(props.name, value);
         }}
       />
-      {props.binding.helperText[props.name] ? (
-        <HelperText type="error" visible={true}>
-          {props.binding.helperText[props.name]}
+      {props.binding.data.helperText[props.name] ? (
+        <HelperText style={{ letterSpacing: 1 }} type="error" visible={true}>
+          {props.binding.data.helperText[props.name]}
         </HelperText>
       ) : null}
     </React.Fragment>
