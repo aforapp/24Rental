@@ -3,7 +3,6 @@ import NavigationService from '../NavigationService';
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 // import Tags from "react-native-tags";
 import {
   Platform,
@@ -11,7 +10,6 @@ import {
   View,
   Animated,
   StyleSheet,
-  Modal,
   FlatList,
 } from 'react-native';
 import {
@@ -24,7 +22,7 @@ import { SafeAreaView } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import { TimeSlotSelector } from '../components/TimeSlotSelector';
-import { SlotButton, Button as UIButton } from '../components/UI';
+import { Button as UIButton } from '../components/UI';
 import { slotToText, slotsToText } from '../utils.js';
 import { Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -58,6 +56,8 @@ const Screen = props => {
     activeSections2: [],
     type: null,
     district: null,
+    markedDates: null,
+    markedDatesAry: null,
     price: null,
     area: null,
     facilities: null,
@@ -147,7 +147,7 @@ const Screen = props => {
     },
   });
 
-  chooseType = () => {
+  const chooseType = () => {
     const returnData = data => {
       setState({ ...state, type: data.data[0] == ANY ? null : data.data[0] });
     };
@@ -162,7 +162,7 @@ const Screen = props => {
     );
   };
 
-  chooseDistrict = () => {
+  const chooseDistrict = () => {
     const returnData = data => {
       setState({
         ...state,
@@ -203,7 +203,29 @@ const Screen = props => {
     );
   };
 
-  choosePrice = () => {
+  const chooseDateTime = date => {
+    const returnData = data => {
+      setState({
+        ...state,
+        markedDates: data.markedDates,
+        markedDatesAry: data.markedDatesAry,
+        searchPeriod: data.searchPeriod,
+      });
+    };
+
+    NavigationService.navigate('OptionCalendarScreen', {
+      options: {
+        markedDates: state.markedDates,
+        markedDatesAry: state.markedDatesAry,
+        maxDate: state.maxDate,
+        searchPeriod: state.searchPeriod,
+        today: state.today,
+      },
+      returnData: returnData.bind(this),
+    });
+  };
+
+  const choosePrice = () => {
     const returnData = data => {
       setState({ ...state, price: data.data[0] == ANY ? null : data.data[0] });
     };
@@ -225,7 +247,7 @@ const Screen = props => {
     );
   };
 
-  chooseArea = () => {
+  const chooseArea = () => {
     const returnData = data => {
       setState({ ...state, area: data.data[0] == ANY ? null : data.data[0] });
     };
@@ -247,7 +269,7 @@ const Screen = props => {
     );
   };
 
-  chooseFacilities = () => {
+  const chooseFacilities = () => {
     const returnData = data => {
       let crit = data.data;
       if (crit.length == 0 || crit[0] == ANY) {
@@ -590,7 +612,7 @@ const Screen = props => {
   // _handlePress = () =>
   //   setState({ ...state, expanded: !state.expanded });
 
-  selectSorting = sortCrit => {
+  const selectSorting = sortCrit => {
     setState({ ...state, sortCrit });
   };
 
@@ -598,44 +620,15 @@ const Screen = props => {
   //   setState({...state, ...data});
   // }
 
-  showOptions = (options, returnData) => {
+  const showOptions = (options, returnData) => {
     NavigationService.navigate('OptionScreen', {
       options,
       returnData: returnData.bind(this),
     });
   };
 
-  chooseRoom = room => {
+  const chooseRoom = room => {
     NavigationService.navigate('RoomDetails', { room });
-  };
-
-  setPeriod = period => {
-    setState({ ...state, modalVisible: false });
-  };
-
-  onSelectDate = date => {
-    markedDates = {};
-    markedDatesAry = state.markedDatesAry || [];
-
-    let ind = markedDatesAry.indexOf(date);
-    if (ind == -1) {
-      markedDatesAry.push(date);
-    } else {
-      markedDatesAry.splice(ind, 1);
-    }
-
-    markedDatesAry.map(x => {
-      markedDates[x] = { marked: true };
-    });
-
-    setState({ ...state, markedDates, markedDatesAry });
-  };
-
-  updateSlot = ind => {
-    let v = state.searchPeriod.slots[ind];
-    let searchPeriod = state.searchPeriod;
-    searchPeriod.slots[ind] = v == 0 ? 1 : 0;
-    setState({ ...state, searchPeriod });
   };
 
   _renderSectionTitle = section => {
@@ -697,7 +690,7 @@ const Screen = props => {
                 ? style.optionContent
                 : style.optionContentSelected
             }
-            onPress={() => setState({ ...state, modalVisible: true })}>
+            onPress={chooseDateTime}>
             <Text
               style={{
                 ...style.optionText,
@@ -811,74 +804,6 @@ const Screen = props => {
 
   return (
     <View style={{ ...styles.container }}>
-      <Modal
-        comment="dialog for date search"
-        animationType="fade"
-        transparent={false}
-        visible={state.modalVisible}>
-        <SafeAreaView>
-          <View style={{ backgroundColor: '#9BC4D8', height: '103%' }}>
-            <Title style={style.title}>時間</Title>
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: '#616A6B',
-                marginBottom: 40,
-                marginHorizontal: 30,
-                height: '78%',
-                backgroundColor: 'white',
-              }}>
-              <View
-                style={{
-                  paddingBottom: 10,
-                  width: '100%',
-                  margin: 'auto',
-                }}>
-                <Calendar
-                  onDayPress={day => {
-                    this.onSelectDate(day.dateString);
-                  }}
-                  markedDates={state.markedDates}
-                  minDate={state.today}
-                  maxDate={state.maxDate}
-                  theme={{
-                    todayTextColor: '#2d4150',
-                  }}
-                />
-              </View>
-              <ScrollView>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    paddingHorizontal: 25,
-                    paddingBottom: 20,
-                  }}>
-                  {state.searchPeriod.slots.map((x, ind) => (
-                    <View
-                      key={'slot' + ind}
-                      style={{ width: '25%', height: 33 }}>
-                      <SlotButton
-                        title={slotToText(ind)}
-                        on={state.searchPeriod.slots[ind] == 1 ? true : false}
-                        index={ind}
-                        onValueUpdate={this.updateSlot.bind(this, ind)}
-                      />
-                    </View>
-                  ))}
-                </View>
-              </ScrollView>
-              <Button
-                mode="contained"
-                onPress={() => setState({ ...state, modalVisible: false })}>
-                確定
-              </Button>
-            </View>
-          </View>
-        </SafeAreaView>
-      </Modal>
-
       <View
         style={{
           zIndex: 100,

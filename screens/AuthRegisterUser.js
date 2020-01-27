@@ -14,7 +14,6 @@ import TextInputField from '../components/TextInputField';
 import { Input } from '../components/UI';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { emailErrorType, repeatPasswordErrorType } from '../constants';
-import firebase from 'react-native-firebase';
 import styles, { Colors } from './Styles';
 
 const TITLE = '租客註冊';

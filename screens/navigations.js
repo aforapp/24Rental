@@ -140,6 +140,12 @@ const BookingStack = createStackNavigator(
         header: null,
       }),
     },
+    OptionCalendarScreen: {
+      screen: OptionCalendarScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
+    },
     // RoomList: {
     //   screen: RoomList,
     //   navigationOptions: () => ({
@@ -189,11 +195,18 @@ import CreateRoomSetMapMarker from './CreateRoomSetMapMarker';
 import CreateRoomSetAvailableTime from './CreateRoomSetAvailableTime';
 import CreateRoomConfirm from './CreateRoomConfirm';
 import OptionScreen from './OptionScreen';
+import OptionCalendarScreen from './OptionCalendarScreen';
 
 const HostRoomListStack = createStackNavigator(
   {
     OptionScreen: {
       screen: OptionScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
+    },
+    OptionCalendarScreen: {
+      screen: OptionCalendarScreen,
       navigationOptions: () => ({
         header: null,
       }),
