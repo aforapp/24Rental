@@ -12,7 +12,7 @@ import {
   Snackbar,
   Card,
   Title,
-  Paragraph
+  Paragraph,
 } from 'react-native-paper';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -26,7 +26,7 @@ const Screen = props => {
       if (room.id == id) {
         NavigationService.navigate('HostRoomEditDetails', {
           room,
-          isEdit: true
+          isEdit: true,
         });
       }
     }
@@ -38,47 +38,77 @@ const Screen = props => {
   // console.log(rooms[0])
   return (
     <View style={styles.blackContainer}>
-      <Title style={{...styles.blackTitle, ...styles.padding, paddingLeft: 30}}>房源</Title>
-      <View style={{
-          height: 20,
-          backgroundColor: Colors.main,
-          width: "100%",
-        }}></View>
-        <View style={{paddingLeft: 30,paddingRight: 0,paddingTop: 0,paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{paddingTop: 8}}>
-            <Text style={{...styles.blackText, fontSize: 20}}>你好，房主{auth.name}</Text>
-            <Text style={{...styles.blackText, fontSize: 10, paddingTop: 8}}>歡迎新增和管理您提供的房源</Text>
-          </View>
-          <Button onPress={createRoom}><Icon name="ios-add-circle-outline" size={30} color="white" /></Button>
+      <View style={style.headerContainer}>
+        <View style={{ marginTop: 5 }}>
+          <Text style={{ ...styles.blackText, fontSize: 20 }}>
+            你好，房主{auth.name}
+          </Text>
+          <Text style={style.navBarTitle}>歡迎新增和管理您提供的房源</Text>
         </View>
+        <Button style={style.createRoomButton} onPress={createRoom}>
+          <Icon name="ios-add-circle-outline" size={35} color="white" />
+        </Button>
+      </View>
 
-      <FlatList
-        initialNumToRender={0}
-        data={rooms}
-        keyExtractor={(room, index) => room.id}
-        ItemSeparatorComponent={() => (<View style={{
-          height: 20,
-          backgroundColor: 'black',
-          width: "100%",
-        }}></View>)}
-        renderItem={({ item, index }) => (
-          <View>
-            <ImageBackground source={{url: item.photos[0]}} style={{width: '100%', height: 244}}
-              onPress={chooseRoom.bind(this, item.id)}>
-              <View style={style.roomText}>
-                <Text style={{fontSize: 18, paddingBottom: 4}}>{item.name}</Text>
-                <Text style={{fontSize: 12, paddingBottom: 2, color: '#707070'}}>{item.address}</Text>
-                <Text style={{fontSize: 10, paddingBottom: 2}}>時間：</Text>
-              </View>
-            </ImageBackground>
-          </View>
-        )}
-      />
+      {rooms.length ? (
+        <FlatList
+          initialNumToRender={0}
+          data={rooms}
+          keyExtractor={(room, index) => room.id}
+          // ItemSeparatorComponent={() => (
+          //   <View
+          //     style={{
+          //       height: 20,
+          //       backgroundColor: 'black',
+          //       width: '100%',
+          //     }}></View>
+          // )}
+          renderItem={({ item, index }) => (
+            <View>
+              <ImageBackground
+                source={{ url: item.photos[0] }}
+                style={{ width: '100%', height: 244 }}
+                onPress={chooseRoom.bind(this, item.id)}>
+                <View style={style.roomText}>
+                  <Text style={style.roomName}>{item.name}</Text>
+                  <Text style={style.address}>{item.address}</Text>
+                  <Text style={style.time}>時間：</Text>
+                </View>
+              </ImageBackground>
+            </View>
+          )}
+        />
+      ) : (
+        <View style={style.emptyListContainer}>
+          <Text style={style.emptyListDescription}>你還未增設任何場地</Text>
+          <Button
+            style={style.emptyListButton}
+            mode="contained"
+            onPress={createRoom}>
+            <Text style={style.emptyListButtonText}>新增場地</Text>
+          </Button>
+        </View>
+      )}
     </View>
   );
 };
 
 const style = StyleSheet.create({
+  headerContainer: {
+    marginLeft: 30,
+    marginTop: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  createRoomButton: {
+    marginRight: 5,
+  },
+  navBarTitle: {
+    color: 'silver',
+    fontSize: 11,
+    marginTop: 5,
+    marginLeft: 2,
+  },
   roomText: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     position: 'relative',
@@ -87,8 +117,43 @@ const style = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 8,
-    paddingBottom: 8    
-  }
+    paddingBottom: 8,
+  },
+  roomName: {
+    fontSize: 18,
+    paddingBottom: 6,
+  },
+  address: {
+    fontSize: 12,
+    paddingBottom: 2,
+    color: '#707070',
+  },
+  time: {
+    paddingTop: 1,
+    fontSize: 10,
+  },
+  emptyListContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  emptyListDescription: {
+    marginBottom: 25,
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#9BC4D8',
+  },
+  emptyListButton: {
+    width: 145,
+    height: 32,
+    borderRadius: 5,
+  },
+  emptyListButtonText: {
+    fontSize: 12,
+    lineHeight: 15,
+    letterSpacing: 2,
+  },
 });
 
 export default Screen;
