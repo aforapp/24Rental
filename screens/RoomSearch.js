@@ -885,91 +885,82 @@ const Screen = props => {
       </View>
       <View style={{ marginTop: 0, marginBottom: 30 }}>
         <View styles={{ height: '100%' }}>
-          {(state.rooms || []).length == 0 ? (
+          {(state.rooms || []).length === 0 ? (
             <View style={styles.centerScreen}>
-              <Text>沒有搜尋條件內的房間</Text>
+              <Text style={style.emptyListText}>沒有搜尋條件內的房間</Text>
             </View>
-          ) : null}
+          ) : (
+            <FlatList
+              initialNumToRender={0}
+              data={state.rooms}
+              keyExtractor={(item, index) => item.id}
+              renderItem={({ item }) => (
+                <View>
+                  <ImageBackground
+                    source={{ url: item.photos[0] }}
+                    style={{ width: '100%', height: 244 }}
+                    onPress={chooseRoom.bind(this, item)}>
+                    <View style={style.roomText}>
+                      <Text style={style.roomName}>{item.name}</Text>
+                      <Text style={style.address}>{item.address || '--'}</Text>
+                      <Text style={style.price}>
+                        時租${item.pricePerHour || '--'}
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
 
-          <FlatList
-            initialNumToRender={0}
-            data={state.rooms}
-            keyExtractor={(item, index) => item.id}
-            renderItem={({ item }) => (
-              <View>
-                <ImageBackground
-                  source={{ url: item.photos[0] }}
-                  style={{ width: '100%', height: 244 }}
-                  onPress={chooseRoom.bind(this, item)}>
-                  <View style={style.roomText}>
-                    <Text style={{ fontSize: 18, paddingBottom: 4 }}>
-                      {item.name}
-                    </Text>
-                    <Text style={{ fontSize: 10, paddingBottom: 2 }}>
-                      {'時租$' + item.pricePerHour}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        paddingBottom: 2,
-                        color: '#707070',
-                      }}>
-                      {item.address}
-                    </Text>
-                  </View>
-                </ImageBackground>
-              </View>
-
-              // <Card onPress={this.chooseRoom.bind(this, item)}>
-              //   <Card.Content>
-              //     <View style={{ flex: 1, flexDirection: 'row' }}>
-              //       <Animated.View
-              //         style={{
-              //           width: 60,
-              //           height: 60,
-              //           margin: 4,
-              //           opacity: (state.imageOpacity[
-              //             item.id
-              //           ] = new Animated.Value(0))
-              //         }}
-              //       >
-              //         <Image onPress={this.chooseRoom.bind(this, item)}
-              //           source={{
-              //             url: item.photos[0]
-              //           }}
-              //           style={{
-              //             width: 60,
-              //             height: 60
-              //           }}
-              //           onLoadStart={e => {
-              //             state.imageOpacity[item.id].setValue(0);
-              //           }}
-              //           onLoadEnd={e => {
-              //             Animated.timing(
-              //               state.imageOpacity[item.id],
-              //               {
-              //                 toValue: 1,
-              //                 duration: 500,
-              //                 useNativeDriver: true
-              //               }
-              //             ).start();
-              //           }}
-              //         />
-              //       </Animated.View>
-              //       <View style={{ width: 200 }}>
-              //         <Text style={style.name}>{item.name}</Text>
-              //         <Text style={style.price}>
-              //           {'時租$' + item.pricePerHour}
-              //         </Text>
-              //         <Text style={style.address}>
-              //           {'地址：' + item.address}
-              //         </Text>
-              //       </View>
-              //     </View>
-              //   </Card.Content>
-              // </Card>
-            )}
-          />
+                // <Card onPress={this.chooseRoom.bind(this, item)}>
+                //   <Card.Content>
+                //     <View style={{ flex: 1, flexDirection: 'row' }}>
+                //       <Animated.View
+                //         style={{
+                //           width: 60,
+                //           height: 60,
+                //           margin: 4,
+                //           opacity: (state.imageOpacity[
+                //             item.id
+                //           ] = new Animated.Value(0))
+                //         }}
+                //       >
+                //         <Image onPress={this.chooseRoom.bind(this, item)}
+                //           source={{
+                //             url: item.photos[0]
+                //           }}
+                //           style={{
+                //             width: 60,
+                //             height: 60
+                //           }}
+                //           onLoadStart={e => {
+                //             state.imageOpacity[item.id].setValue(0);
+                //           }}
+                //           onLoadEnd={e => {
+                //             Animated.timing(
+                //               state.imageOpacity[item.id],
+                //               {
+                //                 toValue: 1,
+                //                 duration: 500,
+                //                 useNativeDriver: true
+                //               }
+                //             ).start();
+                //           }}
+                //         />
+                //       </Animated.View>
+                //       <View style={{ width: 200 }}>
+                //         <Text style={style.name}>{item.name}</Text>
+                //         <Text style={style.price}>
+                //           {'時租$' + item.pricePerHour}
+                //         </Text>
+                //         <Text style={style.address}>
+                //           {'地址：' + item.address}
+                //         </Text>
+                //       </View>
+                //     </View>
+                //   </Card.Content>
+                // </Card>
+              )}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -1051,6 +1042,11 @@ const style = StyleSheet.create({
     color: Colors.bg,
   },
   line: { flex: 1, flexShrink: 0, flexGrow: 1 },
+  emptyListText: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: 'gray',
+  },
   roomText: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
     position: 'relative',
@@ -1061,6 +1057,19 @@ const style = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
   },
+  roomName: {
+    fontSize: 18,
+    paddingBottom: 2,
+  },
+  address: {
+    fontSize: 12,
+    paddingBottom: 2,
+    color: '#707070',
+  },
+  price: {
+    paddingTop: 1,
+    fontSize: 10,
+  },
   accordion: {
     color: 'red',
     marginTop: 0,
@@ -1068,12 +1077,6 @@ const style = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-  },
-  address: {
-    fontSize: 14,
-  },
-  price: {
-    fontSize: 14,
   },
   optionButton: {
     backgroundColor: Colors.selected,

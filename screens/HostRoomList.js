@@ -71,8 +71,8 @@ const Screen = props => {
                 onPress={chooseRoom.bind(this, item.id)}>
                 <View style={style.roomText}>
                   <Text style={style.roomName}>{item.name}</Text>
-                  <Text style={style.address}>{item.address}</Text>
-                  <Text style={style.time}>時間：</Text>
+                  <Text style={style.address}>{item.address || '--'}</Text>
+                  <Text style={style.time}>時間：--</Text>
                 </View>
               </ImageBackground>
             </View>
@@ -121,7 +121,7 @@ const style = StyleSheet.create({
   },
   roomName: {
     fontSize: 18,
-    paddingBottom: 6,
+    paddingBottom: 2,
   },
   address: {
     fontSize: 12,
