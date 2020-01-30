@@ -1,6 +1,6 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useStateValue } from '../state';
 import {
   loadHostPaymentRecords,
@@ -14,7 +14,7 @@ import {
   alert,
 } from '../utils';
 import { Input, MiniButton } from '../components/UI';
-import { View, FlatList, StyleSheet, Divider } from 'react-native';
+import { View, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import {
   Headline,
   TextInput,
@@ -46,13 +46,17 @@ const Screen = props => {
 
   useEffect(() => {
     reload();
-  }, []);
+  }, [reload]);
+
+  const onRefresh = React.useCallback(() => {
+    reload();
+  }, [reload]);
 
   const getTime = slots => {
     return textslotsToText(Object.keys(slots || {}).join(','));
   };
 
-  const reload = () => {
+  const reload = useCallback(() => {
     setLoading(true);
     setBookings([]);
     if (auth.id != null) {
@@ -61,56 +65,61 @@ const Screen = props => {
         setLoading(false);
       });
     }
-  };
+  }, [auth.id]);
 
   return (
     <View style={style.container}>
-      <Title style={style.title}>紀綠</Title>
-      {isLoading ? (
-        <View style={styles.centerScreen}>
-          <Text>載入中</Text>
-        </View>
-      ) : null}
-
-      {bookings.length ? (
-        <FlatList
-          initialNumToRender={0}
-          data={bookings}
-          keyExtractor={(booking, index) => booking.id}
-          renderItem={({ item, index }) => (
-            <View style={style.listItem}>
-              <Text style={style.itemText}>
-                租客名稱{'\t\t'}
-                {item.user}
-              </Text>
-              <Text style={style.itemText}>
-                下單日期{'\t\t'}
-                {formatDateTime(item.createTime.toDate())}
-              </Text>
-              <Text style={style.itemText}>
-                場地名稱{'\t\t'}
-                {item.room}
-              </Text>
-              <Text style={style.itemText}>
-                租用日期{'\t\t'}
-                {item.date}
-              </Text>
-              <Text style={style.itemText}>
-                租用時間{'\t\t'}
-                {getTime(item.slots).replace(/, /g, '\n')}
-              </Text>
-              <Text style={style.itemText}>租用費用{'\t\t'}--</Text>
-              <Text style={style.itemText}>交易狀態{'\t\t'}--</Text>
-            </View>
-          )}
-        />
-      ) : (
-        !isLoading && (
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }>
+        <Title style={style.title}>紀綠</Title>
+        {isLoading ? (
           <View style={styles.centerScreen}>
-            <Text>沒有紀綠</Text>
+            <Text>載入中</Text>
           </View>
-        )
-      )}
+        ) : null}
+
+        {bookings.length ? (
+          <FlatList
+            initialNumToRender={0}
+            data={bookings}
+            keyExtractor={(booking, index) => booking.id}
+            renderItem={({ item, index }) => (
+              <View style={style.listItem}>
+                <Text style={style.itemText}>
+                  租客名稱{'\t\t'}
+                  {item.user}
+                </Text>
+                <Text style={style.itemText}>
+                  下單日期{'\t\t'}
+                  {formatDateTime(item.createTime.toDate())}
+                </Text>
+                <Text style={style.itemText}>
+                  場地名稱{'\t\t'}
+                  {item.room}
+                </Text>
+                <Text style={style.itemText}>
+                  租用日期{'\t\t'}
+                  {item.date}
+                </Text>
+                <Text style={style.itemText}>
+                  租用時間{'\t\t'}
+                  {getTime(item.slots).replace(/, /g, '\n')}
+                </Text>
+                <Text style={style.itemText}>租用費用{'\t\t'}--</Text>
+                <Text style={style.itemText}>交易狀態{'\t\t'}--</Text>
+              </View>
+            )}
+          />
+        ) : (
+          !isLoading && (
+            <View style={styles.centerScreen}>
+              <Text>沒有紀綠</Text>
+            </View>
+          )
+        )}
+      </ScrollView>
     </View>
   );
 };

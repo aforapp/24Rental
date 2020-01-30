@@ -1,14 +1,19 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   FlatList,
+  RefreshControl,
   // TextInput,
   StyleSheet,
- } from 'react-native';
+} from 'react-native';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { loadGetUserPaymentRecords, textslotsToText, formatDateTime } from '../utils';
+import {
+  loadGetUserPaymentRecords,
+  textslotsToText,
+  formatDateTime,
+} from '../utils';
 import {
   Headline,
   TextInput,
@@ -18,55 +23,99 @@ import {
   Title,
   Text,
   Paragraph,
-  Divider
+  Divider,
 } from 'react-native-paper';
-import styles, {Colors} from './Styles';
+import styles, { Colors } from './Styles';
 
 import { useStateValue } from '../state';
 
 const Screen = props => {
-
   const statusMapping = {
-    'PROCESSING': '處理中',
-    'FAILURE': '失敗',
-    'SUCCESS': '成功'
-  }
+    PROCESSING: '處理中',
+    FAILURE: '交易失敗',
+    SUCCESS: '交易成功',
+  };
   const statusBgColor = {
-    'PROCESSING': 'yellow',
-    'FAILURE': 'red',
-    'SUCCESS': Colors.main
-  }
+    PROCESSING: 'yellow',
+    FAILURE: 'red',
+    SUCCESS: Colors.main,
+  };
   const statusColor = {
-    'PROCESSING': 'black',
-    'FAILURE': 'black',
-    'SUCCESS': '#FFFFFF'
-  }
-  
-  const [{auth}, dispatch] = useStateValue();
+    PROCESSING: 'black',
+    FAILURE: 'black',
+    SUCCESS: '#FFFFFF',
+  };
+
+  const [{ auth }, dispatch] = useStateValue();
 
   // const [state, setState] = useState({ requests: [] });
   const [requests, setRequests] = useState([]);
-
+  const [records, setRecords] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const ha = [{a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}, {a:'a'}]
+  const ha = [
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+    { a: 'a' },
+  ];
 
-  const getTime = (slots) => {
-    return textslotsToText(Object.keys(slots || {}).join(','));
+  const onRefresh = React.useCallback(() => {
+    getUserPaymentRecords(auth.id);
+  }, [auth.id, getUserPaymentRecords]);
+
+  const getTime = slots => {
+    return textslotsToText(slots);
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    loadGetUserPaymentRecords(auth.id).then(data => {
-      setIsLoading(false);
-      setRequests(data);
+  const getUserPaymentRecords = useCallback(
+    authId => {
+      setIsLoading(true);
+      setRecords([]);
+      loadGetUserPaymentRecords(authId).then(data => {
+        setRequests(data);
+        transformRequestsToRecords(requests);
+        setIsLoading(false);
+      });
+    },
+    [requests, transformRequestsToRecords],
+  );
+
+  const transformRequestsToRecords = useCallback(fetchedRequests => {
+    let formattedRecords = [];
+    fetchedRequests.forEach(request => {
+      request.bookings.forEach(booking => {
+        formattedRecords.push({
+          amount: request.amount,
+          status: request.status,
+          createTime: request.createTime,
+          room: booking.room,
+          date: booking.date,
+          slots: booking.slots,
+        });
+      });
     });
+    setRecords(formattedRecords);
   }, []);
+
+  useEffect(() => {
+    getUserPaymentRecords(auth.id);
+  }, [auth.id, getUserPaymentRecords]);
+
+  useEffect(() => {
+    transformRequestsToRecords(requests);
+  }, [requests, transformRequestsToRecords]);
+
   return (
     // <View style={styles.container}>
     //   <Title>紀錄</Title>
     //     {isLoading ? <Text>載入中</Text> : state.requests.length == 0 ? <Text>沒有紀錄</Text> : <View />}
-        
+
     //     <FlatList
     //       initialNumToRender={0}
     //       data={state.requests}
@@ -92,54 +141,88 @@ const Screen = props => {
     //       />
     // </View>
 
+    <View style={style.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }>
+        <Title style={style.title}>紀綠</Title>
+        {isLoading ? (
+          <View style={styles.centerScreen}>
+            <Text>載入中</Text>
+          </View>
+        ) : null}
 
-    <View style={styles.container}>
-    {isLoading ? (<View style={styles.centerScreen}><Text>載入中</Text></View>) : requests.length != 0 || <View style={styles.centerScreen}><Text>沒有紀綠</Text></View>}
-
-    <FlatList
-    initialNumToRender={0}
-    data={requests}
-    keyExtractor={(request, index) => request.id}
-    renderItem={({ item, index }) => (
-      <View>
-        <View style={{ height: 24, backgroundColor: statusBgColor[item.status] }}>
-          <Text style={{color:  statusColor[item.status], fontSize:16, paddingLeft: 32}}>狀態：{statusMapping[item.status]}</Text>
-        </View>
-
-        <Text style={{color: '#707070', fontSize:16, paddingTop: 1, paddingBottom: 1, paddingLeft: 32}}>下單時間：{formatDateTime(item.createTime.toDate())}</Text>
-        <FlatList
-          initialNumToRender={0}
-          data={item.bookings}
-          keyExtractor={(booking, index) => booking.id}
-          renderItem={({ item, index }) => (
-            <View style={{ flex: 1, flexGrow: 0, flexDirection: 'row', paddingTop: 8, paddingBottom: 8 }}>
-              <View style={{ marginLeft: 0, width: '100%' }}>
-                <Text style={{color: '#90BED4', fontSize:22, paddingTop: 2, paddingBottom: 2, paddingLeft: 32}}>{item.room}</Text>
-                <Text style={{color: '#9F9F9F', fontSize:16, paddingTop: 1, paddingBottom: 1, paddingLeft: 32}}>日期：{item.date}</Text>
-                <Text style={{color: '#000000', fontSize:14, paddingTop: 1, paddingBottom: 1, paddingLeft: 32}}>時間：{item.slots}</Text>
+        {records.length ? (
+          <FlatList
+            initialNumToRender={0}
+            data={records}
+            keyExtractor={(request, index) => request.id}
+            renderItem={({ item, index }) => (
+              <View style={style.listItem}>
+                <Text style={style.itemText}>
+                  下單日期{'\t\t'}
+                  {formatDateTime(item.createTime.toDate())}
+                </Text>
+                <Text style={style.itemText}>
+                  場地名稱{'\t\t'}
+                  {item.room}
+                </Text>
+                <Text style={style.itemText}>
+                  租用日期{'\t\t'}
+                  {item.date}
+                </Text>
+                <Text style={style.itemText}>
+                  租用時間{'\t\t'}
+                  {getTime(item.slots)}
+                </Text>
+                <Text style={style.itemText}>
+                  租用費用{'\t\t'}
+                  HKD {item.amount}
+                </Text>
+                <Text style={style.itemText}>
+                  交易狀態{'\t\t'}
+                  {statusMapping[item.status]}
+                </Text>
               </View>
-            </View>)}
-        />
-      </View>
-    )}
-    />
-
-
-  </View>
+            )}
+          />
+        ) : (
+          !isLoading && (
+            <View style={styles.centerScreen}>
+              <Text>沒有紀綠</Text>
+            </View>
+          )
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
 const style = StyleSheet.create({
-  record: {
-    padding: 10,
-    // borderWidth:
-    // color: 'white',
-    // backgroundColor: '#225599',
-    // width: '40%',
-    // marginLeft: '30%',
-    // marginTop: 8,
-    // marginBottom: 8
-  }
+  container: {
+    flex: 1,
+    height: '100%',
+    paddingTop: 10,
+    backgroundColor: 'white',
+  },
+  title: {
+    color: Colors.title,
+    marginLeft: 30,
+    marginBottom: 8,
+  },
+  listItem: {
+    flex: 1,
+    paddingTop: 12,
+    paddingBottom: 5,
+    paddingLeft: 38,
+    marginBottom: 2,
+    backgroundColor: '#2560A4',
+  },
+  itemText: {
+    fontSize: 11,
+    color: 'white',
+  },
 });
 
 export default Screen;
