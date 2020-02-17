@@ -380,7 +380,24 @@ export const OptionSelect = props => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{ fontSize: 16, color: '#6A6A6A' }}>{props.children}</Text>
+        <View style={{ flexDirection: 'column' }}>
+          {props.value !== '(未設定)' ? (
+            <>
+              <Text style={{ fontSize: 12, color: '#6A6A6A' }}>
+                {props.label}
+              </Text>
+              <Text style={{ fontSize: 16, color: '#6A6A6A', paddingTop: 5 }}>
+                {props.value}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text style={{ fontSize: 16, color: '#6A6A6A' }}>
+                {`${props.label} ${props.value}`}
+              </Text>
+            </>
+          )}
+        </View>
         <Icon name="angle-right" size={24} color="#C8C7CC" />
       </View>
     </TouchableHighlight>

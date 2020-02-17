@@ -105,7 +105,7 @@ const Screen = props => {
   };
 
   const returnData = ret => {
-    // console.warn(ret)
+    // console.warn(ret);
     if (ret['openingHours'] != null) {
       let minPricePerHour = 1000000;
 
@@ -303,11 +303,10 @@ const Screen = props => {
 
   return (
     <View style="styles.container">
-      <View style={styles.headerBar}></View>
       <ScrollView>
         {state.isEdit && <Title style={styles.padding}>{state.name}</Title>}
         <View style={style.imageBlock}>
-          <Text>設定房間相片：</Text>
+          <Text style={style.setRoomPhotos}>設定房間相片：</Text>
           <View style={style.imageGroup}>
             <Image
               key={'photo1' + state.photo1}
@@ -350,9 +349,10 @@ const Screen = props => {
         <OptionSelect
           onPress={() => {
             onSetType();
-          }}>
-          服務： {state.type == null ? '(未設定)' : state.type}
-        </OptionSelect>
+          }}
+          label={'服務'}
+          value={state.type || '(未設定)'}
+        />
         {!state.isEdit && (
           <Input name="name" binding={binding} required={'(未設定)'} />
         )}
@@ -360,31 +360,36 @@ const Screen = props => {
         <OptionSelect
           onPress={() => {
             onOpeningHours();
-          }}>
-          開放時間/價錢 {state.openingHours == null ? '(未設定)' : ''}
-        </OptionSelect>
+          }}
+          label={'開放時間及價格'}
+          value={state.openingHours == null ? '(未設定)' : '已設定'}
+        />
         <OptionSelect
           onPress={() => {
             onSellingPoints();
-          }}>
-          場地賣點
-        </OptionSelect>
+          }}
+          label={'場地賣點'}
+          value={'(未設定)'}
+        />
         <OptionSelect
           onPress={() => {
             onSetDistrict();
-          }}>
-          地區： {state.district == null ? '(未設定)' : state.district}
-        </OptionSelect>
+          }}
+          label={'地區'}
+          value={state.district || '(未設定)'}
+        />
         <Input name="address" binding={binding} required={'(未設定)'} />
         <OptionSelect
           onPress={() => {
             onMap();
-          }}>
-          地圖
-          {state.location == null || state.location.longitude == null
-            ? '(未設定)'
-            : ''}
-        </OptionSelect>
+          }}
+          label={'地圖'}
+          value={
+            state.location == null || state.location.longitude == null
+              ? '(未設定)'
+              : '已設定'
+          }
+        />
         <Input
           name="description"
           binding={binding}
@@ -401,17 +406,19 @@ const Screen = props => {
         <OptionSelect
           onPress={() => {
             onSetFacilities();
-          }}>
-          設施：{' '}
-          {state.facilities.length == 0
-            ? '(未設定)'
-            : _.join(state.facilities, ',')}
-        </OptionSelect>
+          }}
+          label={'設施：'}
+          value={
+            state.facilities.length == 0
+              ? '(未設定)'
+              : _.join(state.facilities, ',')
+          }
+        />
         <Button
           mode="contained"
-          style={{ ...style.button, marginBottom: 100 }}
+          style={{ ...style.button, marginBottom: 100, borderRadius: 5 }}
           onPress={onNextStep}>
-          下一步
+          下一頁
         </Button>
       </ScrollView>
     </View>
@@ -428,7 +435,14 @@ const style = StyleSheet.create({
     marginBottom: 8,
   },
   imageBlock: {
+    marginTop: 25,
     padding: 8,
+  },
+  setRoomPhotos: {
+    marginBottom: 10,
+    marginLeft: 5,
+    fontSize: 11,
+    letterSpacing: 2,
   },
   imageGroup: {
     flexDirection: 'row',

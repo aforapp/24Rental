@@ -221,7 +221,7 @@ const HostRoomListStack = createStackNavigator(
     CreateRoomAddRoom: {
       screen: CreateRoomAddRoom,
       navigationOptions: () => ({
-        title: '新增房間',
+        title: '新增場地',
         gesturesEnabled: false, //prevent accidental back action
         headerForceInset: true,
       }),
