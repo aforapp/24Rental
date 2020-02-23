@@ -47,7 +47,10 @@ const Screen = props => {
       });
   }, []);
 
-  const helperText = {};
+  const helperText = {
+    email: null,
+    password: null,
+  };
 
   const [state, setState] = useState({
     label: label,
@@ -164,6 +167,22 @@ const Screen = props => {
     );
   }
 
+  function validateCredentials() {
+    const { email, password } = state;
+    // We group email & password error under password field on purpose for the UI
+    if (!email.trim().length || !password.trim().length) {
+      setState({
+        ...state,
+        helperText: {
+          ...helperText,
+          password: '帳號及密碼不能留空',
+        },
+      });
+      return false;
+    }
+    return true;
+  }
+
   function getErrorMessage() {
     if (!props.loginError) return '';
     switch (props.loginError.code) {
@@ -176,55 +195,53 @@ const Screen = props => {
   }
 
   const login = () => {
-    setState({
-      ...state,
-      loggingIn: true,
-    });
-    fbLogin(state.email, state.password)
-      .then(doc => {
-        setState({ ...state, loggingIn: false });
-        if (doc != null && doc.exists) {
-          const me = doc.data();
-          dispatch({
-            type: 'auth',
-            data: {
-              id: me.id,
-              name: me.name,
-              tel: me.tel,
-              email: me.email,
-              isHost: me.isHost,
-            },
-          });
-
-          loginInit(me.isHost, me.id);
-          // console.warn(state.token);
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(me.id)
-            .update({
-              token: state.token,
-            });
-
-          message('登入成功');
-
-          if (me.isHost) {
-            loadGetHostRooms(me.id).then(rooms => {
-              dispatch({
-                type: 'rooms',
-                data: rooms,
-              });
-            });
-
-            NavigationService.navigate('HostFlow');
-          } else {
-            NavigationService.navigate('UserFlow');
-          }
-        }
-      })
-      .catch(e => {
-        console.error(e);
+    if (validateCredentials()) {
+      setState({
+        ...state,
+        loggingIn: true,
       });
+      fbLogin(state.email.trim(), state.password)
+        .then(doc => {
+          setState({ ...state, loggingIn: false });
+          if (doc != null && doc.exists) {
+            const me = doc.data();
+            dispatch({
+              type: 'auth',
+              data: {
+                id: me.id,
+                name: me.name,
+                tel: me.tel,
+                email: me.email,
+                isHost: me.isHost,
+              },
+            });
+            loginInit(me.isHost, me.id);
+            // console.warn(state.token);
+            firebase
+              .firestore()
+              .collection('users')
+              .doc(me.id)
+              .update({
+                token: state.token,
+              });
+            message('登入成功');
+            if (me.isHost) {
+              loadGetHostRooms(me.id).then(rooms => {
+                dispatch({
+                  type: 'rooms',
+                  data: rooms,
+                });
+              });
+              NavigationService.navigate('HostFlow');
+            } else {
+              NavigationService.navigate('UserFlow');
+            }
+          }
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    }
   };
 
   const hostlogin = () => {
