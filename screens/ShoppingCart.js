@@ -5,16 +5,20 @@ import { useStateValue } from '../state';
 import { View, FlatList } from 'react-native';
 import { Title, Headline, Button, Text, Divider } from 'react-native-paper';
 import firebase from 'react-native-firebase';
-import { getPrice, notifyRoomRequest, textslotsToText, alert, message } from '../utils';
+import {
+  getPrice,
+  notifyRoomRequest,
+  textslotsToText,
+  alert,
+  message,
+} from '../utils';
 
-import styles, {Colors} from './Styles';
-import { 
-  Platform, StyleSheet
-} from 'react-native';
+import styles, { Colors } from './Styles';
+import { Platform, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { NativeModules } from 'react-native';
-console.warn(NativeModules.ReactNativePayments.supportedGateways)
+console.warn(NativeModules.ReactNativePayments.supportedGateways);
 
 // const PaymentRequest = require('react-native-payments').PaymentRequest;
 global.PaymentRequest = require('react-native-payments').PaymentRequest;
@@ -23,14 +27,11 @@ if (Platform.OS === 'ios') {
 }
 
 if (Platform.OS === 'android') {
-  
 }
-
-
 
 const Screen = props => {
   const [state, setState] = useState({
-    isProcessing: false
+    isProcessing: false,
   });
 
   const [loadingPrice, setLoadingPrice] = useState(false);
@@ -44,10 +45,11 @@ const Screen = props => {
     // console.warn('price update');
     setLoadingPrice(true);
     setTotal(0);
-    getPrice(cart.bookings).then((ret)=>{
-
+    getPrice(cart.bookings).then(ret => {
       let roomName = {};
-      cart.bookings.map(b => {roomName[b.roomId] = b.room;});
+      cart.bookings.map(b => {
+        roomName[b.roomId] = b.room;
+      });
 
       // console.warn('ha', ret)
       setTotal(ret.data.total);
@@ -56,8 +58,8 @@ const Screen = props => {
       ret.data.bookings.map((booking, index) => {
         // console.warn(JSON.stringify(booking))
         items.push({
-          label: '訂單' + (index+1), //roomName[booking.roomId] + ' ' + booking.date + ' ' + booking.slots,
-          amount: { currency: 'HKD', value: booking.total + '.00'}
+          label: '訂單' + (index + 1), //roomName[booking.roomId] + ' ' + booking.date + ' ' + booking.slots,
+          amount: { currency: 'HKD', value: booking.total + '.00' },
         });
       });
       // console.warn(items.length)
@@ -83,28 +85,29 @@ const Screen = props => {
       {
         supportedMethods: [mobilepay],
         data: {
-          merchantIdentifier: "merchant.aforapp.app24bin",
-          supportedNetworks: ["visa", "mastercard"],
-          countryCode: "HK",
-          currencyCode: "HKD",
+          merchantIdentifier: 'merchant.aforapp.app24bin',
+          supportedNetworks: ['visa', 'mastercard'],
+          countryCode: 'HK',
+          currencyCode: 'HKD',
           paymentMethodTokenizationParameters: {
             parameters: {
-              gateway: "stripe",
-              "stripe:publishableKey": "pk_test_jUMBt8hjyMj847fnFQdurNi700NInhPlju",
-              "stripe:version": "5.0.0" // Only required on Android
-            }
-          }
-        }
-      }
+              gateway: 'stripe',
+              'stripe:publishableKey':
+                'pk_test_jUMBt8hjyMj847fnFQdurNi700NInhPlju',
+              'stripe:version': '5.0.0', // Only required on Android
+            },
+          },
+        },
+      },
     ];
 
     const DETAILS = {
       // id: "",
-      displayItems, 
+      displayItems,
       total: {
-        label: "24bin",
-        amount: { currency: "HKD", value: total+'.00' }
-      }
+        label: '24bin',
+        amount: { currency: 'HKD', value: total + '.00' },
+      },
     };
 
     const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
@@ -118,7 +121,7 @@ const Screen = props => {
         if (reqId == null) {
           let req = firebase
             .firestore()
-            .collection("requests")
+            .collection('requests')
             .doc();
 
           const createdBy = auth.id;
@@ -126,18 +129,18 @@ const Screen = props => {
 
           req.set({
             bookings: cart.bookings,
-            status: "PROCESSING",
+            status: 'PROCESSING',
 
             payment: paymentResponse.details,
             amount: total,
             createTime,
-            createdBy
+            createdBy,
           });
 
           reqId = req.id;
         }
 
-        console.warn('bbb', reqId)
+        console.warn('bbb', reqId);
         checkRequest(reqId, paymentResponse);
         // if (Platform.OS === 'ios') {
         //   paymentResponse.complete('success');
@@ -147,10 +150,8 @@ const Screen = props => {
         //could be AbortError
         // console.warn('error', e);
       });
-      
 
-
-      return;
+    return;
     // console.warn(ReactNativePayments.supportedGateways);
     // return;
 
@@ -184,15 +185,13 @@ const Screen = props => {
         status: 'PROCESSING',
         // paymentResponse,
         createTime,
-        createdBy
+        createdBy,
       });
 
       reqId = req.id;
     }
 
     checkRequestTest(reqId);
-
-    
   };
 
   function checkRequestTest(reqId) {
@@ -215,7 +214,7 @@ const Screen = props => {
       .catch(e => {
         dispatch({ type: 'clearBookings' });
         setState({ ...state, isProcessing: false });
-        console.warn(e)
+        console.warn(e);
         alert('發生錯誤');
       });
   }
@@ -226,7 +225,7 @@ const Screen = props => {
         if (x.msg == 'ok') {
           setState({ ...state, isProcessing: false, reqId: false });
           paymentResponse.complete('success');
-          console.log("accepted payment");
+          console.log('accepted payment');
           dispatch({ type: 'clearBookings' });
         } else if (x.msg == 'not ok') {
           setState({ ...state, isProcessing: false });
@@ -249,55 +248,141 @@ const Screen = props => {
   }
 
   return (
-    <View style={{...styles.container, ...style.container}}>
-      <Title>購物車</Title>
-        {cart.bookings.length == 0 ? (
-
-          <Text>沒有訂單</Text>
-        ) : (
-          <React.Fragment>
-
+    <View style={style.container}>
+      <Title style={style.title}>購物車</Title>
+      {cart.bookings.length === 0 ? (
+        <View style={styles.centerScreen}>
+          <Text style={style.emptyCartText}>
+            沒有預訂場地{'\n'}請到搜尋頁面預訂喜愛的排舞室
+          </Text>
+        </View>
+      ) : (
+        <React.Fragment>
+          <View style={style.cartContainer}>
             <FlatList
               initialNumToRender={0}
               data={cart.bookings}
-              extraData={{displayItems, loadingPrice}}
+              extraData={{ displayItems, loadingPrice }}
               keyExtractor={(item, index) => 'req' + index}
               renderItem={({ item, index }) => (
-              <View>
-                <Text style={{ marginTop: 18 }}>訂單{index + 1}：</Text>
-                <Text>房間：{item.room}</Text>
-                <Text>日期：{item.date}</Text>
-                <Text>時間：{textslotsToText(item.slots)}</Text>
-                <Text>小計：{loadingPrice || displayItems.length <= index ? '--' : displayItems[index].amount.value}</Text>
-                <Button
-                  mode="outlined"
-                  disabled={state.isProcessing}
-                  onPress={cancel.bind(this, index)}
-                >
-                  取消訂單
-                </Button>
-              </View>
+                <View>
+                  <Text style={style.cartItemHeader}>預訂場地{index + 1}</Text>
+                  <View style={style.cartItemContentContainer}>
+                    <Text style={style.cartItemContentText}>
+                      場地{'\t\t'}
+                      {item.room}
+                    </Text>
+                    <Text style={style.cartItemContentText}>
+                      日期{'\t\t'}
+                      {item.date}
+                    </Text>
+                    <Text style={style.cartItemContentText}>
+                      時間{'\t\t'}
+                      {textslotsToText(item.slots)}
+                    </Text>
+                    <Text style={style.cartItemContentText}>
+                      價錢{'\t\t'}
+                      {loadingPrice || displayItems.length <= index
+                        ? '--'
+                        : `HKD ${displayItems[index].amount.value}`}
+                    </Text>
+                    <Button
+                      style={style.cartCancelItemButton}
+                      mode="contained"
+                      compact
+                      disabled={state.isProcessing}
+                      onPress={cancel.bind(this, index)}>
+                      <Text style={style.cartCancelItemButtonText}>
+                        取消訂單
+                      </Text>
+                    </Button>
+                  </View>
+                </View>
               )}
-              />
-          
-          <Button
-          mode="contained"
-          disabled={state.isProcessing}
-          onPress={pay}
-          style={{ marginTop: 18 }}
-        >
-          {state.isProcessing ? '處理中' : '付款(' + (loadingPrice ? '計算中' : 'HK$'+ total) +')'}
-        </Button>
+            />
+            <View style={style.finalPaymentButtonContainer}>
+              <Button
+                mode="contained"
+                disabled={state.isProcessing}
+                onPress={pay}
+                style={style.finalPaymentButton}>
+                <Text style={style.finalPaymentButtonText}>
+                  {state.isProcessing
+                    ? '處理中'
+                    : '立即付款(' +
+                      (loadingPrice ? '計算中' : 'HKD$' + total) +
+                      ')'}
+                </Text>
+              </Button>
+            </View>
+          </View>
         </React.Fragment>
-
-        )}
-        
+      )}
     </View>
   );
 };
 
 const style = StyleSheet.create({
-  container: { margin: 10},
+  container: {
+    flex: 1,
+    height: '100%',
+    paddingTop: 10,
+  },
+  title: {
+    color: Colors.title,
+    marginLeft: 30,
+    marginBottom: 8,
+  },
+  emptyCartText: {
+    color: '#9BC4D8',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  cartContainer: {
+    flex: 1,
+    marginTop: 5,
+  },
+  cartItemHeader: {
+    paddingVertical: 4,
+    paddingLeft: 40,
+    paddingRight: 15,
+    marginVertical: 20,
+    backgroundColor: Colors.title,
+    color: 'white',
+    fontSize: 12,
+    letterSpacing: 1,
+  },
+  cartItemContentContainer: {
+    marginHorizontal: 30,
+  },
+  cartItemContentText: {
+    fontSize: 12,
+    color: '#2560A4',
+  },
+  cartCancelItemButton: {
+    height: 28,
+    marginLeft: 'auto',
+    borderRadius: 5,
+  },
+  cartCancelItemButtonText: {
+    fontSize: 11,
+    fontWeight: '500',
+    lineHeight: 12.5,
+    color: 'white',
+  },
+  finalPaymentButtonContainer: {
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  finalPaymentButton: {
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  finalPaymentButtonText: {
+    color: 'white',
+    fontSize: 12,
+    letterSpacing: 2,
+  },
 });
 
 export default Screen;

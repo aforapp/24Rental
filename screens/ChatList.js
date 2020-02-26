@@ -113,46 +113,57 @@ const Screen = props => {
       />
       <Title style={style.title}>對話</Title>
       {/* <ScrollView> */}
-      <FlatList
-        initialNumToRender={0}
-        data={chatrooms}
-        keyExtractor={(item, index) => item.id}
-        ItemSeparatorComponent={() => <View style={style.messageDivider} />}
-        renderItem={({ item }) => (
-          <View>
-            <TouchableHighlight onPress={() => navigateChat(item)}>
-              <View style={style.messageBlock}>
-                <Text style={style.name}>
-                  {auth.isHost ? item.user : item.host}
-                </Text>
-                <View style={style.messageGroup}>
-                  <View style={style.messageContent}>
-                    {(auth.isHost ? item.hostNewMessage : item.userNewMessage) >
-                    0 ? (
-                      <View style={style.newMessageIndicator}>
-                        <Text style={style.newMessageCount}>
-                          {auth.isHost
-                            ? item.hostNewMessage
-                            : item.userNewMessage}
-                        </Text>
-                      </View>
-                    ) : null}
-                    <Text
-                      style={style.message}
-                      numberOfLines={1}
-                      ellipsizeMode="tail">
-                      {item.lastMessage}
+      {chatrooms.length ? (
+        <FlatList
+          initialNumToRender={0}
+          data={chatrooms}
+          keyExtractor={(item, index) => item.id}
+          ItemSeparatorComponent={() => <View style={style.messageDivider} />}
+          renderItem={({ item }) => (
+            <View>
+              <TouchableHighlight onPress={() => navigateChat(item)}>
+                <View style={style.messageBlock}>
+                  <Text style={style.name}>
+                    {auth.isHost ? item.user : item.host}
+                  </Text>
+                  <View style={style.messageGroup}>
+                    <View style={style.messageContent}>
+                      {(auth.isHost
+                        ? item.hostNewMessage
+                        : item.userNewMessage) > 0 ? (
+                        <View style={style.newMessageIndicator}>
+                          <Text style={style.newMessageCount}>
+                            {auth.isHost
+                              ? item.hostNewMessage
+                              : item.userNewMessage}
+                          </Text>
+                        </View>
+                      ) : null}
+                      <Text
+                        style={style.message}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {item.lastMessage}
+                      </Text>
+                    </View>
+                    <Text style={style.timestamp}>
+                      最後訊息時間{formatTimestamp(item.lastMessageTime)}
                     </Text>
                   </View>
-                  <Text style={style.timestamp}>
-                    最後訊息時間{formatTimestamp(item.lastMessageTime)}
-                  </Text>
                 </View>
-              </View>
-            </TouchableHighlight>
-          </View>
-        )}
-      />
+              </TouchableHighlight>
+            </View>
+          )}
+        />
+      ) : (
+        <View style={styles.centerScreen}>
+          <Text style={style.emptyChatText}>
+            {auth.isHost
+              ? '沒有對話'
+              : '沒有對話\n對話框只限已訂場的場主開啟\n請到搜尋頁預訂喜愛的排舞室'}
+          </Text>
+        </View>
+      )}
       {/* </ScrollView> */}
     </View>
   );
@@ -213,6 +224,11 @@ const style = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 1,
     color: 'white',
+  },
+  emptyChatText: {
+    color: '#9BC4D8',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 

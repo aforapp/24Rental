@@ -190,7 +190,9 @@ const Screen = props => {
         ) : (
           !isLoading && (
             <View style={styles.centerScreen}>
-              <Text>沒有紀綠</Text>
+              <Text style={style.emptyRecordText}>
+                沒有訂單紀綠{'\n'}請到搜尋頁面預訂喜愛的排舞室
+              </Text>
             </View>
           )
         )}
@@ -222,6 +224,11 @@ const style = StyleSheet.create({
   itemText: {
     fontSize: 11,
     color: 'white',
+  },
+  emptyRecordText: {
+    color: '#9BC4D8',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 
