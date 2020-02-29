@@ -1,6 +1,6 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useStateValue } from '../state';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import { Image } from '../components/UI';
@@ -48,30 +48,28 @@ const Screen = props => {
   useEffect(() => {
     // if (prevState.selectedDate != state.selectedDate) {
     updateSlots();
-  }, selectedDate);
+  }, [selectedDate, updateSlots, cart]);
 
-  function updateSlots() {
+  const updateSlots = useCallback(() => {
     let date = selectedDate;
     let room = props.navigation.state.params.room;
     // console.warn(new Date(d).getDay());
     getSlots(room.id, date).then(({ slots, prices }) => {
-      console.log(prices);
-      timeslots = slots || [];
+      const timeslots = slots || [];
       setState({ ...state, timeslots, prices, booked: {} });
       let isInCart = {};
-      let room = props.navigation.state.params.room;
       cart.bookings.map(booking => {
-        if (booking.roomId == room.id && booking.date == selectedDate) {
+        if (booking.roomId === room.id && booking.date === selectedDate) {
           booking.slots.split(',').map(s => {
             isInCart[s] = true;
           });
         }
       });
-      if (JSON.stringify(isInCart) != JSON.stringify(state.isInCart)) {
-        setState({ ...state, isInCart });
+      if (JSON.stringify(isInCart) !== JSON.stringify(state.isInCart)) {
+        setState({ ...state, isInCart, slots: [] });
       }
     });
-  }
+  }, [cart, props.navigation.state.params.room, selectedDate, state]);
 
   function selectSlot(slot) {
     let slots = state.slots || {};
@@ -94,11 +92,11 @@ const Screen = props => {
       .map(k => {
         return state.slots[k] ? k : '';
       })
-      .filter(x => x != '')
+      .filter(x => x !== '')
       .sort()
       .join(',');
 
-    if (slots.length == 0) {
+    if (slots.length === 0) {
       alert('請選擇時間');
     } else {
       dispatch({ type: 'addBooking', data: { room, roomId, date, slots } });
@@ -107,7 +105,6 @@ const Screen = props => {
       } else {
         message('已加入購物車');
       }
-      setState({ ...state, slots: [] });
     }
   }
 
@@ -225,12 +222,12 @@ const Screen = props => {
                 ['am', 'pm'].map(ampm => (
                   <View key={ampm} style={style.half}>
                     <Text style={style.ampm}>
-                      {ampm == 'am' ? '上午' : '下午'}
+                      {ampm === 'am' ? '上午' : '下午'}
                     </Text>
                     <View style={style.timePickerOptions}>
                       {Object.keys(state.timeslots)
                         .filter(
-                          x => (ampm == 'pm') != state.timeslots[x] < '12:00',
+                          x => (ampm === 'pm') !== state.timeslots[x] < '12:00',
                         )
                         .map(k => (
                           <Text
