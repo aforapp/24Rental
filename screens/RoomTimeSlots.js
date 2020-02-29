@@ -56,7 +56,6 @@ const Screen = props => {
     // console.warn(new Date(d).getDay());
     getSlots(room.id, date).then(({ slots, prices }) => {
       const timeslots = slots || [];
-      setState({ ...state, timeslots, prices, booked: {} });
       let isInCart = {};
       cart.bookings.map(booking => {
         if (booking.roomId === room.id && booking.date === selectedDate) {
@@ -65,8 +64,20 @@ const Screen = props => {
           });
         }
       });
-      if (JSON.stringify(isInCart) !== JSON.stringify(state.isInCart)) {
-        setState({ ...state, isInCart, slots: [] });
+      if (
+        JSON.stringify(isInCart, Object.keys(isInCart).sort()) !==
+        JSON.stringify(state.isInCart, Object.keys(state.isInCart).sort())
+      ) {
+        setState({
+          ...state,
+          timeslots,
+          prices,
+          booked: {},
+          isInCart,
+          slots: [],
+        });
+      } else {
+        setState({ ...state, timeslots, prices, booked: {} });
       }
     });
   }, [cart, props.navigation.state.params.room, selectedDate, state]);
@@ -130,6 +141,7 @@ const Screen = props => {
     photos: carouselBanner,
     pricePerHour,
   } = props.navigation.state.params.room;
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
