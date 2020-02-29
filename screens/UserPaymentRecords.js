@@ -66,8 +66,10 @@ const Screen = props => {
   ];
 
   const onRefresh = React.useCallback(() => {
-    getUserPaymentRecords(auth.id);
-  }, [auth.id, getUserPaymentRecords]);
+    if (auth && auth.id != null) {
+      getUserPaymentRecords(auth.id);
+    }
+  }, [auth, getUserPaymentRecords]);
 
   const getTime = slots => {
     return textslotsToText(slots);
@@ -104,8 +106,10 @@ const Screen = props => {
   }, []);
 
   useEffect(() => {
-    getUserPaymentRecords(auth.id);
-  }, [auth.id, getUserPaymentRecords]);
+    if (auth && auth.id != null) {
+      getUserPaymentRecords(auth.id);
+    }
+  }, [auth, getUserPaymentRecords]);
 
   useEffect(() => {
     transformRequestsToRecords(requests);
