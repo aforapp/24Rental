@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, Alert } from "react-native";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import {
   Headline,
   TextInput,
@@ -8,17 +8,17 @@ import {
   Snackbar,
   Card,
   Title,
-  Paragraph
-} from "react-native-paper";
-import { validateEmail } from "../utils";
-import TextInputField from "../components/TextInputField";
-import { emailErrorType, repeatPasswordErrorType } from "../constants";
-import firebase from "react-native-firebase";
+  Paragraph,
+} from 'react-native-paper';
+import { validateEmail } from '../utils';
+import TextInputField from '../components/TextInputField';
+import { emailErrorType, repeatPasswordErrorType } from '../constants';
+import firebase from 'react-native-firebase';
 
 export default class Screen extends React.Component {
   state = {
     slots: {},
-    selectedDate: ""
+    selectedDate: '',
   };
 
   timeslots = [];
@@ -32,13 +32,13 @@ export default class Screen extends React.Component {
 
     for (let i = 0; i < 2400; i += 100) {
       for (let j = 0; j < 60; j += 30) {
-        let s = i + j + "";
+        let s = i + j + '';
         if (s.length == 3) {
-          s = "0" + s;
+          s = '0' + s;
         } else if (s.length == 2) {
-          s = "00" + s;
+          s = '00' + s;
         } else if (s.length == 1) {
-          s = "000" + s;
+          s = '000' + s;
         }
         this.timeslots.push(s);
       }
@@ -55,21 +55,21 @@ export default class Screen extends React.Component {
 
   bookNow = () => {
     const ret = Object.keys(this.state)
-      .map((k, i) => (this.state[k] ? "" : k))
-      .filter(x => x != "")
+      .map((k, i) => (this.state[k] ? '' : k))
+      .filter(x => x != '')
       .sort();
 
     firebase
       .firestore()
-      .collection("bookings")
+      .collection('bookings')
       // .where('owner',"==", uid)
       .get()
       .then(sp => {
         const booked = sp.docs.map(doc => doc.data());
         let ok = true;
         booked.map(b => {
-          if (b.room != "") {
-            b.slots.split(",").map(s => {
+          if (b.room != '') {
+            b.slots.split(',').map(s => {
               if (ret.indexOf(s) != -1) {
                 ok = false;
               }
@@ -77,10 +77,13 @@ export default class Screen extends React.Component {
           }
         });
         if (!ok) {
-          Alert.alert("房間已被其他人訂了");
+          Alert.alert('房間已被其他人訂了');
         } else {
-          Alert.alert("訂房成功");
+          Alert.alert('訂房成功');
         }
+      })
+      .catch(err => {
+        console.log('RoomBookingConfirm bookNow err: ', err);
       });
   };
 
@@ -97,23 +100,22 @@ export default class Screen extends React.Component {
             onDayPress={day => {
               this.onSelectDate(day.dateString);
             }}
-            markingType={"period"}
+            markingType={'period'}
           />
           <View style={style.container}>
             <Text>{this.state.selectedDate}</Text>
             <View style={style.half}>
               <Text>上午</Text>
               {Object.keys(this.timeslots)
-                .filter(x => this.timeslots[x] < "1200")
+                .filter(x => this.timeslots[x] < '1200')
                 .map(k => (
                   <Text
                     onPress={this.selectSlot.bind(this, this.timeslots[k])}
                     style={{
                       color: this.state.slots[this.timeslots[k]]
-                        ? "red"
-                        : "blue"
-                    }}
-                  >
+                        ? 'red'
+                        : 'blue',
+                    }}>
                     {this.timeslots[k]}
                   </Text>
                 ))}
@@ -121,16 +123,15 @@ export default class Screen extends React.Component {
             <View style={style.half}>
               <Text>下午</Text>
               {Object.keys(this.timeslots)
-                .filter(x => this.timeslots[x] >= "1200")
+                .filter(x => this.timeslots[x] >= '1200')
                 .map(k => (
                   <Text
                     onPress={this.selectSlot.bind(this, this.timeslots[k])}
                     style={{
                       color: this.state.slots[this.timeslots[k]]
-                        ? "red"
-                        : "blue"
-                    }}
-                  >
+                        ? 'red'
+                        : 'blue',
+                    }}>
                     {this.timeslots[k]}
                   </Text>
                 ))}
@@ -155,17 +156,17 @@ const style = StyleSheet.create({});
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16
+    padding: 16,
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   button: {
-    color: "white",
-    backgroundColor: "#225599",
-    width: "40%",
-    height: 40
-  }
+    color: 'white',
+    backgroundColor: '#225599',
+    width: '40%',
+    height: 40,
+  },
 });

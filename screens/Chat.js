@@ -72,7 +72,13 @@ const Screen = props => {
                   room.userId = params.userId;
                   room.user = doc.data().name;
                   setRoom(room);
+                })
+                .catch(err => {
+                  console.log('Chat loadChat err: ', err);
                 });
+            })
+            .catch(err => {
+              console.log('Chat loadChat err: ', err);
             });
         } else {
           let data = sp.docs[0].data();
@@ -147,6 +153,9 @@ const Screen = props => {
               type: 'openChat',
               data: {},
             });
+          })
+          .catch(err => {
+            console.log('Chat loadChat err: ', err);
           });
       });
   };

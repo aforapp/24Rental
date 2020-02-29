@@ -37,10 +37,6 @@ const Screen = props => {
     contactNumber: '聯絡電話',
   };
 
-  useEffect(() => {
-    // console.log(state)
-  }, []);
-
   const onChangeText = (name, value) => {
     let ok = true;
     if (name == 'area') {

@@ -54,32 +54,36 @@ const Screen = props => {
     let date = selectedDate;
     let room = props.navigation.state.params.room;
     // console.warn(new Date(d).getDay());
-    getSlots(room.id, date).then(({ slots, prices }) => {
-      const timeslots = slots || [];
-      let isInCart = {};
-      cart.bookings.map(booking => {
-        if (booking.roomId === room.id && booking.date === selectedDate) {
-          booking.slots.split(',').map(s => {
-            isInCart[s] = true;
-          });
-        }
-      });
-      if (
-        JSON.stringify(isInCart, Object.keys(isInCart).sort()) !==
-        JSON.stringify(state.isInCart, Object.keys(state.isInCart).sort())
-      ) {
-        setState({
-          ...state,
-          timeslots,
-          prices,
-          booked: {},
-          isInCart,
-          slots: [],
+    getSlots(room.id, date)
+      .then(({ slots, prices }) => {
+        const timeslots = slots || [];
+        let isInCart = {};
+        cart.bookings.map(booking => {
+          if (booking.roomId === room.id && booking.date === selectedDate) {
+            booking.slots.split(',').map(s => {
+              isInCart[s] = true;
+            });
+          }
         });
-      } else {
-        setState({ ...state, timeslots, prices, booked: {} });
-      }
-    });
+        if (
+          JSON.stringify(isInCart, Object.keys(isInCart).sort()) !==
+          JSON.stringify(state.isInCart, Object.keys(state.isInCart).sort())
+        ) {
+          setState({
+            ...state,
+            timeslots,
+            prices,
+            booked: {},
+            isInCart,
+            slots: [],
+          });
+        } else {
+          setState({ ...state, timeslots, prices, booked: {} });
+        }
+      })
+      .catch(err => {
+        console.log('RoomTimeSlots err: ', err);
+      });
   }, [cart, props.navigation.state.params.room, selectedDate, state]);
 
   function selectSlot(slot) {

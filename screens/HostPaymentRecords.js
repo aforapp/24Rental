@@ -60,10 +60,14 @@ const Screen = props => {
     setLoading(true);
     setBookings([]);
     if (auth.id != null) {
-      loadHostPaymentRecords(auth.id).then(data => {
-        setBookings(data);
-        setLoading(false);
-      });
+      loadHostPaymentRecords(auth.id)
+        .then(data => {
+          setBookings(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log('HostPaymentRecord reload err: ', err);
+        });
     }
   }, [auth.id]);
 

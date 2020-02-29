@@ -1,6 +1,6 @@
 import NavigationService from '../NavigationService';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useStateValue } from '../state';
 import {
   Switch,
@@ -82,28 +82,39 @@ const Screen = props => {
 
   useEffect(() => {
     setSelectedDates(today);
-  }, []);
-  const reload = () => {
+  }, [today]);
+
+  const reload = useCallback(() => {
     setLoading(true);
     setBookings([]);
     setAdhocSlots([]);
     setMarkedDates({});
-    if (auth.id != null) {
-      loadHostPaymentRecords(auth.id).then(bookings => {
-        loadRoomAdhocSlots(auth.id).then(adhocs => {
-          setBookingData(bookings);
-          setAdhocData(adhocs);
-          console.log(adhocs);
-          // console.log(bookings)
-          let marked = {};
-          bookings.map(x => (marked[x.date] = { marked: true }));
-          adhocs.map(x => (marked[x.date] = { marked: true }));
-          setMarkedDates(marked);
-          setLoading(false);
+    if (auth && auth.id != null) {
+      loadHostPaymentRecords(auth.id)
+        .then(bookings => {
+          loadRoomAdhocSlots(auth.id)
+            .then(adhocs => {
+              setBookingData(bookings);
+              setAdhocData(adhocs);
+              console.log(adhocs);
+              // console.log(bookings)
+              let marked = {};
+              bookings.map(x => (marked[x.date] = { marked: true }));
+              adhocs.map(x => (marked[x.date] = { marked: true }));
+              setMarkedDates(marked);
+              setLoading(false);
+            })
+            .catch(err => {
+              console.log('HostCalendar loadRoomAdhocSlots err: ', err);
+            });
+        })
+        .catch(err => {
+          console.log('HostCalendar loadRoomAdhocSlots err: ', err);
         });
-      });
+    } else {
+      setLoading(false);
     }
-  };
+  }, [auth]);
 
   const [isOpen, setIsOpenState] = useState(false);
   function setIsOpen(x) {
@@ -172,7 +183,7 @@ const Screen = props => {
 
   useEffect(() => {
     reload();
-  }, []);
+  }, [reload]);
 
   function getTime(slots) {
     return textslotsToText(Object.keys(slots || {}).join(',')).replace(

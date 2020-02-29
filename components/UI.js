@@ -275,10 +275,14 @@ export class Image extends React.Component {
   downloadFile = (uri, path) => {
     // consol.warn('cached', path)
     if (uri.substr(0, 4) == 'http') {
-      RNFS.downloadFile({ fromUrl: uri, toFile: path }).promise.then(res => {
-        this.loadFile(path);
-        // consol.warn('cached', path)
-      });
+      RNFS.downloadFile({ fromUrl: uri, toFile: path })
+        .promise.then(res => {
+          this.loadFile(path);
+          // consol.warn('cached', path)
+        })
+        .catch(err => {
+          console.log('Image downloadFile err: ', err);
+        });
     } else {
       this.setState({ source: { uri } });
     }
@@ -299,10 +303,14 @@ export class Image extends React.Component {
         const name = shorthash.unique(uri);
         const extension = Platform.OS === 'android' ? 'file://' : '';
         const path = `${extension}${RNFS.CachesDirectoryPath}/${name}.png`;
-        RNFS.exists(path).then(exists => {
-          if (exists) this.loadFile(path);
-          else this.downloadFile(uri, path);
-        });
+        RNFS.exists(path)
+          .then(exists => {
+            if (exists) this.loadFile(path);
+            else this.downloadFile(uri, path);
+          })
+          .catch(err => {
+            console.log('Image UNSAFE_componentWillMount err: ', err);
+          });
       }
     }
   }
@@ -324,10 +332,14 @@ export class ImageBackground extends React.Component {
   downloadFile = (uri, path) => {
     // consol.warn('cached', path)
     if (uri.substr(0, 4) == 'http') {
-      RNFS.downloadFile({ fromUrl: uri, toFile: path }).promise.then(res => {
-        this.loadFile(path);
-        // consol.warn('cached', path)
-      });
+      RNFS.downloadFile({ fromUrl: uri, toFile: path })
+        .promise.then(res => {
+          this.loadFile(path);
+          // consol.warn('cached', path)
+        })
+        .catch(err => {
+          console.log('ImageBackground downloadFile err: ', err);
+        });
     } else {
       this.setState({ source: { uri } });
     }
@@ -348,10 +360,14 @@ export class ImageBackground extends React.Component {
         const name = shorthash.unique(uri);
         const extension = Platform.OS === 'android' ? 'file://' : '';
         const path = `${extension}${RNFS.CachesDirectoryPath}/${name}.png`;
-        RNFS.exists(path).then(exists => {
-          if (exists) this.loadFile(path);
-          else this.downloadFile(uri, path);
-        });
+        RNFS.exists(path)
+          .then(exists => {
+            if (exists) this.loadFile(path);
+            else this.downloadFile(uri, path);
+          })
+          .catch(err => {
+            console.log('ImageBackground UNSAFE_componentWillMount err: ', err);
+          });
       }
     }
   }

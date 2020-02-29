@@ -45,6 +45,9 @@ const Screen = props => {
           .then(() => {
             message(isHost ? HOST_REG_SUCCESS_MSG : USER_REG_SUCCESS_MSG);
             NavigationService.navigate('Login');
+          })
+          .catch(err => {
+            console.log('AuthRegisterConfirmation registererr: ', err);
           });
       })
       .catch(e => {

@@ -477,25 +477,30 @@ const Screen = props => {
         roomSlotsRef = roomSlotsRef.where('slots', 'array-contains', ts);
       }
 
-      roomSlotsRef.get().then(s => {
-        s.forEach(d => {
-          //get available slots
-          let av = d.data().slots;
+      roomSlotsRef
+        .get()
+        .then(s => {
+          s.forEach(d => {
+            //get available slots
+            let av = d.data().slots;
 
-          //check if any required slot not in available slots
-          let ok = true;
-          slotTimeAry.map((t, ind) => {
-            if (t != 0 && av.indexOf(slotToText(ind)) == -1) {
-              ok = false;
+            //check if any required slot not in available slots
+            let ok = true;
+            slotTimeAry.map((t, ind) => {
+              if (t != 0 && av.indexOf(slotToText(ind)) == -1) {
+                ok = false;
+              }
+            });
+            if (ok) {
+              result.push(d.data().roomId);
             }
           });
-          if (ok) {
-            result.push(d.data().roomId);
-          }
+          wip--;
+          showResult(); //this will check if all data downloaded itself
+        })
+        .catch(err => {
+          console.log('RoomSearch search err: ', err);
         });
-        wip--;
-        showResult(); //this will check if all data downloaded itself
-      });
     });
 
     wip++;

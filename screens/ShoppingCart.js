@@ -45,27 +45,31 @@ const Screen = props => {
     // console.warn('price update');
     setLoadingPrice(true);
     setTotal(0);
-    getPrice(cart.bookings).then(ret => {
-      let roomName = {};
-      cart.bookings.map(b => {
-        roomName[b.roomId] = b.room;
-      });
-
-      // console.warn('ha', ret)
-      setTotal(ret.data.total);
-      // console.warn(ret.data.total)
-      let items = [];
-      ret.data.bookings.map((booking, index) => {
-        // console.warn(JSON.stringify(booking))
-        items.push({
-          label: '訂單' + (index + 1), //roomName[booking.roomId] + ' ' + booking.date + ' ' + booking.slots,
-          amount: { currency: 'HKD', value: booking.total + '.00' },
+    getPrice(cart.bookings)
+      .then(ret => {
+        let roomName = {};
+        cart.bookings.map(b => {
+          roomName[b.roomId] = b.room;
         });
+
+        // console.warn('ha', ret)
+        setTotal(ret.data.total);
+        // console.warn(ret.data.total)
+        let items = [];
+        ret.data.bookings.map((booking, index) => {
+          // console.warn(JSON.stringify(booking))
+          items.push({
+            label: '訂單' + (index + 1), //roomName[booking.roomId] + ' ' + booking.date + ' ' + booking.slots,
+            amount: { currency: 'HKD', value: booking.total + '.00' },
+          });
+        });
+        // console.warn(items.length)
+        setDisplayItems(items);
+        setLoadingPrice(false);
+      })
+      .catch(err => {
+        console.log('ShoppingCart getPrice err: ', err);
       });
-      // console.warn(items.length)
-      setDisplayItems(items);
-      setLoadingPrice(false);
-    });
   }, [cart.bookings]);
 
   function cancel(ind) {
@@ -147,6 +151,7 @@ const Screen = props => {
         // }
       })
       .catch(e => {
+        console.log('ShoppingCart paymentRequest err: ', e);
         //could be AbortError
         // console.warn('error', e);
       });

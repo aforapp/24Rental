@@ -10,13 +10,13 @@ const initialState = {
   rooms: [],
   cart: {
     bookings: [],
-    reqId: null
+    reqId: null,
   },
   chats: [],
   chatrooms: [],
   currentChatroomId: null,
   chatroomsSubscription: null,
-  openChat: {}
+  openChat: {},
 };
 
 export const StateProvider = ({ children }) => (
@@ -30,15 +30,23 @@ function reducer(state, action) {
     case 'auth':
       return {
         ...state,
-        auth: action.data
+        auth: action.data,
       };
 
     case 'logout':
-      firebase.auth().signOut();
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log('logout: success');
+        })
+        .catch(err => {
+          console.log('logout err: ', err);
+        });
 
       return {
         ...state,
-        auth: {}
+        auth: {},
       };
 
     case 'chats':
@@ -56,50 +64,52 @@ function reducer(state, action) {
             chats[i] = { ...chats[i], ...x };
           }
         }
-      })
+      });
 
-      chats = chats.reverse()
+      chats = chats.reverse();
       if (chats.length > 0 && chats[0].datestamp != '') {
         chats.splice(0, 0, { isHeader: true, title: chats[0].datestamp });
       }
       for (let i = 2; i < chats.length; i++) {
-        if (chats[i].datestamp != chats[i - 1].datestamp && chats[i].datestamp != '') {
+        if (
+          chats[i].datestamp != chats[i - 1].datestamp &&
+          chats[i].datestamp != ''
+        ) {
           chats.splice(i, 0, { isHeader: true, title: chats[i].datestamp });
           i++;
         }
       }
-      chats = chats.reverse()
+      chats = chats.reverse();
 
       return {
         ...state,
-        chats
+        chats,
       };
 
     case 'openChat':
       return {
         ...state,
-        openChat: action.data
+        openChat: action.data,
       };
 
     case 'resetChats':
       return {
         ...state,
-        chats: []
+        chats: [],
       };
 
     case 'resetChatrooms':
       return {
         ...state,
-        chatrooms: []
+        chatrooms: [],
       };
 
     case 'currentChatroomId':
       // console.warn('currentChatroomId', action.data)
       return {
         ...state,
-        currentChatroomId: action.data
+        currentChatroomId: action.data,
       };
-
 
     case 'chatroomsSubscription':
       if (state.unsubscribe) {
@@ -108,8 +118,8 @@ function reducer(state, action) {
       }
       return {
         ...state,
-        unsubscribe: action.data.unsubscribe
-      }
+        unsubscribe: action.data.unsubscribe,
+      };
 
     case 'chatrooms':
       let rooms = [...state.chatrooms];
@@ -132,17 +142,21 @@ function reducer(state, action) {
           }
         }
       });
-      let def = { seconds: 99999999999999 }
-      rooms.sort((x, y) => ((y.lastMessageTime || def).seconds - (x.lastMessageTime || def).seconds));
+      let def = { seconds: 99999999999999 };
+      rooms.sort(
+        (x, y) =>
+          (y.lastMessageTime || def).seconds -
+          (x.lastMessageTime || def).seconds,
+      );
       return {
         ...state,
-        chatrooms: rooms
+        chatrooms: rooms,
       };
 
     case 'rooms':
       return {
         ...state,
-        rooms: action.data
+        rooms: action.data,
       };
 
     case 'addBooking':
@@ -150,8 +164,8 @@ function reducer(state, action) {
         ...state,
         cart: {
           bookings: [...state.cart.bookings, action.data],
-          reqId: state.cart.reqId
-        }
+          reqId: state.cart.reqId,
+        },
       };
 
     case 'clearBookings':
@@ -159,8 +173,8 @@ function reducer(state, action) {
         ...state,
         cart: {
           bookings: [],
-          reqId: state.cart.reqId
-        }
+          reqId: state.cart.reqId,
+        },
       };
     case 'cancelBooking':
       let bookings = state.cart.bookings;
@@ -170,8 +184,8 @@ function reducer(state, action) {
         ...state,
         cart: {
           bookings: bookings,
-          reqId: state.cart.reqId
-        }
+          reqId: state.cart.reqId,
+        },
       };
     default:
       return state;

@@ -1,11 +1,9 @@
 import firebase from 'react-native-firebase';
 // import Snackbar from 'react-native-snackbar';
-import SnackBar from 'rn-snackbar'
+import SnackBar from 'rn-snackbar';
 
 const DOMAIN = 'https://binmobileapp.firebaseapp.com';
 // const DOMAIN = 'http://localhost:5000';
-
-
 
 // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript#46181
 export function validateEmail(email) {
@@ -18,12 +16,13 @@ export function padZero(x) {
 }
 
 export function yymmdd(d) {
-return     d.getFullYear() +
-'-' +
-('0' + (1 + d.getMonth())).slice(-2) +
-'-' +
-('0' + d.getDate()).slice(-2);
-
+  return (
+    d.getFullYear() +
+    '-' +
+    ('0' + (1 + d.getMonth())).slice(-2) +
+    '-' +
+    ('0' + d.getDate()).slice(-2)
+  );
 }
 
 function hhmm(d) {
@@ -31,9 +30,10 @@ function hhmm(d) {
 }
 
 function hhmmss(d) {
-  return `${padZero(d.getHours())}:${padZero(d.getMinutes())}:${padZero(d.getSeconds())}`;
+  return `${padZero(d.getHours())}:${padZero(d.getMinutes())}:${padZero(
+    d.getSeconds(),
+  )}`;
 }
-
 
 export function formatDateTime(d) {
   return yymmdd(d) + ' ' + hhmmss(d);
@@ -79,9 +79,11 @@ export function slotsToText(ary) {
         let fStart = start / 2;
         let fEnd = i / 2;
 
-        ret += padZero(Math.floor(fStart)) + ':' + (fStart % 1 == 0.5 ? '30' : '00');
+        ret +=
+          padZero(Math.floor(fStart)) + ':' + (fStart % 1 == 0.5 ? '30' : '00');
         ret += '-';
-        ret += padZero(Math.floor(fEnd)) + ':' + (fEnd % 1 == 0.5 ? '30' : '00');
+        ret +=
+          padZero(Math.floor(fEnd)) + ':' + (fEnd % 1 == 0.5 ? '30' : '00');
         start = null;
       }
     }
@@ -91,63 +93,60 @@ export function slotsToText(ary) {
       ret += ', ';
     }
     let fStart = start / 2;
-    ret += padZero(Math.floor(fStart)) + ':' + (fStart % 1 == 0.5 ? '30' : '00');
+    ret +=
+      padZero(Math.floor(fStart)) + ':' + (fStart % 1 == 0.5 ? '30' : '00');
     ret += '-';
     ret += '00:00';
   }
-  ret = ret.replace('00:00-00:00', '全日')
+  ret = ret.replace('00:00-00:00', '全日');
   return ret;
 }
 
-
 export function message(msg) {
-  SnackBar.show(msg, { 
+  SnackBar.show(msg, {
     style: { justifyContent: 'center', alignItems: 'center', zIndex: 99999 },
-    duration: 2000, 
+    duration: 2000,
     tapToClose: true,
     onDismiss: () => {},
     backgroundColor: '#BFDFEE',
     buttonColor: 'blue',
-    textColor: 'gray'});
+    textColor: 'gray',
+  });
 }
 
 export function alert(msg, cb) {
-  SnackBar.show(msg, { 
+  SnackBar.show(msg, {
     style: { justifyContent: 'center', alignItems: 'center', zIndex: 99999 },
-    isStatic: true, 
-    tapToClose: true ,
+    isStatic: true,
+    tapToClose: true,
     onDismiss: cb || (() => {}),
     backgroundColor: 'red',
     buttonColor: 'blue',
-    textColor: 'white'});
+    textColor: 'white',
+  });
 }
 
 /* Triggers */
 export function notifyRoomRequest(reqId) {
-  return fetch(DOMAIN + '/processRequest/' + reqId).then(res =>
-    res.json()
-  );
+  return fetch(DOMAIN + '/processRequest/' + reqId).then(res => res.json());
 }
 export function notifyRoomCreate(roomId) {
-  return fetch(
-    DOMAIN + '/indexRoomTimeSlot/' + roomId
-  ).then(res => res.json());
+  return fetch(DOMAIN + '/indexRoomTimeSlot/' + roomId).then(res => res.json());
 }
 
 /* Firebase */
 export async function getPrice(bookings) {
-
   let data = [];
 
   bookings.map(booking => {
     data.push({
       roomId: booking.roomId,
       date: booking.date,
-      slots: booking.slots
+      slots: booking.slots,
     });
   });
 
-  let body = {data};
+  let body = { data };
 
   return fetch(DOMAIN + '/getPrice', {
     method: 'POST',
@@ -156,14 +155,12 @@ export async function getPrice(bookings) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(res =>
-    res.json()
-  ).then(res =>
-    {
+  })
+    .then(res => res.json())
+    .then(res => {
       // console.warn(JSON.stringify(res));
       return res;
-    }
-  );
+    });
 }
 
 export function login(email, password) {
@@ -181,19 +178,18 @@ export function login(email, password) {
       switch (err.code) {
         case 'auth/wrong-password':
         case 'auth/user-not-found':
-            alert('登入失敗，請檢查你輸入的帳號和密碼');
-            break;
+          alert('登入失敗，請檢查你輸入的帳號和密碼');
+          break;
         default:
-          console.warn(err.code)
+          console.warn(err.code);
           alert('登入失敗:' + err.userInfo.NSLocalizedDescription);
       }
     });
 }
 
 export function logout(dispatch) {
-  
-  dispatch({type:'chatroomsSubscription', data: {unsubscribe: null}});
-  dispatch({type:'logout'});  
+  dispatch({ type: 'chatroomsSubscription', data: { unsubscribe: null } });
+  dispatch({ type: 'logout' });
 }
 
 export function createAdhoc(option) {
@@ -204,54 +200,66 @@ export function createAdhoc(option) {
     hostId: option.hostId,
     price: option.price,
     isOpen: option.isOpen,
-    slots: option.slots
+    slots: option.slots,
   };
-  
+
   let ref = firebase
-  .firestore()
-  .collection('adhoc')
-  .doc();
+    .firestore()
+    .collection('adhoc')
+    .doc();
   const createTime = firebase.firestore.FieldValue.serverTimestamp();
 
-  ref.set({
-    ...data,
-    createTime
-  });
+  ref
+    .set({
+      ...data,
+      createTime,
+    })
+    .then(() => {
+      console.log('createAdhoc: success');
+    })
+    .catch(err => {
+      console.log('createAdhoc err: ', err);
+    });
 
   notifyRoomCreate(option.roomId);
 }
 
 export function deleteAdhoc(roomId, refId) {
   let ref = firebase
-  .firestore()
-  .collection('adhoc')
-  .doc(refId);
+    .firestore()
+    .collection('adhoc')
+    .doc(refId);
 
-  ref.delete();
+  ref
+    .delete()
+    .then(() => {
+      console.log('deleteAdhoc: success');
+    })
+    .catch(err => {
+      console.log('deleteAdhoc err: ', err);
+    });
   notifyRoomCreate(roomId);
 }
 
 export function loadGetHostRooms(hostId) {
-  return (
-    firebase
-      .firestore()
-      .collection('rooms')
-      .where('createdBy', '==', hostId)
-      .get()
-      .then(sp =>
-        {
-          return sp.docs
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }))
-          .sort((x, y) => {
-            return x.createTime < y.createTime;
-          })
-
-        }
-      )
-  );
+  return firebase
+    .firestore()
+    .collection('rooms')
+    .where('createdBy', '==', hostId)
+    .get()
+    .then(sp => {
+      return sp.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .sort((x, y) => {
+          return x.createTime < y.createTime;
+        });
+    })
+    .catch(err => {
+      console.log('loadGetHostRooms error: ', err);
+    });
 }
 
 export function loadGetUserPaymentRecords(userId) {
@@ -266,12 +274,15 @@ export function loadGetUserPaymentRecords(userId) {
         sp.docs
           .map(doc => ({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
           }))
           .sort((x, y) => {
             return x.createTime < y.createTime;
-          })
+          }),
       )
+      .catch(err => {
+        console.log('loadGetUserPaymentRecords err: ', err);
+      })
   );
 }
 
@@ -287,12 +298,15 @@ export function loadHostPaymentRecords(userId) {
         sp.docs
           .map(doc => ({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
           }))
           .sort((x, y) => {
             return x.createTime < y.createTime;
-          })
+          }),
       )
+      .catch(err => {
+        console.log('loadHostPaymentRecords err: ', err);
+      })
   );
 }
 
@@ -305,16 +319,16 @@ export function loadRoomAdhocSlots(userId) {
       // .orderBy('createTime', 'desc') //don't know why not working, just sort on client side
       .get()
       .then(sp =>
-        sp.docs
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }))
+        sp.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        })),
       )
+      .catch(err => {
+        console.log('loadRoomAdhocSlots err: ', err);
+      })
   );
 }
-
-
 
 export function getSlots(roomId, date) {
   return firebase
@@ -327,10 +341,14 @@ export function getSlots(roomId, date) {
       sp.docs.map(doc => {
         const data = doc.data();
         return { slots: data.slots, prices: data.prices };
-      })
+      }),
     )
-    .then(ary => ary[0]);
+    .then(ary => ary[0])
+    .catch(err => {
+      console.log('getSlots err: ', err);
+    });
 }
+
 // export async function getBookedSlots(roomId, date) {
 //   return firebase
 //     .firestore()
@@ -354,162 +372,197 @@ export function getSlots(roomId, date) {
 
 export async function chatToHost(hostId, message, dispatch) {
   let userId = firebase.auth().currentUser.uid;
-  
+
   let roomFound = false;
   firebase
-  .firestore()
-  .collection('chatrooms')
-  .where('hostId', '==', hostId)
-  .where('userId', '==', userId)
-  .get()
-  .then(ss => {
-    ss.forEach(doc => {
-      roomFound = true;
-      firebase
-      .firestore()
-      .collection('chatrooms').doc(doc.id).update({
-        hostNewMessage: firebase.firestore.FieldValue.increment(1),
-        lastMessage: message, 
-        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp()
+    .firestore()
+    .collection('chatrooms')
+    .where('hostId', '==', hostId)
+    .where('userId', '==', userId)
+    .get()
+    .then(ss => {
+      ss.forEach(doc => {
+        roomFound = true;
+        firebase
+          .firestore()
+          .collection('chatrooms')
+          .doc(doc.id)
+          .update({
+            hostNewMessage: firebase.firestore.FieldValue.increment(1),
+            lastMessage: message,
+            lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+          });
       });
-    });
-    if (!roomFound) {
-      let room = {lastMessage: message, lastMessageTime: firebase.firestore.FieldValue.serverTimestamp() };
-      firebase
-      .firestore()
-      .collection('users')
-      .doc(hostId)
-      .get()
-      .then(doc => {
-        room.hostId = hostId;
-        room.host = doc.data().name;
-
+      if (!roomFound) {
+        let room = {
+          lastMessage: message,
+          lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        };
         firebase
           .firestore()
           .collection('users')
-          .doc(userId)
+          .doc(hostId)
           .get()
           .then(doc => {
-            room.userId = userId;
-            room.user = doc.data().name;
+            room.hostId = hostId;
+            room.host = doc.data().name;
 
-            let newdoc = firebase
+            firebase
               .firestore()
-              .collection('chatrooms')
-              .doc();
-            
-            dispatch({
-              type:'currentChatroomId', 
-              data: newdoc.id});
-            newdoc.set(room);
-          });
-      });
-    }
-  });
+              .collection('users')
+              .doc(userId)
+              .get()
+              .then(doc => {
+                room.userId = userId;
+                room.user = doc.data().name;
 
+                let newdoc = firebase
+                  .firestore()
+                  .collection('chatrooms')
+                  .doc();
+
+                dispatch({
+                  type: 'currentChatroomId',
+                  data: newdoc.id,
+                });
+                newdoc.set(room);
+              })
+              .catch(err => {
+                console.log('chatToHost get user err: ', err);
+              });
+          });
+      }
+    })
+    .catch(err => {
+      console.log('chatToHost err: ', err);
+    });
 
   firebase
-  .firestore()
-  .collection('chats')
-  .doc()
-  .set({
-    hostId,
-    userId,
-    byId: userId,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    message
-  });
+    .firestore()
+    .collection('chats')
+    .doc()
+    .set({
+      hostId,
+      userId,
+      byId: userId,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message,
+    })
+    .then(() => {
+      console.log('chatToHost: success');
+    })
+    .catch(err => {
+      console.log('chatToHost err: ', err);
+    });
 }
 
-export async function chatToUser(userId, message,dispatch) {
+export async function chatToUser(userId, message, dispatch) {
   let hostId = firebase.auth().currentUser.uid;
 
   let roomFound = false;
   firebase
-  .firestore()
-  .collection('chatrooms')
-  .where('hostId', '==', hostId)
-  .where('userId', '==', userId)
-  .get()
-  .then(ss => {
-    ss.forEach(doc => {
-      roomFound = true;
-      firebase
-      .firestore()
-      .collection('chatrooms').doc(doc.id).update({
-        userNewMessage: firebase.firestore.FieldValue.increment(1),
-        lastMessage: message, 
-        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp()});
-    });
-    if (!roomFound) {
-      let room = {lastMessage: message, lastMessageTime: firebase.firestore.FieldValue.serverTimestamp() };
-      firebase
-      .firestore()
-      .collection('users')
-      .doc(hostId)
-      .get()
-      .then(doc => {
-        room.hostId = hostId;
-        room.host = doc.data().name;
-
+    .firestore()
+    .collection('chatrooms')
+    .where('hostId', '==', hostId)
+    .where('userId', '==', userId)
+    .get()
+    .then(ss => {
+      ss.forEach(doc => {
+        roomFound = true;
+        firebase
+          .firestore()
+          .collection('chatrooms')
+          .doc(doc.id)
+          .update({
+            userNewMessage: firebase.firestore.FieldValue.increment(1),
+            lastMessage: message,
+            lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+      });
+      if (!roomFound) {
+        let room = {
+          lastMessage: message,
+          lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        };
         firebase
           .firestore()
           .collection('users')
-          .doc(userId)
+          .doc(hostId)
           .get()
           .then(doc => {
-            room.userId = userId;
-            room.user = doc.data().name;
+            room.hostId = hostId;
+            room.host = doc.data().name;
 
-            let newdoc = firebase
+            firebase
               .firestore()
-              .collection('chatrooms')
-              .doc();
-            
-            dispatch({
-              type:'currentChatroomId', 
-              data: newdoc.id});
-            newdoc.set(room);
-          });
-      });
-    }
-  });
+              .collection('users')
+              .doc(userId)
+              .get()
+              .then(doc => {
+                room.userId = userId;
+                room.user = doc.data().name;
 
+                let newdoc = firebase
+                  .firestore()
+                  .collection('chatrooms')
+                  .doc();
+
+                dispatch({
+                  type: 'currentChatroomId',
+                  data: newdoc.id,
+                });
+                newdoc.set(room);
+              })
+              .catch(err => {
+                console.log('chatToUser get user err: ', err);
+              });
+          })
+          .catch(err => {
+            console.log('chatToUser get host err: ', err);
+          });
+      }
+    })
+    .catch(err => {
+      console.log('chatToUser err: ', err);
+    });
 
   firebase
-  .firestore()
-  .collection('chats')
-  .doc()
-  .set({
-    hostId,
-    userId,
-    byId: hostId,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    message
-  });
+    .firestore()
+    .collection('chats')
+    .doc()
+    .set({
+      hostId,
+      userId,
+      byId: hostId,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message,
+    })
+    .then(() => {
+      console.log('chatToUser: success');
+    })
+    .catch(err => {
+      console.log('chatToUser err: ', err);
+    });
 }
 
 export async function getChatrooms() {
   let userId = firebase.auth().currentUser.uid;
 
   let ref = firebase
-  .firestore()
-  .collection('chatrooms')
-  .where('userId', '==', userId);
+    .firestore()
+    .collection('chatrooms')
+    .where('userId', '==', userId);
 
-  
   let ret = ref
     // .orderBy('timestamp', 'desc')
     .limit(10)
     .get()
-    .then(sp => 
-      sp.docs.map(doc => (
-        {id:doc.id, ...doc.data()}
-      )
-    ))
+    .then(sp => sp.docs.map(doc => ({ id: doc.id, ...doc.data() })))
     .then(msg => msg.reverse())
-    return ret;
-
+    .catch(err => {
+      console.log('getChatrooms err: ', err);
+    });
+  return ret;
 }
 
 // export async function getChatroomsForHost() {
@@ -521,7 +574,7 @@ export async function getChatrooms() {
 //     // .orderBy('timestamp', 'desc')
 //     .limit(10)
 //     .get()
-//     .then(sp => 
+//     .then(sp =>
 //       sp.docs.map(doc => (
 //         {id:doc.id, ...doc.data()}
 //       )
@@ -589,8 +642,7 @@ export function formatTimestamp(x) {
 
   if (today == y) {
     return hhmm(d);
-  }
-  else {
+  } else {
     return yymmdd(d);
   }
 }

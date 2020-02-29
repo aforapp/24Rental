@@ -65,11 +65,11 @@ const Screen = props => {
     { a: 'a' },
   ];
 
-  const onRefresh = React.useCallback(() => {
-    if (auth && auth.id != null) {
-      getUserPaymentRecords(auth.id);
-    }
-  }, [auth, getUserPaymentRecords]);
+  // const onRefresh = React.useCallback(() => {
+  //   if (auth && auth.id != null) {
+  //     getUserPaymentRecords(auth.id);
+  //   }
+  // }, [auth, getUserPaymentRecords]);
 
   const getTime = slots => {
     return textslotsToText(slots);
@@ -77,13 +77,19 @@ const Screen = props => {
 
   const getUserPaymentRecords = useCallback(
     authId => {
-      setIsLoading(true);
-      setRecords([]);
-      loadGetUserPaymentRecords(authId).then(data => {
-        setRequests(data);
-        transformRequestsToRecords(requests);
-        setIsLoading(false);
-      });
+      if (authId != null) {
+        setIsLoading(true);
+        setRecords([]);
+        loadGetUserPaymentRecords(authId)
+          .then(data => {
+            setRequests(data);
+            transformRequestsToRecords(requests);
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.log('getUserPaymentRecords err: ', err);
+          });
+      }
     },
     [requests, transformRequestsToRecords],
   );
@@ -146,61 +152,61 @@ const Screen = props => {
     // </View>
 
     <View style={style.container}>
-      <ScrollView
+      {/* <ScrollView
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-        }>
-        <Title style={style.title}>紀綠</Title>
-        {isLoading ? (
-          <View style={styles.centerScreen}>
-            <Text>載入中</Text>
-          </View>
-        ) : null}
+        }> */}
+      <Title style={style.title}>紀綠</Title>
+      {isLoading ? (
+        <View style={styles.centerScreen}>
+          <Text>載入中</Text>
+        </View>
+      ) : null}
 
-        {records.length ? (
-          <FlatList
-            initialNumToRender={0}
-            data={records}
-            keyExtractor={(request, index) => request.id}
-            renderItem={({ item, index }) => (
-              <View style={style.listItem}>
-                <Text style={style.itemText}>
-                  下單日期{'\t\t'}
-                  {formatDateTime(item.createTime.toDate())}
-                </Text>
-                <Text style={style.itemText}>
-                  場地名稱{'\t\t'}
-                  {item.room}
-                </Text>
-                <Text style={style.itemText}>
-                  租用日期{'\t\t'}
-                  {item.date}
-                </Text>
-                <Text style={style.itemText}>
-                  租用時間{'\t\t'}
-                  {getTime(item.slots)}
-                </Text>
-                <Text style={style.itemText}>
-                  租用費用{'\t\t'}
-                  HKD {item.amount}
-                </Text>
-                <Text style={style.itemText}>
-                  交易狀態{'\t\t'}
-                  {statusMapping[item.status]}
-                </Text>
-              </View>
-            )}
-          />
-        ) : (
-          !isLoading && (
-            <View style={styles.centerScreen}>
-              <Text style={style.emptyRecordText}>
-                沒有訂單紀綠{'\n'}請到搜尋頁面預訂喜愛的排舞室
+      {records.length ? (
+        <FlatList
+          initialNumToRender={0}
+          data={records}
+          keyExtractor={(request, index) => request.id}
+          renderItem={({ item, index }) => (
+            <View style={style.listItem}>
+              <Text style={style.itemText}>
+                下單日期{'\t\t'}
+                {formatDateTime(item.createTime.toDate())}
+              </Text>
+              <Text style={style.itemText}>
+                場地名稱{'\t\t'}
+                {item.room}
+              </Text>
+              <Text style={style.itemText}>
+                租用日期{'\t\t'}
+                {item.date}
+              </Text>
+              <Text style={style.itemText}>
+                租用時間{'\t\t'}
+                {getTime(item.slots)}
+              </Text>
+              <Text style={style.itemText}>
+                租用費用{'\t\t'}
+                HKD {item.amount}
+              </Text>
+              <Text style={style.itemText}>
+                交易狀態{'\t\t'}
+                {statusMapping[item.status]}
               </Text>
             </View>
-          )
-        )}
-      </ScrollView>
+          )}
+        />
+      ) : (
+        !isLoading && (
+          <View style={styles.centerScreen}>
+            <Text style={style.emptyRecordText}>
+              沒有訂單紀綠{'\n'}請到搜尋頁面預訂喜愛的排舞室
+            </Text>
+          </View>
+        )
+      )}
+      {/* </ScrollView> */}
     </View>
   );
 };

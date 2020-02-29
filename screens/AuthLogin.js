@@ -44,8 +44,11 @@ const Screen = props => {
         if (token) {
           setState({ ...state, token });
         }
+      })
+      .catch(err => {
+        console.log('AuthLogin getToken err: ', err);
       });
-  }, []);
+  }, [state]);
 
   const helperText = {
     email: null,
@@ -69,36 +72,43 @@ const Screen = props => {
   });
 
   function loginInit(isHost, id) {
-    getChatrooms().then(list => {
-      let ref = firebase.firestore().collection('chatrooms');
-      if (isHost) {
-        ref = ref.where('hostId', '==', id);
-      } else {
-        ref = ref.where('userId', '==', id);
-      }
-      let unsubscribe = ref.onSnapshot(querySnapshot => {
-        let data = [];
-        let modified = [];
-        querySnapshot.docChanges.forEach(change => {
-          let x = change.doc.data();
-          if (change.type === 'added') {
-            data.push({ id: change.doc.id, ...x });
-          } else if (change.type === 'modified') {
-            modified.push({ id: change.doc.id, ...x });
-          }
+    getChatrooms()
+      .then(list => {
+        let ref = firebase.firestore().collection('chatrooms');
+        if (isHost) {
+          ref = ref.where('hostId', '==', id);
+        } else {
+          ref = ref.where('userId', '==', id);
+        }
+        let unsubscribe = ref.onSnapshot(querySnapshot => {
+          let data = [];
+          let modified = [];
+          querySnapshot.docChanges.forEach(change => {
+            let x = change.doc.data();
+            if (change.type === 'added') {
+              data.push({ id: change.doc.id, ...x });
+            } else if (change.type === 'modified') {
+              modified.push({ id: change.doc.id, ...x });
+            }
+          });
+          dispatch({
+            type: 'chatrooms',
+            data,
+            modified,
+          });
         });
-        dispatch({
-          type: 'chatrooms',
-          data,
-          modified,
-        });
+        dispatch({ type: 'chatroomsSubscription', data: { unsubscribe } });
+        let ret = ref
+          .get()
+          .then(sp => sp.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+          .then(data => {})
+          .catch(err => {
+            console.log('AuthLogin loginInit chatrooms err: ', err);
+          });
+      })
+      .catch(err => {
+        console.log('AuthLogin loginInit err: ', err);
       });
-      dispatch({ type: 'chatroomsSubscription', data: { unsubscribe } });
-      let ret = ref
-        .get()
-        .then(sp => sp.docs.map(doc => ({ id: doc.id, ...doc.data() })))
-        .then(data => {});
-    });
   }
 
   function onChangeText(name, value) {
@@ -226,12 +236,16 @@ const Screen = props => {
               });
             message('登入成功');
             if (me.isHost) {
-              loadGetHostRooms(me.id).then(rooms => {
-                dispatch({
-                  type: 'rooms',
-                  data: rooms,
+              loadGetHostRooms(me.id)
+                .then(rooms => {
+                  dispatch({
+                    type: 'rooms',
+                    data: rooms,
+                  });
+                })
+                .catch(err => {
+                  console.log('AuthLogin login loadGetHostRooms err: ', err);
                 });
-              });
               NavigationService.navigate('HostFlow');
             } else {
               NavigationService.navigate('UserFlow');
