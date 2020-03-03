@@ -48,10 +48,10 @@ const Screen = props => {
         data={options.items}
         extraData={selected}
         keyExtractor={(item, index) =>
-          'key' + (typeof item == 'string' ? item : '_title_' + item.title)
+          'key' + (typeof item === 'string' ? item : '_title_' + item.title)
         }
         renderItem={({ item }) =>
-          typeof item == 'string' ? (
+          typeof item === 'string' ? (
             <TouchableHighlight onPress={() => onClick(item)}>
               <View style={style.optionTextWrapper}>
                 <Text
@@ -80,7 +80,7 @@ const Screen = props => {
         onPress={() => {
           let data = [];
           options.items.map(x => {
-            if (typeof x == 'string') {
+            if (typeof x === 'string') {
               if (selected[x]) {
                 data.push(x);
               }
@@ -98,7 +98,7 @@ const Screen = props => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#9BC4D8',
+    backgroundColor: Colors.bg,
     height: '100%',
     paddingTop: 10,
   },
@@ -122,13 +122,14 @@ const style = StyleSheet.create({
   },
   optionTitle: {
     marginTop: -2,
+    marginBottom: 1,
     paddingRight: 25,
     height: 23,
     textAlign: 'right',
     lineHeight: 23,
     letterSpacing: 3,
     color: 'white',
-    backgroundColor: 'black',
+    backgroundColor: Colors.main,
   },
 });
 

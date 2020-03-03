@@ -97,7 +97,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    backgroundColor: '#9BC4D8',
+    backgroundColor: Colors.bg,
     height: '100%',
     paddingTop: 10,
   },

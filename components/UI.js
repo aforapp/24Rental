@@ -163,7 +163,7 @@ export const HeaderSortButton = props => {
           justifyContent: 'flex-end',
           marginBottom: -10,
           fontSize: 25,
-          color: Colors.menuSelected,
+          color: Colors.main,
           zIndex: 1,
           opacity: props.active ? 100 : 0,
         }}>

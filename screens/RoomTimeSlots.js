@@ -187,9 +187,12 @@ const Screen = props => {
           />
           <View style={style.header}>
             <Headline style={style.name}>{roomName}</Headline>
-            <Text style={style.address}>{address}</Text>
-            <Text style={style.price}>
-              {`時租$${pricePerHour} - ${area}尺空間`}
+            <Text style={style.roomDetails}>{address || '--'}</Text>
+            <Text style={style.roomDetails}>
+              {pricePerHour ? `時租$${pricePerHour}` : '--'}
+            </Text>
+            <Text style={style.roomDetails}>
+              {area ? `${area}尺空間` : '--'}
             </Text>
           </View>
           <View style={style.datePickerContainer}>
@@ -313,24 +316,23 @@ const style = StyleSheet.create({
     paddingTop: 30,
   },
   header: {
-    backgroundColor: containerBackgroundColor,
+    backgroundColor: Colors.bg,
     paddingTop: 5,
     paddingBottom: 10,
+    paddingLeft: 30,
     marginBottom: 15,
   },
   name: {
-    fontSize: 28,
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '500',
+    marginLeft: -1,
+    color: Colors.main,
   },
-  address: {
-    fontSize: 14,
-    letterSpacing: 2,
-    textAlign: 'center',
-    marginBottom: 3,
-  },
-  price: {
+  roomDetails: {
+    marginBottom: 2,
     fontSize: 10,
-    textAlign: 'center',
+    fontWeight: '500',
+    color: Colors.main,
   },
   datePickerContainer: {
     marginVertical: 8,

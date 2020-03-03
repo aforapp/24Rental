@@ -372,7 +372,7 @@ const GuestFlow = createBottomTabNavigator(
   {
     Search: getConfig(BookingStack, '搜尋', 'search'),
     ShoppingCart: getConfig(LoginRequired, '購物車', 'cart', true),
-    Record: getConfig(LoginRequired, '紀錄', 'document'),
+    Record: getConfig(LoginRequired, '記錄', 'document'),
     Inbox: getConfig(LoginRequired, '收件匣', 'mail'),
     Login: getConfig(LoginStack, '登入或註冊', 'desktop'),
   },
@@ -388,7 +388,7 @@ const UserFlow = createBottomTabNavigator(
   {
     Search: getConfig(BookingStack, '搜尋', 'search'),
     ShoppingCart: getConfig(ShoppingCartStack, '購物車', 'cart', true),
-    Record: getConfig(UserPaymentRecords, '紀錄', 'document'),
+    Record: getConfig(UserPaymentRecords, '記錄', 'document'),
     Inbox: getConfig(ChatStack, '收件匣', 'mail', false, true),
     Profile: getConfig(UserProfileStack, '租客資料', 'settings'),
   },
@@ -405,7 +405,7 @@ const HostFlow = createBottomTabNavigator(
   {
     Room: getConfig(HostRoomListStack, '房源', 'business'),
     Calendar: getConfig(HostCalendar, '日曆', 'calendar'),
-    Record: getConfig(HostPaymentRecords, '紀錄', 'document'),
+    Record: getConfig(HostPaymentRecords, '記錄', 'document'),
     Inbox: getConfig(ChatStack, '收件匣', 'mail', false, true),
     Profile: getConfig(HostProfileStack, '場主資料', 'settings'),
   },

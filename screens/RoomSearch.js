@@ -177,7 +177,7 @@ const Screen = props => {
         items: [
           { title: ANY },
           ANY,
-          { title: '香港島' },
+          { title: '港島區' },
           '中西區',
           '灣仔區',
           '東區',
@@ -813,7 +813,7 @@ const Screen = props => {
         style={{
           zIndex: 100,
           // borderRadius: 30,
-          backgroundColor: Colors.main,
+          backgroundColor: 'Colors.main',
         }}>
         <Accordion
           // collapsed={false}
@@ -831,12 +831,12 @@ const Screen = props => {
             setState({ ...state, activeSections2: [0] });
           }}
         />
-        <View style={{ backgroundColor: 'black' }}>
+        <View style={{ backgroundColor: Colors.bg, paddingTop: 5 }}>
           <View style={{ ...styles.row }}>
             <View style={{ ...styles.row }}>
               <Icon
                 style={style.navIcon}
-                size={60}
+                size={45}
                 name="navicon"
                 onPress={() =>
                   setState({
@@ -851,22 +851,37 @@ const Screen = props => {
               <HeaderSortButton
                 title="人氣"
                 onPress={() => selectSorting('人氣')}
-                active={state.sortCrit == '人氣'}
-                color={Colors.navButton}
+                active={state.sortCrit === '人氣'}
+                color={Colors.bg}
+                fontColor={
+                  state.sortCrit === '人氣'
+                    ? Colors.main
+                    : Colors.secondaryButton
+                }
                 buttonStyle={{ width: 'auto' }}
               />
               <HeaderSortButton
                 title="價錢"
                 onPress={() => selectSorting('價錢')}
-                active={state.sortCrit == '價錢'}
-                color={Colors.navButton}
+                active={state.sortCrit === '價錢'}
+                color={Colors.bg}
+                fontColor={
+                  state.sortCrit === '價錢'
+                    ? Colors.main
+                    : Colors.secondaryButton
+                }
                 buttonStyle={{ width: 'auto' }}
               />
               <HeaderSortButton
                 title="評分"
                 onPress={() => selectSorting('評分')}
-                active={state.sortCrit == '評分'}
-                color={Colors.navButton}
+                active={state.sortCrit === '評分'}
+                color={Colors.bg}
+                fontColor={
+                  state.sortCrit === '評分'
+                    ? Colors.main
+                    : Colors.secondaryButton
+                }
                 buttonStyle={{ width: 'auto' }}
               />
             </View>
@@ -876,7 +891,8 @@ const Screen = props => {
               title={'你好，' + (auth.id == null ? '訪客' : auth.name)}
               onPress={() => {}}
               active={false}
-              color={Colors.headerButton}
+              color={Colors.bg}
+              fontColor={Colors.main}
               buttonStyle={{
                 width: '100%',
                 marginLeft: 50,
@@ -978,11 +994,12 @@ const style = StyleSheet.create({
     paddingTop: 10,
     padding: 10,
     // height: '100%',
-    backgroundColor: Colors.optionList,
+    backgroundColor: Colors.bg,
   },
   navIcon: {
-    marginTop: 3,
-    color: Colors.bg,
+    marginTop: 12,
+    marginLeft: 12,
+    color: Colors.main,
   },
   navBarButtonsCollection: {
     ...styles.row,
@@ -992,11 +1009,10 @@ const style = StyleSheet.create({
     paddingRight: 25,
     paddingBottom: 3,
     paddingLeft: 10,
-    backgroundColor: Colors.navButton,
-    borderBottomLeftRadius: 20,
+    backgroundColor: Colors.bg,
   },
   navBarTitle: {
-    color: 'silver',
+    color: Colors.secondaryButton,
     fontSize: 11,
     marginLeft: 30,
     marginBottom: 9,
@@ -1028,7 +1044,7 @@ const style = StyleSheet.create({
     lineHeight: 48,
     marginLeft: 10,
     marginRight: 8,
-    color: Colors.bg,
+    color: Colors.main,
   },
   optionTextSelected: {
     color: Colors.main,
@@ -1063,20 +1079,24 @@ const style = StyleSheet.create({
     paddingBottom: 8,
   },
   roomName: {
-    fontSize: 18,
+    fontSize: 15,
+    fontWeight: '500',
     paddingBottom: 2,
+    color: Colors.main,
   },
   address: {
-    fontSize: 12,
+    fontSize: 15,
+    fontWeight: '500',
     paddingBottom: 2,
-    color: '#707070',
+    color: Colors.main,
   },
   price: {
     paddingTop: 1,
-    fontSize: 10,
+    fontSize: 14,
+    fontWeight: '500',
+    color: Colors.main,
   },
   accordion: {
-    color: 'red',
     marginTop: 0,
     marginBottom: -20,
   },

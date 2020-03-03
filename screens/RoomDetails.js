@@ -18,6 +18,7 @@ import Carousel from 'react-native-snap-carousel';
 import MapView, { Marker } from 'react-native-maps';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
+import { Colors } from '../screens/Styles';
 
 const Screen = props => {
   const [state, setState] = useState({
@@ -163,9 +164,14 @@ const Screen = props => {
           />
           <View style={style.header}>
             <Headline style={style.name}>{state.room.name}</Headline>
-            <Text style={style.address}>{state.room.address}</Text>
-            <Text style={style.price}>
-              {`時租$${state.room.pricePerHour} - ${state.room.area}尺空間`}
+            <Text style={style.roomDetails}>{state.room.address || '--'}</Text>
+            <Text style={style.roomDetails}>
+              {state.room.pricePerHour
+                ? `時租$${state.room.pricePerHour}`
+                : '--'}
+            </Text>
+            <Text style={style.roomDetails}>
+              {state.room.area ? `${state.room.area}尺空間` : '--'}
             </Text>
           </View>
           <View style={{ flex: 1, alignItems: 'center' }}>
@@ -209,28 +215,25 @@ const Screen = props => {
   );
 };
 
-const containerBackgroundColor = '#9BC4D8';
-
 const style = StyleSheet.create({
   header: {
-    backgroundColor: containerBackgroundColor,
+    backgroundColor: Colors.bg,
     paddingTop: 5,
     paddingBottom: 10,
+    paddingLeft: 30,
     marginBottom: 15,
   },
   name: {
-    fontSize: 28,
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '500',
+    marginLeft: -1,
+    color: Colors.main,
   },
-  address: {
-    fontSize: 14,
-    letterSpacing: 2,
-    textAlign: 'center',
-    marginBottom: 3,
-  },
-  price: {
+  roomDetails: {
+    marginBottom: 2,
     fontSize: 10,
-    textAlign: 'center',
+    fontWeight: '500',
+    color: Colors.main,
   },
   buttonTimetable: {
     width: '85%',
@@ -249,7 +252,8 @@ const style = StyleSheet.create({
     lineHeight: 15,
     width: '85%',
     padding: 8,
-    backgroundColor: containerBackgroundColor,
+    color: 'white',
+    backgroundColor: Colors.main,
   },
 });
 

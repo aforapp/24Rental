@@ -47,6 +47,7 @@ const style = StyleSheet.create({
   header: {
     marginVertical: 10,
     marginLeft: 25,
+    color: Colors.main,
   },
   userInfoContainer: {
     marginTop: 20,

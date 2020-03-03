@@ -128,17 +128,6 @@ const Screen = props => {
                   </Text>
                   <View style={style.messageGroup}>
                     <View style={style.messageContent}>
-                      {(auth.isHost
-                        ? item.hostNewMessage
-                        : item.userNewMessage) > 0 ? (
-                        <View style={style.newMessageIndicator}>
-                          <Text style={style.newMessageCount}>
-                            {auth.isHost
-                              ? item.hostNewMessage
-                              : item.userNewMessage}
-                          </Text>
-                        </View>
-                      ) : null}
                       <Text
                         style={style.message}
                         numberOfLines={1}
@@ -146,9 +135,19 @@ const Screen = props => {
                         {item.lastMessage}
                       </Text>
                     </View>
-                    <Text style={style.timestamp}>
+                    {(auth.isHost ? item.hostNewMessage : item.userNewMessage) >
+                    0 ? (
+                      <View style={style.newMessageIndicator}>
+                        <Text style={style.newMessageCount}>
+                          {auth.isHost
+                            ? item.hostNewMessage
+                            : item.userNewMessage}
+                        </Text>
+                      </View>
+                    ) : null}
+                    {/* <Text style={style.timestamp}>
                       最後訊息時間{formatTimestamp(item.lastMessageTime)}
-                    </Text>
+                    </Text> */}
                   </View>
                 </View>
               </TouchableHighlight>
@@ -181,14 +180,14 @@ const style = StyleSheet.create({
     marginBottom: 8,
   },
   messageDivider: {
-    height: 2,
-    backgroundColor: 'white',
+    height: 1.2,
+    backgroundColor: 'gray',
     width: '100%',
   },
   messageBlock: {
     paddingVertical: 8,
     paddingHorizontal: 30,
-    backgroundColor: '#2560A4',
+    backgroundColor: Colors.bg,
   },
   messageGroup: {
     ...styles.row,
@@ -202,29 +201,31 @@ const style = StyleSheet.create({
     marginBottom: 2,
     fontSize: 16,
     letterSpacing: 2,
-    color: '#9BC4D8',
+    color: Colors.main,
   },
   newMessageIndicator: {
     marginRight: 5,
-    width: 15,
-    borderRadius: 5,
-    backgroundColor: 'red',
+    width: 18,
+    height: 18,
+    borderRadius: 100,
+    backgroundColor: Colors.secondaryButton,
   },
   newMessageCount: {
     color: 'white',
     fontSize: 11,
     textAlign: 'center',
+    lineHeight: 17,
   },
   message: {
     width: '60%',
     fontSize: 11,
-    color: 'white',
+    color: Colors.main,
   },
-  timestamp: {
-    fontSize: 11,
-    letterSpacing: 1,
-    color: 'white',
-  },
+  // timestamp: {
+  //   fontSize: 11,
+  //   letterSpacing: 1,
+  //   color: Colors.main,
+  // },
   emptyChatText: {
     color: '#9BC4D8',
     fontSize: 18,
