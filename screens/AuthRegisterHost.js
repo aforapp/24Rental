@@ -91,8 +91,8 @@ const Screen = props => {
     }
   };
 
-  const toHomePage = () => {
-    props.navigation.navigate('RoomSearch');
+  const toRegisterPage = () => {
+    props.navigation.navigate('Register');
   };
 
   const toLoginPage = () => {
@@ -120,8 +120,8 @@ const Screen = props => {
         />
       </View>
       <View style={style.buttonsContainer}>
-        <Button style={style.button} mode="outlined" onPress={toHomePage}>
-          <Text style={{ ...style.buttonText, color: 'gray' }}>取消</Text>
+        <Button style={style.button} mode="outlined" onPress={toRegisterPage}>
+          <Text style={{ ...style.buttonText, color: 'gray' }}>上一頁</Text>
         </Button>
         <Button
           style={style.button}

@@ -12,20 +12,21 @@ import { StyleSheet } from 'react-native';
 // MenuBar 翻白字體顏色：R=37  G=96  B=164
 // 底部功能鍵(登入果欄) R=155  G=196  B=216
 
-const colorMain = '#2560A4';
+const colorMain = '#3568A6';
 const colorBg = '#FFFFFF';
-const colorText = '#3E3A39';
-const colorTitle = '#2560A4';
-const colorButton = '#2560A4';
+const colorText = '#424949';
+const colorTitle = '#3568A6';
+const colorButton = '#3568A6';
 const colorHeaderButton = '#000000';
 const colorSelected = '#FFFFFF';
-const colorSelectedText = '#2560A4';
+const colorSelectedText = '#3568A6';
 const colorMenuBg = '#FFFFFF';
 const colorMenuText = '#000000';
 const colorMenuSelected = '#FFFFFF';
-const colorMenuSelectedText = '#2560A4';
-const colorNavButton = '#9BC4D8';
-const colorOptionList = '#9BC4D8';
+const colorMenuSelectedText = '#3568A6';
+const colorLightBlue = '#90BED4';
+const colorNavButton = '#3568A6';
+const colorOptionList = '#90BED4';
 
 export const Colors = {
   main: colorMain,
@@ -40,6 +41,7 @@ export const Colors = {
   menuText: colorMenuText,
   menuSelected: colorMenuSelected,
   menuSelectedText: colorMenuSelectedText,
+  secondaryButton: colorLightBlue,
   navButton: colorNavButton,
   optionList: colorOptionList,
 };

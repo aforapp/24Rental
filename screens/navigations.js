@@ -374,7 +374,7 @@ const GuestFlow = createBottomTabNavigator(
     ShoppingCart: getConfig(LoginRequired, '購物車', 'cart', true),
     Record: getConfig(LoginRequired, '紀錄', 'document'),
     Inbox: getConfig(LoginRequired, '收件匣', 'mail'),
-    Login: getConfig(LoginStack, '登入', 'desktop'),
+    Login: getConfig(LoginStack, '登入或註冊', 'desktop'),
   },
   {
     initialRouteName: 'Search',

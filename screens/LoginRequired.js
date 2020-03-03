@@ -49,7 +49,7 @@ const Screen = props => {
           登入
         </Button>
         <Button
-          style={{ ...style.button, backgroundColor: Colors.navButton }}
+          style={{ ...style.button, backgroundColor: Colors.secondaryButton }}
           mode="contained"
           onPress={() => NavigationService.navigate('Register')}>
           註冊
@@ -73,6 +73,7 @@ const style = StyleSheet.create({
   description: {
     fontSize: 16,
     textAlign: 'center',
+    color: Colors.text,
     marginBottom: 15,
   },
   button: {

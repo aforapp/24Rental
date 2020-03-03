@@ -83,17 +83,16 @@ const Screen = props => {
       <Title style={style.title}>{TITLE}</Title>
       <View style={style.accountInfoContainer}>
         <Text style={style.accountInfoText}>
-          <Text style={style.accountInfoLabel}>{label.name}</Text> : {name}
+          {label.name} : {name}
         </Text>
         <Text style={style.accountInfoText}>
-          <Text style={style.accountInfoLabel}>{label.tel}</Text> : {tel}
+          {label.tel} : {tel}
         </Text>
         <Text style={style.accountInfoText}>
-          <Text style={style.accountInfoLabel}>{label.email}</Text> : {email}
+          {label.email} : {email}
         </Text>
         <Text style={style.accountInfoText}>
-          <Text style={style.accountInfoLabel}>{label.password}</Text> :{' '}
-          {Array(password.length + 1).join('•')}
+          {label.password} : {Array(password.length + 1).join('•')}
         </Text>
       </View>
       <View style={style.confirmationTextContainer}>
@@ -132,9 +131,7 @@ const style = StyleSheet.create({
     marginLeft: 8,
     lineHeight: 25,
     letterSpacing: 2,
-  },
-  accountInfoLabel: {
-    color: '#9BC4D8',
+    color: Colors.main,
   },
   confirmationTextContainer: {
     alignItems: 'center',

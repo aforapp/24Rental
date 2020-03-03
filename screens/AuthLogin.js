@@ -296,7 +296,10 @@ const Screen = props => {
               {state.loggingIn ? '登入中' : '登入'}
             </Button>
             <Button
-              style={{ ...style.button, backgroundColor: Colors.navButton }}
+              style={{
+                ...style.button,
+                backgroundColor: Colors.secondaryButton,
+              }}
               mode="contained"
               onPress={toRegisterPage}>
               註冊
@@ -349,6 +352,7 @@ const style = StyleSheet.create({
   description: {
     fontSize: 16,
     textAlign: 'center',
+    color: Colors.text,
     lineHeight: 22,
     marginTop: '30%',
     marginBottom: 15,

@@ -58,7 +58,7 @@ const style = StyleSheet.create({
     marginBottom: 5,
     fontSize: 18,
     textAlign: 'center',
-    color: '#9BC4D8',
+    color: Colors.main,
   },
   buttonContainer: {
     alignItems: 'center',
