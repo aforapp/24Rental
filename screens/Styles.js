@@ -66,12 +66,12 @@ export default StyleSheet.create({
     color: 'white',
   },
   blackText: {
-    color: 'white',
+    color: colorMain,
   },
   blackContainer: {
     flex: 1,
     // padding: 8,
-    backgroundColor: 'black',
+    backgroundColor: colorBg,
     color: 'white',
     height: '100%',
   },

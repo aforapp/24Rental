@@ -77,7 +77,7 @@ const Screen = props => {
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
         }>
-        <Title style={style.title}>紀綠</Title>
+        <Title style={style.title}>記錄</Title>
         {isLoading ? (
           <View style={styles.centerScreen}>
             <Text>載入中</Text>
@@ -119,7 +119,7 @@ const Screen = props => {
         ) : (
           !isLoading && (
             <View style={styles.centerScreen}>
-              <Text>沒有紀綠</Text>
+              <Text>沒有記錄</Text>
             </View>
           )
         )}
@@ -146,11 +146,13 @@ const style = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 38,
     marginBottom: 2,
-    backgroundColor: '#2560A4',
+    backgroundColor: Colors.bg,
+    borderBottomWidth: 1,
+    borderColor: Colors.main,
   },
   itemText: {
     fontSize: 11,
-    color: 'white',
+    color: Colors.main,
   },
 });
 

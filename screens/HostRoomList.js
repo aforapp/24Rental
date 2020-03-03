@@ -46,7 +46,7 @@ const Screen = props => {
           <Text style={style.navBarTitle}>歡迎新增和管理您提供的房源</Text>
         </View>
         <Button style={style.createRoomButton} onPress={createRoom}>
-          <Icon name="ios-add-circle-outline" size={35} color="white" />
+          <Icon name="ios-add-circle-outline" size={35} color={Colors.main} />
         </Button>
       </View>
 
@@ -104,7 +104,7 @@ const style = StyleSheet.create({
     marginRight: 5,
   },
   navBarTitle: {
-    color: 'silver',
+    color: Colors.secondaryButton,
     fontSize: 11,
     marginTop: 5,
     marginLeft: 2,
