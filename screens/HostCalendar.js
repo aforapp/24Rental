@@ -96,8 +96,6 @@ const Screen = props => {
             .then(adhocs => {
               setBookingData(bookings);
               setAdhocData(adhocs);
-              console.log(adhocs);
-              // console.log(bookings)
               let marked = {};
               bookings.map(x => (marked[x.date] = { marked: true }));
               adhocs.map(x => (marked[x.date] = { marked: true }));
@@ -147,7 +145,7 @@ const Screen = props => {
 
     for (let i = 0; i < adhocData.length; i++) {
       const md = adhocData[i];
-      if (md.date == selectedDate && md.roomId == chosenRoom.id) {
+      if (md.date === selectedDate && md.roomId === chosenRoom.id) {
         const markedSlots = Object.keys(slots);
         for (let j = 0; j < markedSlots.length; j++) {
           if (md.slots[markedSlots[j]] == true) {
@@ -326,20 +324,20 @@ const Screen = props => {
 
   const rowHasChanged = () => {};
   const loadItems = day => {
-    //       console.log(day)
-    // console.log({
-    //   [day.dateString]: bookingData.filter( x => x.date == day.dateString).map(x => ({name: x.room}))
-    // })
-    setTimeout(() => {
-      console.log(day.dateString);
-      setSelectedDates(day.dateString);
-      setItems({
-        [day.dateString]: [
-          ...bookingData.filter(x => x.date == day.dateString),
-          ...adhocData.filter(x => x.date == day.dateString),
-        ],
-      });
-    }, 100);
+    setSelectedDates(day.dateString);
+    setItems({
+      [day.dateString]: [
+        ...bookingData.filter(x => x.date === day.dateString),
+        ...adhocData.filter(x => x.date === day.dateString),
+      ],
+    });
+  };
+
+  const onAgendaLoad = day => {
+    // Initialize agenda when items is empty
+    if (Object.keys(items).length === 0) {
+      loadItems(day);
+    }
   };
 
   return (
@@ -539,10 +537,12 @@ const Screen = props => {
       /> */}
       <Agenda
         items={items}
-        loadItemsForMonth={loadItems}
+        loadItemsForMonth={onAgendaLoad}
+        onDayPress={loadItems}
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
         rowHasChanged={rowHasChanged}
+        selected={today}
         markedDates={{
           ...markedDates,
           [selectedDate]: {
