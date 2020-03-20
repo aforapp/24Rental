@@ -253,6 +253,10 @@ const Screen = props => {
           }
         })
         .catch(e => {
+          setState({
+            ...state,
+            loggingIn: false,
+          });
           console.error(e);
         });
     }

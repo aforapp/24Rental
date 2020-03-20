@@ -121,12 +121,19 @@ const Screen = props => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <Title>載入中</Title>
     </View>
   );
 };
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  container: {
+    ...styles.container,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Screen;
