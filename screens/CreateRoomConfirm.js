@@ -224,7 +224,9 @@ const Screen = props => {
             disabled={state.inProgress}
             style={{ ...style.button }}
             onPress={onConfirm.bind(this)}>
-            {state.inProgress ? '處理中' : '確認'}
+            <Text style={style.confirmButtonText}>
+              {state.inProgress ? '處理中' : '確認'}
+            </Text>
           </Button>
         </View>
       </ScrollView>
@@ -253,12 +255,15 @@ const style = StyleSheet.create({
   },
   button: {
     color: 'white',
-    backgroundColor: '#225599',
+    backgroundColor: Colors.button,
     width: '40%',
     marginLeft: '30%',
     marginTop: 8,
     marginBottom: 8,
-    paddingBottom: 8,
+    borderRadius: 5,
+  },
+  confirmButtonText: {
+    color: 'white',
   },
 });
 

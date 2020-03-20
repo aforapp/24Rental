@@ -11,7 +11,7 @@ import {
   Snackbar,
   Card,
   Title,
-  Paragraph
+  Paragraph,
 } from 'react-native-paper';
 import { validateEmail } from '../utils';
 import TextInputField from '../components/TextInputField';
@@ -27,14 +27,14 @@ export default class Screen extends React.Component {
       address: '',
       pricePerHour: '',
       contactNumber: '',
-      createdBy: ''
-    }
+      createdBy: '',
+    },
   };
 
   editRoom() {
     NavigationService.navigate('CreateRoomAddRoom', {
       room: this.props.navigation.state.params.room,
-      isEdit: true
+      isEdit: true,
     });
   }
   constructor(props) {
@@ -58,9 +58,8 @@ export default class Screen extends React.Component {
             flexDirection: 'column',
             flexWrap: 'wrap',
             width: 300,
-            height: 80
-          }}
-        >
+            height: 80,
+          }}>
           {this.state.room.photos.map(url => (
             <Image source={{ url }} />
           ))}
@@ -73,6 +72,6 @@ export default class Screen extends React.Component {
 
 const style = StyleSheet.create({
   container: {
-    padding: 16
-  }
+    padding: 16,
+  },
 });

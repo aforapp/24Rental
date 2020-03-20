@@ -39,11 +39,11 @@ const Screen = props => {
 
   const onChangeText = (name, value) => {
     let ok = true;
-    if (name == 'area') {
+    if (name === 'area') {
       if (isNaN(value)) {
         ok = false;
       } else {
-        value = parseFloat(value);
+        value = `${parseFloat(value)}`;
       }
     }
     if (ok) {
@@ -65,7 +65,7 @@ const Screen = props => {
     photos.photo4 = room.photos[3];
     photos.photo5 = room.photos[4];
   }
-  [state, setState] = useState({
+  const [state, setState] = useState({
     label,
     helperText,
     onChangeText,
@@ -115,7 +115,7 @@ const Screen = props => {
 
     if (ret.field != null) {
       let data = ret.data;
-      if (ret.field == 'facilities') {
+      if (ret.field === 'facilities') {
         // console.log(ret)
       } else if (data.length > 0) {
         data = data[0];
@@ -225,7 +225,7 @@ const Screen = props => {
 
     //required text fields
     ['name', 'area', 'address', 'description', 'contactNumber'].map(name => {
-      if (state[name] == null || state[name].trim() == '') {
+      if (state[name] == null || state[name].trim() === '') {
         helperText[name] = '請輸入' + label[name];
       }
     });
@@ -254,6 +254,7 @@ const Screen = props => {
       returnData,
     });
   };
+
   const onOpeningHours = () => {
     // console.warn(state.openingHours)
     NavigationService.navigate('CreateRoomSetOpeningHours', {
@@ -261,6 +262,7 @@ const Screen = props => {
       returnData,
     });
   };
+
   const onAddPhoto = field => {
     const options = {
       title: '選擇房間相片',
@@ -405,7 +407,7 @@ const Screen = props => {
           }}
           label={'設施：'}
           value={
-            state.facilities.length == 0
+            state.facilities.length === 0
               ? '(未設定)'
               : _.join(state.facilities, ',')
           }

@@ -402,9 +402,7 @@ export const OptionSelect = props => {
               <Text style={{ fontSize: 12, color: '#6A6A6A' }}>
                 {props.label}
               </Text>
-              <Text style={{ fontSize: 16, color: '#6A6A6A', paddingTop: 5 }}>
-                {props.value}
-              </Text>
+              <Text style={{ fontSize: 16, paddingTop: 5 }}>{props.value}</Text>
             </>
           ) : (
             <>
