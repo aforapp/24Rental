@@ -36,20 +36,6 @@ const Screen = props => {
     rules: '用場守則(多行)',
     contactNumber: '聯絡電話',
   };
-
-  const onChangeText = (name, value) => {
-    let ok = true;
-    if (name === 'area') {
-      if (isNaN(value)) {
-        ok = false;
-      } else {
-        value = `${parseFloat(value)}`;
-      }
-    }
-    if (ok) {
-      setState({ ...state, [name]: value });
-    }
-  };
   const helperText = {};
   // console.log('d', props.navigation.state.params)
   const room =
@@ -98,6 +84,10 @@ const Screen = props => {
     label,
     helperText,
     onChange: onChangeText,
+  };
+
+  const onChangeText = (name, value) => {
+    setState({ ...state, [name]: value });
   };
 
   const returnData = ret => {

@@ -396,17 +396,21 @@ export const OptionSelect = props => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: 'column', paddingRight: 10 }}>
           {props.value !== '(未設定)' ? (
             <>
               <Text style={{ fontSize: 12, color: '#6A6A6A' }}>
                 {props.label}
               </Text>
-              <Text style={{ fontSize: 16, paddingTop: 5 }}>{props.value}</Text>
+              <Text style={{ fontSize: 16, paddingTop: 5 }} numberOfLines={1}>
+                {props.value}
+              </Text>
             </>
           ) : (
             <>
-              <Text style={{ fontSize: 16, color: '#6A6A6A' }}>
+              <Text
+                style={{ fontSize: 16, color: '#6A6A6A' }}
+                numberOfLines={1}>
                 {`${props.label} ${props.value}`}
               </Text>
             </>
