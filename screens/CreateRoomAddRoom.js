@@ -1,7 +1,8 @@
 import NavigationService from '../NavigationService';
 
 // import React, { Component } from 'react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useStateValue } from '../state';
 import _ from 'lodash';
 import {
   Alert,
@@ -17,14 +18,17 @@ import { Title, Headline, Button, Text } from 'react-native-paper';
 // import ActionSheet from 'react-native-actionsheet';
 
 import ImagePicker from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // import TextInputField from '../components/TextInputField';
 import { Input, OptionSelect } from '../components/UI';
+import { deleteHostRoom } from '../utils';
 import styles from './Styles';
 
 import { DISTRICTS } from '../constants';
 
 const Screen = props => {
+  const [{ auth }, dispatch] = useStateValue();
   const label = {
     type: '服務',
     district: '地區',
@@ -51,6 +55,11 @@ const Screen = props => {
     photos.photo4 = room.photos[3];
     photos.photo5 = room.photos[4];
   }
+
+  const onChangeText = (name, value) => {
+    setState({ ...state, [name]: value });
+  };
+
   const [state, setState] = useState({
     label,
     helperText,
@@ -84,10 +93,6 @@ const Screen = props => {
     label,
     helperText,
     onChange: onChangeText,
-  };
-
-  const onChangeText = (name, value) => {
-    setState({ ...state, [name]: value });
   };
 
   const returnData = ret => {
@@ -289,10 +294,35 @@ const Screen = props => {
     // });
   };
 
+  const onDeleteRoomConfirm = () => {
+    console.log(auth);
+    Alert.alert(
+      '確定刪除房間？',
+      '你不能恢復已刪除的房間',
+      [
+        { text: '取消', style: 'cancel' },
+        { text: '確定', onPress: onDeleteRoom },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  const onDeleteRoom = () => {
+    console.log(room.id);
+    deleteHostRoom(dispatch, auth.id, room.id);
+  };
+
   return (
     <View style="styles.container">
       <ScrollView>
-        {state.isEdit && <Title style={styles.padding}>{state.name}</Title>}
+        {state.isEdit && (
+          <View style={style.headerContainer}>
+            <Title style={styles.padding}>{state.name}</Title>
+            <Button onPress={() => onDeleteRoomConfirm()}>
+              <Icon size={30} name="delete" />
+            </Button>
+          </View>
+        )}
         <View style={style.imageBlock}>
           <Text style={style.setRoomPhotos}>設定房間相片：</Text>
           <View style={style.imageGroup}>
@@ -414,6 +444,11 @@ const Screen = props => {
 };
 
 const style = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   button: {
     color: 'white',
     backgroundColor: '#225599',

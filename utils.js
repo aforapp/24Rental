@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase';
+import NavigationService from './NavigationService';
 // import Snackbar from 'react-native-snackbar';
 import SnackBar from 'rn-snackbar';
 
@@ -259,6 +260,28 @@ export function loadGetHostRooms(hostId) {
     })
     .catch(err => {
       console.log('loadGetHostRooms error: ', err);
+    });
+}
+
+export function deleteHostRoom(dispatch, hostId, roomId) {
+  firebase
+    .firestore()
+    .collection('rooms')
+    .doc(roomId)
+    .delete()
+    .then(() => {
+      loadGetHostRooms(hostId).then(rooms => {
+        dispatch({
+          type: 'rooms',
+          data: rooms,
+        });
+        NavigationService.navigate('HostRoomList');
+        message('已刪除房間');
+      });
+    })
+    .catch(err => {
+      console.log('deleteHostRoom error:', err);
+      alert('刪除房間發生錯誤');
     });
 }
 
