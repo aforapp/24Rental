@@ -1,7 +1,7 @@
 import NavigationService from '../NavigationService';
 
-import React, { Component, StyleSheet } from 'react';
-import { View } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Headline, Button } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -15,11 +15,11 @@ class Screen extends React.Component {
         latitude: 22.300802,
         longitude: 114.172459,
         latitudeDelta: 0.01,
-        longitudeDelta: 0.01
+        longitudeDelta: 0.01,
       },
       region: null,
       markerRegion: null,
-      markers: []
+      markers: [],
     };
   }
   UNSAFE_componentWillMount() {
@@ -35,14 +35,14 @@ class Screen extends React.Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           latitudeDelta: 0.01,
-          longitudeDelta: 0.01
+          longitudeDelta: 0.01,
         },
         markerRegion: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           latitudeDelta: 0.01,
-          longitudeDelta: 0.01
-        }
+          longitudeDelta: 0.01,
+        },
       });
     });
   }
@@ -52,10 +52,10 @@ class Screen extends React.Component {
       ...this.state,
       region: null,
       markerRegion: {
-        ...e.nativeEvent.coordinate
+        ...e.nativeEvent.coordinate,
         // latitudeDelta: 0.01,
         // longitudeDelta: 0.01
-      }
+      },
     });
   }
 
@@ -63,8 +63,8 @@ class Screen extends React.Component {
     this.props.navigation.state.params.returnData({
       location: {
         latitude: this.state.markerRegion.latitude,
-        longitude: this.state.markerRegion.longitude
-      }
+        longitude: this.state.markerRegion.longitude,
+      },
     });
     this.props.navigation.goBack();
   };
@@ -76,28 +76,37 @@ class Screen extends React.Component {
           height: '100%',
           width: '100%',
           justifyContent: 'flex-end',
-          alignItems: 'center'
-        }}
-      >
+          alignItems: 'center',
+        }}>
         <MapView
           style={{
             height: '100%',
-            width: '100%'
+            width: '100%',
           }}
           onPress={e => this.onMapPress(e)}
           initialRegion={this.state.initRegion}
-          region={this.state.region}
-        >
+          region={this.state.region}>
           <Marker
             title={this.state.title}
             description=""
             coordinate={this.state.markerRegion}
           />
         </MapView>
-        <Button onPress={this.onSave}>確定</Button>
+        <Button
+          style={style.submitButton}
+          mode="contained"
+          onPress={this.onSave}>
+          確定
+        </Button>
       </View>
     );
   }
 }
+
+const style = StyleSheet.create({
+  submitButton: {
+    width: '100%',
+  },
+});
 
 export default Screen;
