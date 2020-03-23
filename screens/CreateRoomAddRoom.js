@@ -295,7 +295,6 @@ const Screen = props => {
   };
 
   const onDeleteRoomConfirm = () => {
-    console.log(auth);
     Alert.alert(
       '確定刪除房間？',
       '你不能恢復已刪除的房間',
@@ -308,7 +307,6 @@ const Screen = props => {
   };
 
   const onDeleteRoom = () => {
-    console.log(room.id);
     deleteHostRoom(dispatch, auth.id, room.id);
   };
 
