@@ -185,8 +185,8 @@ const Screen = props => {
 
   function getTime(slots) {
     return textslotsToText(Object.keys(slots || {}).join(',')).replace(
-      /-/g,
-      '\n-\n',
+      /, /g,
+      '\n',
     );
   }
 
@@ -246,27 +246,23 @@ const Screen = props => {
             justifyContent: 'space-between',
             padding: 8,
             margin: 0,
-            borderColor: 'gray',
+            borderColor: 'lightgray',
             borderBottomWidth: 1,
           }}>
           <View style={{ ...style.timeslot }}>
-            <Text style={{ textAlign: 'center' }}>{getTime(x.slots)}</Text>
+            <Text style={{ fontSize: 12 }}>{getTime(x.slots)}</Text>
           </View>
-          <Text style={{ flex: 1, flexGrow: 1 }}>
+          <Text style={style.timeslotDetails}>
             {'房間：' + x.room + '\n' + '租客：' + x.user}
           </Text>
           <Button
-            style={{ flex: 1, flexGrow: 0 }}
+            style={style.chatButton}
+            mode="contained"
+            compact
             onPress={() => {
               chatWith(x);
             }}>
-            <Icon
-              size={30}
-              name={
-                Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'
-              }
-              style={{ color: Colors.main }}
-            />
+            <Text style={style.chatButtonText}>談話</Text>
           </Button>
         </View>
       );
@@ -282,31 +278,27 @@ const Screen = props => {
             justifyContent: 'flex-start',
             padding: 8,
             margin: 0,
-            borderColor: 'gray',
+            borderColor: 'lightgray',
             borderBottomWidth: 1,
           }}>
           <View style={{ ...style.timeslot }}>
-            <Text style={{ textAlign: 'center' }}>{getTime(x.slots)}</Text>
+            <Text style={{ fontSize: 12 }}>{getTime(x.slots)}</Text>
           </View>
-          <Text style={{ flex: 1, flexGrow: 1 }}>
+          <Text style={style.timeslotDetails}>
             {x.room +
               ' 臨時' +
               (x.isOpen ? '開放' : '休息') +
               (x.isOpen ? ' 時租$' + x.price : '')}
           </Text>
           <Button
-            style={{ flex: 1, flexGrow: 0 }}
+            style={{ ...style.chatButton, backgroundColor: 'red' }}
+            mode="contained"
+            compact
             onPress={() => {
               deleteAdhoc(x.roomId, x.id);
               reload();
             }}>
-            <Icon
-              size={30}
-              name={
-                Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'
-              }
-              style={{ color: 'red' }}
-            />
+            <Text style={style.chatButtonText}>取消</Text>
           </Button>
         </View>
       );
@@ -612,12 +604,28 @@ const style = StyleSheet.create({
   },
   timeslot: {
     textAlign: 'center',
-    borderRightWidth: 2,
-    borderColor: 'lightgray',
+    borderRightWidth: 1,
+    borderColor: 'gray',
     paddingRight: 8,
-    paddingTop: 8,
-    paddingBottom: 8,
-    marginRight: 8,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginRight: 5,
+  },
+  timeslotDetails: {
+    flex: 1,
+    flexGrow: 1,
+    fontSize: 12,
+    marginLeft: 5,
+  },
+  chatButton: {
+    marginRight: 10,
+    height: 30,
+    borderRadius: 5,
+  },
+  chatButtonText: {
+    fontSize: 12,
+    color: 'white',
+    lineHeight: 14,
   },
   addButton: {
     marginLeft: -20,

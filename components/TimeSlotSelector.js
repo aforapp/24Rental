@@ -1,14 +1,14 @@
-import React from "react";
-import { StyleSheet, TouchableHighlight, View, Text } from "react-native";
-import { Headline } from "react-native-paper";
+import React from 'react';
+import { StyleSheet, TouchableHighlight, View, Text } from 'react-native';
+import { Headline } from 'react-native-paper';
 
-import { TextInput } from "react-native-paper";
-import { KeyboardAwareScrollView as ScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInput } from 'react-native-paper';
+import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { Button, ToggleButton, SlotButton } from "../components/UI";
-import styles from "../screens/Styles";
-import { slotToText, slotsToText } from "../utils.js";
-import TextInputField from "../components/TextInputField";
+import { Button, ToggleButton, SlotButton } from '../components/UI';
+import styles from '../screens/Styles';
+import { slotToText, slotsToText } from '../utils.js';
+import TextInputField from '../components/TextInputField';
 
 export class TimeSlotSelector extends React.Component {
   // ALL_SELECT = [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ];
@@ -18,18 +18,18 @@ export class TimeSlotSelector extends React.Component {
       this.setState({ [name]: value });
     },
     label: {
-      price: "時租"
+      price: '時租',
     },
     helperText: {
-      price: ""
-    }
+      price: '',
+    },
   };
   UNSAFE_componentWillMount() {
     this.setState({
       index: this.props.period.index,
       on: this.props.period.on,
       price: this.props.period.price,
-      slots: this.props.period.slots
+      slots: this.props.period.slots,
     });
   }
   updateSlot(ind) {
@@ -45,13 +45,19 @@ export class TimeSlotSelector extends React.Component {
   render() {
     return (
       <View style={style.container}>
-        <Headline style={{ textAlign: "center", width: "100%" }}>
-          {(this.props.period.index == -1 ? "新" : "") +
-            "時段" +
-            (this.props.period.index == -1 ? "" : this.props.period.index + 1)}
+        <Headline style={{ textAlign: 'center', width: '100%' }}>
+          {(this.props.period.index === -1 ? '新' : '') +
+            '時段' +
+            (this.props.period.index === -1 ? '' : this.props.period.index + 1)}
         </Headline>
-        <View style={styles.headerBar}></View>
-        <View style={{ ...styles.line, height: 40,  paddingLeft: 10, paddingRight: 10 }}>
+        <View style={styles.headerBar} />
+        <View
+          style={{
+            ...styles.line,
+            height: 40,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}>
           <View style={style.row}>
             <Text>日期：</Text>
             <ToggleButton
@@ -96,27 +102,37 @@ export class TimeSlotSelector extends React.Component {
             /> */}
           </View>
         </View>
-
         <View style={{ ...styles.line, height: 80, marginTop: 8 }}>
           <TextInputField name="price" binding={this.state} />
         </View>
-
-        <View style={{ ...styles.line, height: 20, paddingLeft: 10, paddingRight: 10 }}>
+        <View
+          style={{
+            ...styles.line,
+            height: 20,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}>
           <View style={style.row}>
-            <Text>{"時間：" + slotsToText(this.props.period.slots)}</Text>
+            <Text>{'時間：' + slotsToText(this.props.period.slots)}</Text>
           </View>
         </View>
-        <View style={{ ...styles.line, flexGrow: 1, flexShrink: 1,  paddingLeft: 10, paddingRight: 10 }}>
+        <View
+          style={{
+            ...styles.line,
+            flexGrow: 1,
+            flexShrink: 1,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}>
           <ScrollView style={{ marginTop: 4, marginBottom: 4 }}>
             <View
               style={{
                 flex: 1,
-                flexDirection: "row",
-                flexWrap: "wrap"
-              }}
-            >
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              }}>
               {this.props.period.slots.map((x, ind) => (
-                <View key={"slot" + ind} style={{ width: "25%", height: 32 }}>
+                <View key={'slot' + ind} style={{ width: '25%', height: 32 }}>
                   <SlotButton
                     title={slotToText(ind)}
                     on={this.props.period.slots[ind] == 1 ? true : false}
@@ -128,21 +144,20 @@ export class TimeSlotSelector extends React.Component {
           </ScrollView>
         </View>
         {false && <Text>{slotsToText(this.props.period.slots)}</Text>}
-
         <View style={styles.line}>
           <View style={{ ...styles.row }}>
             <Button
               onPress={() => {
                 this.props.cancel();
               }}
-              buttonStyle={{borderRadius: 0}}
+              buttonStyle={{ borderRadius: 5 }}
               title="取消"
             />
             <Button
               onPress={() => {
                 this.props.ok(this.state);
               }}
-              buttonStyle={{borderRadius: 0}}
+              buttonStyle={{ borderRadius: 5 }}
               title="確定"
             />
           </View>
@@ -155,7 +170,7 @@ export class TimeSlotSelector extends React.Component {
 const style = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderColor: "#C6C6C6",
+    borderColor: '#C6C6C6',
     borderRadius: 0,
     // backgroundColor: "lightblue",
     margin: 8,
@@ -165,27 +180,27 @@ const style = StyleSheet.create({
     flex: 0,
     // flexBasis: 20,
     flexShrink: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     // alignItems: "flex-start",
-    justifyContent: "center",
-    alignItems: "stretch",
-    height: "100%"
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    height: '100%',
   },
   line: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     // marginBottom: 8,
     // height: 200,
-    flex: 0
+    flex: 0,
     // flexGrow: 0
     // flexGrow: 1
   },
   row: {
     // backgroundColor: "orange",
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
     // height: 100,
     // margin: 10
-  }
+  },
 });
