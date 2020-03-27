@@ -10,7 +10,7 @@ import {
   // Button,
   Modal,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
@@ -26,7 +26,7 @@ import {
   List,
   Checkbox,
   Switch,
-  IconButton
+  IconButton,
 } from 'react-native-paper';
 import { KeyboardAwareScrollView as ScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './Styles';
@@ -34,8 +34,9 @@ import {
   slotToText,
   slotsToText,
   textSlotsToslots,
-  textslotsToText
+  textslotsToText,
 } from '../utils.js';
+import { Colors } from './Styles';
 
 function datesToBinary(ary) {
   let ret = [];
@@ -115,7 +116,7 @@ function getRemainingDates(periods) {
   periods.map(x =>
     x.dates.map(y => {
       ret = ret.filter(z => z != y);
-    })
+    }),
   );
   return ret;
 }
@@ -181,7 +182,7 @@ const dateNames = {
   THU: '星期四',
   FRI: '星期五',
   SAT: '星期六',
-  PUB: '公眾假期'
+  PUB: '公眾假期',
 };
 
 class Screen extends React.Component {
@@ -205,14 +206,14 @@ class Screen extends React.Component {
       on: [false, false, false, true, false, false, false],
       modalVisible: false,
       slots: JSON.parse(baseSlot),
-      periods: []
+      periods: [],
     };
   }
 
   UNSAFE_componentWillMount(props) {
     let openingHours = _.get(
       this.props,
-      'navigation.state.params.openingHours'
+      'navigation.state.params.openingHours',
     );
     // if (_.get(this.props, "navigation.state.params.isEdit")) {
     if (openingHours != null) {
@@ -233,14 +234,14 @@ class Screen extends React.Component {
       index: -1,
       slots: [],
       on: [false, false, false, false, false, false, false, false],
-      price: null
+      price: null,
     };
 
     for (let i = 0; i < 48; i++) {
       editPeriod.slots.push(0);
     }
 
-    if (ind != -1) {
+    if (ind !== -1) {
       editPeriod.index = ind;
       editPeriod.price = this.state.periods[ind].price;
       editPeriod.slots = textSlotsToslots(this.state.periods[ind].slots);
@@ -258,7 +259,7 @@ class Screen extends React.Component {
   }
   confirm = () => {
     this.props.navigation.state.params.returnData({
-      openingHours: this.state.periods
+      openingHours: this.state.periods,
     });
     this.props.navigation.goBack();
   };
@@ -319,8 +320,7 @@ class Screen extends React.Component {
         <Modal
           animationType="fade"
           transparent={false}
-          visible={this.state.modalVisible}
-        >
+          visible={this.state.modalVisible}>
           <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
             <TimeSlotSelector
               period={this.state.editPeriod}
@@ -337,74 +337,81 @@ class Screen extends React.Component {
               flex: 1,
               flexDirection: 'column',
               justifyContent: 'center',
-              flexGrow: 1
-            }}
-          >
+              flexGrow: 1,
+            }}>
             <Text style={{ fontSize: 20, width: '100%', textAlign: 'center' }}>
               請按新增加入時段及收費
             </Text>
           </View>
         )}
         {/* <ScrollView style={{ ...style.line }}> */}
-          {getDuplicated(this.state.periods).length > 0 && (
-            <View style={{}}>
-              {getDuplicated(this.state.periods).map((x, ind) => (
-                <Text key={'dup' + x.date}>
-                  {ind == 0 ? '請更正重複設定\n' : ''}
-                  {x.date} {x.text}
-                </Text>
-              ))}
-            </View>
-          )}
-          {this.state.periods.map((period, ind) => (
-            <View
-              key={'period' + ind}
-              style={{
-                borderWidth: 1,
-                borderColor: 'gray',
-                borderRadius: 10,
-                borderStyle: 'solid',
-                marginBottom: 4,
-                padding: 8,
-                flexDirection: 'row'
-              }}
-            >
-              <View style={{ width: '80%' }}>
-                <Headline>時段{ind + 1}</Headline>
-                <Text>日子：{weekdayToText(period.dates)}</Text>
-                <Text>時段：{textslotsToText(period.slots)}</Text>
-                <Text>價錢：${period.price}</Text>
-              </View>
-              <View style={{ width: '20%', flex: 1, flexDirection: 'column' }}>
-                <IconButton
-                  icon="edit"
-                  color="#225599"
-                  size={30}
-                  onPress={this.editPeriod.bind(this, ind)}
-                />
-                <IconButton
-                  icon="cancel"
-                  color="red"
-                  size={30}
-                  onPress={this.removePeriod.bind(this, ind)}
-                />
-              </View>
-            </View>
-          ))}
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center'
-            }}
-          >
-            <IconButton
-              icon="add-circle"
-              color="#225599"
-              size={40}
-              onPress={this.editPeriod.bind(this, -1)}
-            />
+        {getDuplicated(this.state.periods).length > 0 && (
+          <View style={{}}>
+            {getDuplicated(this.state.periods).map((x, ind) => (
+              <Text key={'dup' + x.date}>
+                {ind == 0 ? '請更正重複設定\n' : ''}
+                {x.date} {x.text}
+              </Text>
+            ))}
           </View>
+        )}
+        {this.state.periods.map((period, ind) => (
+          <View
+            key={'period' + ind}
+            style={{
+              borderWidth: 1,
+              borderColor: 'gray',
+              borderRadius: 10,
+              borderStyle: 'solid',
+              marginBottom: 4,
+              padding: 8,
+              flexDirection: 'row',
+            }}>
+            <View style={{ width: '80%', marginLeft: 10 }}>
+              <Headline style={style.textMain}>時段{ind + 1}</Headline>
+              <Text style={style.textMain}>
+                日子：{weekdayToText(period.dates)}
+              </Text>
+              <Text style={style.textMain}>
+                時段：{textslotsToText(period.slots)}
+              </Text>
+              <Text style={style.textMain}>價錢：${period.price}</Text>
+            </View>
+            <View
+              style={{
+                width: '20%',
+                flex: 1,
+                flexDirection: 'column',
+                marginLeft: 10,
+              }}>
+              <IconButton
+                icon="edit"
+                color="#225599"
+                size={30}
+                onPress={this.editPeriod.bind(this, ind)}
+              />
+              <IconButton
+                icon="cancel"
+                color="red"
+                size={30}
+                onPress={this.removePeriod.bind(this, ind)}
+              />
+            </View>
+          </View>
+        ))}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <IconButton
+            icon="add-circle"
+            color="#225599"
+            size={40}
+            onPress={this.editPeriod.bind(this, -1)}
+          />
+        </View>
         {/* </ScrollView> */}
 
         {false && <Text>全日休息</Text>}
@@ -427,19 +434,19 @@ const style = StyleSheet.create({
     flex: 1,
     padding: 8,
     backgroundColor: 'white',
-    height: '100%'
+    height: '100%',
   },
   line: {
-    flex: 0
+    flex: 0,
     // flexShrink: 0
   },
   button: {
     backgroundColor: '#225599',
     margin: 10,
-    width: 100
+    width: 100,
   },
   weekdayTitle: {
-    fontSize: 12
+    fontSize: 12,
   },
   weekdays: {
     width: '14%',
@@ -447,8 +454,11 @@ const style = StyleSheet.create({
 
     height: 40,
     color: 'white',
-    backgroundColor: 'blue'
-  }
+    backgroundColor: 'blue',
+  },
+  textMain: {
+    color: Colors.main,
+  },
 });
 
 export default Screen;

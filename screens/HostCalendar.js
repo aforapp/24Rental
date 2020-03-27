@@ -207,6 +207,23 @@ const Screen = props => {
     // NavigationService.navigate('Chat', { userId: x.userId, hostId: auth.id });
   };
 
+  const confirmRemoveAdhoc = (roomId, userId) => {
+    Alert.alert(
+      '取消此臨時房間',
+      '此動作會取消本次提供房間，請按加號重新增加',
+      [
+        { text: '取消', style: 'cancel' },
+        { text: '確定', onPress: removeAdhoc(roomId, userId) },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  const removeAdhoc = (roomId, userId) => {
+    deleteAdhoc(roomId, userId);
+    reload();
+  };
+
   const binding = {
     data: inputData,
     label: {
@@ -295,8 +312,7 @@ const Screen = props => {
             mode="contained"
             compact
             onPress={() => {
-              deleteAdhoc(x.roomId, x.id);
-              reload();
+              confirmRemoveAdhoc(x.roomId, x.id);
             }}>
             <Text style={style.chatButtonText}>取消</Text>
           </Button>
