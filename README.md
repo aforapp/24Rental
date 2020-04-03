@@ -1,23 +1,24 @@
 # 24Rental
-<h2>Functionlaity of the app</2>
-<h6>
+<h3>Functionlaity of the app</h3>
+
 1. Search venue or room with different search criterias
 2. Display serach results and place the result in three sequences: Popularity, Price and Rate
 3. Shopping cart to make instant booking for specific selection.
 4. Display Records of booking
 5. Chat with the host directly.
 6. Login and Registration.
-</h6>
-Functions of the CMS of 24Rental.
+
+<h3>Functions of the CMS of 24Rental.</h3>
+
 1. Basic Login/forgot password/reset password. (Registration is not necessary)
 2. Display the information under three main tags : Host (場主）；Venue（場地）; Customer（租客）
 
-<h2>Display the following information in the tag Host (場主）:</h2>
+<h3>Display the following information in the tag Host (場主）:</h3>
 1. Name, Email, Contact and Address of the host
 Functionality:
 Simply display information only.
 
-Display the following information in the tag Venue（場地）:
+<h3>Display the following information in the tag Venue（場地）:</h3>
 1. Name,Address of the Venue
 2. BR (Business Registration) preview.
 3. Booking record of this venue. Display the same information as "紀錄“ in the app at host side, but the price might be different because it's only displaying his own booking record. (Since the app allows customer to pay for multiple venues under multiple hosts in one booking.)
