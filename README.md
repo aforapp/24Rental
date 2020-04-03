@@ -9,16 +9,15 @@
 6. Login and Registration.
 
 <h3>Functionality of the CMS</h3>
-
 1. Basic Login/forgot password/reset password. (Registration is not necessary)
 2. Display the information under three main tags : Host (場主）；Venue（場地）; Customer（租客）
 
-<h5>Display the following information in the tag Host (場主）:</h5>
+<h4>Display the following information in the tag Host (場主）:</h4>
 1. Name, Email, Contact and Address of the host
-Functionality:
+<h5>Functionality:</h5>
 Simply display information only.
 
-<h5>Display the following information in the tag Venue（場地）:</h5>
+<h4>Display the following information in the tag Venue（場地）:</h4>
 1. Name,Address of the Venue
 2. BR (Business Registration) preview.
 3. Booking record of this venue. Display the same information as "紀錄“ in the app at host side, but the price might be different because it's only displaying his own booking record. (Since the app allows customer to pay for multiple venues under multiple hosts in one booking.)
@@ -32,5 +31,5 @@ Simply display information only.
 1. Main page to display "Name", "Email", and "Contact" of the Customers in list view (Same pagination rule as booking record)
 2. Booking record of what the customer had made. Display the same information as "紀錄“ in the app at customer side.
 3. Pagination for every 50 booking record. (We do not provide choices or discussion for them to decide the structure/design of pagination).
-Functionality:
+<h4>Functionality:</h4>
 Simply display information only.
