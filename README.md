@@ -33,3 +33,8 @@ Simply display information only.
 3. Pagination for every 50 booking record. (We do not provide choices or discussion for them to decide the structure/design of pagination).
 <h4>Functionality:</h4>
 Simply display information only.
+
+<h3> What needs to be done </h3>
+1. The CMS is not even started yet. We need to make a staging and at least display the information. The UI of the CMS will be applied by the template of bootstraps.)
+2. Fix the bug listed on "Issues".
+3. Compile an apk files and an update on Testflight weekly.
